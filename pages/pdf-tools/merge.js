@@ -6,7 +6,7 @@ import mergePDFHandler from "../../methods/mergePDF";
 import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
 import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
-// import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF";
+import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF";
 
 export default function merge() {
   const [files, setFiles] = useState([]);
@@ -24,9 +24,12 @@ export default function merge() {
     );
   };
 
+
   const LeftSideBoxExtra = () => {
     return (
     <>
+      <p>Same Size ? <input type="checkbox" id="sameSize" name="sameSize" defaultChecked={true} /></p>
+      <LeftSideResizePDF />
       <LeftSideBoxRotation files={files} />
     </>
     );
