@@ -51,7 +51,7 @@ export default function LeftSideMargin({ margin, setMargin }) {
   };
 
   return (
-    <div className="w-full mt-2 py-2 tracking-wider border-b-2 border-amber-200">
+    <div className="w-full mt-2 py-2 tracking-wider border-b-2 border-rose-200">
       Margin Settings
       {marginSides.map((marginSide, i) => (
         <div className="mt-2 flex justify-between items-center" key={i}>
@@ -60,7 +60,7 @@ export default function LeftSideMargin({ margin, setMargin }) {
             <input
               type="number"
               id={marginSide.textInputId}
-              className="bg-amber-200 text-center h-[40px] rounded-l-md"
+              className="bg-rose-700 text-center h-[40px] rounded-l-md"
               step={0.1}
               defaultValue={0}
               onChange={() =>
@@ -73,7 +73,7 @@ export default function LeftSideMargin({ margin, setMargin }) {
             />
             <select
               id={marginSide.unitId}
-              className="bg-amber-200 h-[40px] rounded-r-md"
+              className="bg-rose-700 h-[40px] rounded-r-md"
               onChange={() =>
                 handleMarginValueChange(
                   marginSide.arrayIndex,

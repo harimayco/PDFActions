@@ -27,8 +27,8 @@ export default function FilePreview({ file, FilePreviewExtra }) {
           ref={ref}
           style={{
             transform: `rotate(${deg}deg)`,
-            width: "120px",
-            height: "150px",
+            width: "150px",
+            height: "200px",
             zIndex: -1,
           }}
         />
@@ -42,7 +42,7 @@ export default function FilePreview({ file, FilePreviewExtra }) {
         deleted ? "hidden" : ""
       }`}
     >
-      <span className="z-40 overflow-hidden whitespace-nowrap text-ellipsis relative top-[-10px] left-[-18px] bg-yellow-200 text-gray-600 text-sm">
+      <span className="z-40 overflow-hidden whitespace-nowrap text-ellipsis relative top-[-10px] left-[-18px] bg-rose-200 text-gray-600 text-sm">
         {file.name}
       </span>
       <PDFThumbnail src={file} deg={file.degrees || 0} ref={fileThumbnailRef} />

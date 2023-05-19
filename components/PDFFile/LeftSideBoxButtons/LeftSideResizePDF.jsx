@@ -6,13 +6,13 @@ export default function LeftSideResizePDF() {
   const positions = ["Start", "Center", "End"];
 
   return (
-    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-amber-200">
+    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-rose-200">
       Page Settings
       <div className="flex justify-between items-center">
         Size
         <select
           id="resizeSize"
-          className="bg-amber-200 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
         >
           {resizeSizes.map((resizeSize, i) => (
             <option key={i} value={resizeSize}>
@@ -25,7 +25,7 @@ export default function LeftSideResizePDF() {
         Orientation
         <select
           id="orientation"
-          className="bg-amber-200 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
         >
           {orientations.map((orientation, i) => (
             <option key={i} value={orientation}>
@@ -38,7 +38,7 @@ export default function LeftSideResizePDF() {
         Position
         <select
           id="position"
-          className="bg-amber-200 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
         >
           {positions.map((position, i) => (
             <option key={i} value={position}>

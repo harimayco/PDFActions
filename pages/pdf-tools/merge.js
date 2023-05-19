@@ -6,6 +6,7 @@ import mergePDFHandler from "../../methods/mergePDF";
 import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
 import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
+// import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF";
 
 export default function merge() {
   const [files, setFiles] = useState([]);
@@ -24,7 +25,11 @@ export default function merge() {
   };
 
   const LeftSideBoxExtra = () => {
-    return <LeftSideBoxRotation files={files} />;
+    return (
+    <>
+      <LeftSideBoxRotation files={files} />
+    </>
+    );
   };
 
   return (
@@ -34,7 +39,7 @@ export default function merge() {
       </Head>
 
       {/* Banner */}
-      <div className="bg-amber-200 border-gray-600 border-t-2 border-dotted text-gray-600 flex flex-col items-center justify-center h-[30vh] w-screen">
+      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
         <div className="text-4xl font-medium leading-normal tracking-wide">
           Merge PDF
         </div>

@@ -32,6 +32,22 @@ export default function PDFFilesProcess({
 
     setFiles([...files, ...temp]);
   };
+  const onDragOver = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+    
+  const onDropFiles = async (e) => {
+    e.preventDefault();
+    const newFiles = e.dataTransfer.files;
+    const temp = [];
+    for (let i = 0; i < newFiles.length; i++) {
+      const file = newFiles[i];
+      file.pageCount = await getPDFPageCount(file);
+      temp.push(file);
+    }
+    setFiles([...files, ...temp]);
+  }
 
   return (
     <div className="overflow-x-hidden">
@@ -50,7 +66,7 @@ export default function PDFFilesProcess({
       <div className="px-4 py-6 md:px-24 md:py-12 flex flex-col items-center md:items-start">
         {/* Download Button */}
         <button
-          className="md:w-1/3 w-full bg-amber-200 px-8 py-4 rounded-sm text-xl"
+          className="md:w-1/3 w-full text-slate-200 bg-rose-700 px-8 py-4 rounded-sm text-xl"
           onClick={downloadHandler}
         >
           Save And Download
@@ -68,7 +84,7 @@ export default function PDFFilesProcess({
           </LeftSideBox>
 
           {/* Right Side Box / File Preview */}
-          <div className="w-full md:w-2/3 p-4 border-amber-200 border-2 border-dashed">
+          <div onDrop={onDropFiles} onDragOver={onDragOver} className="w-full md:w-2/3 p-4 border-rose-200 border-2 border-dashed">
             <FilePreviewGrid
               files={files}
               setFiles={setFiles}

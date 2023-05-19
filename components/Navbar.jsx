@@ -23,16 +23,16 @@ export default function Navbar() {
 
   return (
     <nav className="overflow-hidden">
-      <header className="flex items-center justify-center text-gray-600 body-font h-[70px] bg-amber-200">
+      <header className="flex items-center justify-center text-gray-600 body-font h-[70px] bg-rose-800">
         <div className="flex items-center flex-wrap w-11/12 justify-between">
-          <div className="title-font font-medium text-gray-900 text-xl">
+          <div className="text-slate-200 title-font font-medium text-gray-900 text-xl">
             <Link href="/">PDFActions</Link>
           </div>
           <nav className="w-1/3 min-w-[400px] items-center text-base justify-around hidden md:flex">
             {navOptions.map((navOption, i) => (
               <span
                 key={i}
-                className="hover:text-gray-900 hover:border-y-2 border-neutral-300 transition-[border]"
+                className="text-slate-200 hover:font-bold hover:border-b-2 border-neutral-300 transition-[border]"
               >
                 <Link href={navOption[1]}>{navOption[0]}</Link>
               </span>
@@ -57,7 +57,7 @@ export default function Navbar() {
       </header>
       {/* Mobile Menu */}
       <div
-        className="md:hidden fixed top-[10vh] right-0 h-[90vh] w-[200px] bg-amber-200 transition-all pt-12 px-4 flex flex-col"
+        className="md:hidden fixed top-[10vh] right-0 h-[90vh] w-[200px] bg-rose-800 transition-all pt-12 px-4 flex flex-col"
         style={{
           transform: hamburgerMenu
             ? "translate(0px,0px)"
@@ -66,7 +66,7 @@ export default function Navbar() {
       >
         {navOptions.map((navOption, i) => (
           <Link href={navOption[1]} key={i}>
-            <span className="flex items-center hover:text-gray-900 border-b-2 h-12 border-neutral-300 transition-[border]">
+            <span className="flex items-center text-slate-200 hover:font-bold border-b-2 h-12 border-neutral-300 transition-[border]">
               <div onClick={handleHamburgerMenuLinkClick}>{navOption[0]}</div>
             </span>
           </Link>

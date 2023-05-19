@@ -44,7 +44,7 @@ export default function editmetadata() {
       </Head>
 
       {/* Banner */}
-      <div className="bg-amber-200 border-gray-600 border-t-2 border-dotted text-gray-600 flex flex-col items-center justify-center h-[30vh] w-screen">
+      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
         <div className="text-4xl font-medium leading-normal tracking-wide">
           Edit PDF Meta Data
         </div>

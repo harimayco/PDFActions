@@ -16,13 +16,13 @@ export default function ImageRotateButton({ image, imageRef }) {
   return (
     <div className="flex items-center justify-evenly w-full">
       <button
-        className="px-4 py-2 rounded-md bg-amber-200"
+        className="px-4 py-2 text-slate-200 rounded-md bg-rose-400"
         onClick={rotateImageLeftHandler}
       >
         <RotateLeft />
       </button>
       <button
-        className="px-4 py-2 rounded-md bg-amber-200"
+        className="px-4 py-2 text-slate-200 rounded-md bg-rose-400"
         onClick={rotateImageRightHandler}
       >
         <RotateRight />

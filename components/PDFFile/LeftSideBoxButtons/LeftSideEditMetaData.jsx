@@ -33,13 +33,13 @@ export default function LeftSideEditMetaData({
     },
   ];
   return (
-    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-amber-200">
+    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-rose-200">
       Meta Data Options - All Details Mandatory
       {inputFields.map((inputField) => (
         <div className="flex mt-2 justify-between items-center">
           {inputField.title}
           <input
-            className="bg-amber-200 h-8 pl-2 rounded-md"
+            className="bg-rose-700 h-8 pl-2 rounded-md"
             id={inputField.inputId}
             type={inputField.inputType}
             onChange={(e) =>

@@ -29,7 +29,7 @@ export default function addmargin() {
     return (
       <>
         <button
-          className="px-4 py-2 w-full bg-amber-200 rounded-sm text-md"
+          className="px-4 py-2 w-full bg-rose-700 rounded-sm text-md"
           onClick={() => addMarginHandler(files, marginMillimeter, false)}
         >
           Save as Individual Files
@@ -50,7 +50,7 @@ export default function addmargin() {
       </Head>
 
       {/* Banner */}
-      <div className="bg-amber-200 border-gray-600 border-t-2 border-dotted text-gray-600 flex flex-col items-center justify-center h-[30vh] w-screen">
+      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
         <div className="text-4xl font-medium leading-normal tracking-wide">
           Add Margin to PDF
         </div>

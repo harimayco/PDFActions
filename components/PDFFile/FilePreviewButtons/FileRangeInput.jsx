@@ -34,10 +34,10 @@ export default function FileRangeInput({ file }) {
   };
 
   return (
-    <div className="flex items-center justify-center w-[122px] rounded-md bg-amber-200">
+    <div className="flex items-center justify-center w-[122px] rounded-md bg-rose-700">
       <input
         ref={splitRangeStartRef}
-        className="w-[50px] text-center caret-transparent bg-amber-200"
+        className="w-[50px] text-center caret-transparent bg-rose-700"
         type="number"
         defaultValue="1"
         min="1"
@@ -47,7 +47,7 @@ export default function FileRangeInput({ file }) {
       <div className="text-sm">to</div>
       <input
         ref={splitRangeEndRef}
-        className="w-[50px] text-center caret-transparent bg-amber-200"
+        className="w-[50px] text-center caret-transparent bg-rose-700"
         type="number"
         defaultValue={file.pageCount}
         min="1"

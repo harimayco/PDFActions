@@ -33,7 +33,7 @@ export default function LeftSideBreakPDF({ file }) {
         <span className="w-1/2">Max Pages in A File</span>
         <input
           ref={maxPagesInputRef}
-          className="w-1/2 py-1 text-center caret-transparent bg-amber-200"
+          className="w-1/2 py-1 text-center caret-transparent bg-rose-700"
           type="number"
           defaultValue="1"
           min="1"

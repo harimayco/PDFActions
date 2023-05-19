@@ -56,7 +56,7 @@ export default function ImageProcess({
       <div className="px-4 py-6 md:px-24 md:py-12 flex flex-col items-center md:items-start">
         {/* Download Button */}
         <button
-          className="md:w-1/3 w-full bg-amber-200 px-8 py-4 rounded-sm text-xl"
+          className="md:w-1/3 w-full text-slate-200 bg-rose-700 px-8 py-4 rounded-sm text-xl"
           onClick={downloadHandler}
         >
           Save And Download
@@ -74,7 +74,7 @@ export default function ImageProcess({
           </LeftSideBox>
 
           {/* Right Side Box / Image Preview */}
-          <div className="w-full md:w-2/3 p-4 border-amber-200 border-2 border-dashed">
+          <div className="w-full md:w-2/3 p-4 border-rose-200 border-2 border-dashed">
             <ImagePreviewGrid
               images={images}
               setImages={setImages}

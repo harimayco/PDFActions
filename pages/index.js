@@ -23,7 +23,7 @@ export default function Home() {
         <title>PDFActions</title>
       </Head>
       <div className="flex justify-between p-4 md:p-12 md:h-[40vh] md:min-h-[200px]">
-        <div className="text-amber-500 w-full p-4 md:p-12 font-bold tracking-wider text-4xl italic">
+        <div className="text-rose-500 w-full p-4 md:p-12 font-bold tracking-wider text-4xl italic">
           All PDF Tools You Need in One Place
         </div>
         <div className="hidden md:flex justify-center items-center w-1/2">
@@ -35,7 +35,7 @@ export default function Home() {
       <div className="flex items-center justify-center flex-wrap gap-2 mb-12">
         {allPDFTools.map((pdfTool, i) => (
           <Link href={pdfTool[1]} key={i}>
-            <span className="flex items-center justify-center cursor-pointer border-2 h-28 w-56 border-amber-400 bg-amber-100 text-lg hover:text-xl hover:font-semibold hover:tracking-wide transition-all">
+            <span className="flex items-center justify-center cursor-pointer border-2 h-28 w-56 border-rose-800 bg-rose-700 text-slate-200 text-lg hover:text-xl hover:font-semibold hover:tracking-wide transition-all">
               <div>{pdfTool[0]}</div>
             </span>
           </Link>

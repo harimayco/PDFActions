@@ -58,7 +58,7 @@ export default function LeftSidePageNumbers({ file }) {
   };
 
   return (
-    <div className="w-full py-2 tracking-wider border-y-2 border-amber-200">
+    <div className="w-full py-2 tracking-wider border-y-2 border-rose-200">
       Page Number Options
       <div className="flex justify-between items-center mt-2">
         Position
@@ -121,7 +121,7 @@ export default function LeftSidePageNumbers({ file }) {
         Margin
         <select
           id="position"
-          className="bg-amber-200 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
           defaultValue="Recommended"
           onChange={onMarginChange}
         >
@@ -133,7 +133,7 @@ export default function LeftSidePageNumbers({ file }) {
       <div className="flex justify-between items-center mt-2">
         Starting Page
         <input
-          className="w-[50px] text-center caret-transparent bg-amber-200 rounded-md"
+          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
           type="number"
           defaultValue="1"
           min="1"
@@ -144,7 +144,7 @@ export default function LeftSidePageNumbers({ file }) {
       <div className="flex justify-between items-center mt-2">
         Ending Page
         <input
-          className="w-[50px] text-center caret-transparent bg-amber-200 rounded-md"
+          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
           type="number"
           defaultValue={file.pageCount}
           min="1"
@@ -155,7 +155,7 @@ export default function LeftSidePageNumbers({ file }) {
       <div className="flex justify-between items-center mt-2">
         First Number
         <input
-          className="w-[50px] text-center caret-transparent bg-amber-200 rounded-md"
+          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
           type="number"
           defaultValue="1"
           min="1"
@@ -165,7 +165,7 @@ export default function LeftSidePageNumbers({ file }) {
       <div className="flex justify-between items-center mt-2">
         Font Size
         <input
-          className="w-[50px] text-center caret-transparent bg-amber-200 rounded-md"
+          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
           type="number"
           defaultValue="12"
           min="1"

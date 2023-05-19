@@ -36,7 +36,7 @@ export default function jpgtopdf() {
     return (
       <>
         <button
-          className="px-4 py-2 w-full bg-amber-200 rounded-sm text-md mt-2"
+          className="px-4 py-2 w-full bg-rose-700 rounded-sm text-md mt-2"
           onClick={() => imagesToPDFHandler(images, marginMillimeter, true)}
         >
           Save as Merged File
@@ -66,7 +66,7 @@ export default function jpgtopdf() {
       </Head>
 
       {/* Banner */}
-      <div className="bg-amber-200 border-gray-600 border-t-2 border-dotted text-gray-600 flex flex-col items-center justify-center h-[30vh] w-screen">
+      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
         <div className="text-4xl font-medium leading-normal tracking-wide">
           JPG to PDF
         </div>

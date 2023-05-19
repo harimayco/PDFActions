@@ -48,14 +48,14 @@ export default function LeftSideBoxRotation({ files }) {
     <>
       <div className="flex justify-between text-sm mt-2">
         <button
-          className="hover:bg-amber-200 px-4 py-2 border-2 w-1/2 flex items-center justify-evenly"
+          className="hover:bg-rose-700 hover:text-slate-200 px-4 py-2 border-2 w-1/2 flex items-center justify-evenly"
           onClick={handleRotateLeftClick}
         >
           <RotateLeft />
           <span className={leftSideBoxExtraStyles.rotateText}>Rotate Left</span>
         </button>
         <button
-          className="hover:bg-amber-200 px-4 py-2 border-2 w-1/2 flex items-center justify-evenly"
+          className="hover:bg-rose-700 hover:text-slate-200 px-4 py-2 border-2 w-1/2 flex items-center justify-evenly"
           onClick={handleRotateRightClick}
         >
           <RotateRight />
@@ -65,7 +65,7 @@ export default function LeftSideBoxRotation({ files }) {
         </button>
       </div>
       <button
-        className="px-4 py-2 bg-amber-200 mt-2 rounded-sm tracking-wider"
+        className="px-4 py-2 text-slate-200 bg-rose-700 mt-2 rounded-sm tracking-wider"
         onClick={handleResetClick}
       >
         Reset Rotation

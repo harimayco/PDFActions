@@ -8,7 +8,7 @@ export default function ImageDeleteButton({ image, setDeleted }) {
   };
   return (
     <button
-      className="grid place-items-center bg-amber-200 py-2 rounded-md w-3/4"
+      className="grid place-items-center text-slate-200 bg-rose-700 py-2 rounded-md w-3/4"
       onClick={deleteImageHandler}
     >
       <DeleteIcon />
