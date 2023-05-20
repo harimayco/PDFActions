@@ -25,7 +25,7 @@ export default function Navbar() {
     <nav className="overflow-hidden">
       <header className="flex items-center justify-center text-gray-600 body-font h-[70px] bg-rose-800">
         <div className="flex items-center flex-wrap w-11/12 justify-between">
-          <div className="text-slate-200 title-font font-medium text-gray-900 text-xl">
+          <div className="text-slate-200 title-font font-medium text-xl">
             <Link href="/">PDFActions</Link>
           </div>
           <nav className="w-1/3 min-w-[400px] items-center text-base justify-around hidden md:flex">

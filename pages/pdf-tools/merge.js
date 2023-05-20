@@ -7,9 +7,16 @@ import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileR
 import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
 import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF";
+import { toast } from 'react-toastify';
 
 export default function merge() {
   const [files, setFiles] = useState([]);
+  const  [compress, setCompress] = useState(true);
+  const [filename, setFilename] = useState("merged.pdf");
+
+  const handleCompressCheckboxChange = (event) => {
+    setCompress(event.target.checked);
+  };
 
   const onFileChange = async (e) => {
     setFiles([...e.target.files]);
@@ -28,9 +35,11 @@ export default function merge() {
   const LeftSideBoxExtra = () => {
     return (
     <>
+
       <p>Same Size ? <input type="checkbox" id="sameSize" name="sameSize" defaultChecked={true} /></p>
       <LeftSideResizePDF />
       <LeftSideBoxRotation files={files} />
+      <p>Compress PDF Size ? <input type="checkbox" id="compressPDF" name="compress" checked={compress} onChange={handleCompressCheckboxChange} /></p>
     </>
     );
   };
@@ -50,11 +59,13 @@ export default function merge() {
       </div>
 
       {files.length === 0 && (
+        
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={true}
         />
+        
       )}
       {files.length !== 0 && (
         <PDFFilesProcess
@@ -65,7 +76,24 @@ export default function merge() {
             fileType: ".pdf",
             multiple: true,
           }}
-          downloadHandler={() => mergePDFHandler(files)}
+          filename={filename}
+          setFilename={setFilename}
+          downloadHandler={() => { 
+            toast.promise(mergePDFHandler(files, filename), {pending: 'Task in progress...',
+            success: {
+              render(){
+                return "Task Success"
+              },
+            closeButton: true,
+            hideProgressBar: false,
+            autoClose: 3000,
+            onClose: () => {
+              if(compress){
+                window.location.reload();
+              }
+            },
+          }, error: 'Task failed.'})} 
+          }
           LeftSideBoxExtra={LeftSideBoxExtra}
           FilePreviewExtra={FilePreviewExtra}
         />

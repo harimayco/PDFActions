@@ -4,6 +4,8 @@ import Navbar from "../components/Navbar";
 import Head from "next/head";
 import LoadingBar from "react-top-loading-bar";
 import { useRouter } from "next/router";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 function MyApp({ Component, pageProps }) {
   const loadingRef = useRef(null);
@@ -99,6 +101,7 @@ function MyApp({ Component, pageProps }) {
       <Navbar />
       <LoadingBar ref={loadingRef} />
       <Component {...pageProps} />
+      <ToastContainer />
     </>
   );
 }

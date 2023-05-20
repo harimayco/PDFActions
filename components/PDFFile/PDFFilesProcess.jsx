@@ -1,10 +1,12 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import LeftSideBox from "../LeftSideBox";
 import FilePreviewGrid from "./FilePreviewGrid";
 import getPDFPageCount from "../../methods/getPDFPageCount";
 export default function PDFFilesProcess({
   files,
   setFiles,
+  filename,
+  setFilename,
   sortableFilePreviewGrid,
   addFileOptions,
   downloadHandler,
@@ -64,6 +66,13 @@ export default function PDFFilesProcess({
       {/* PDF Box */}
 
       <div className="px-4 py-6 md:px-24 md:py-12 flex flex-col items-center md:items-start">
+        {/* Filename Input text with prepend filename: */}
+        <div className="flex items-center mb-1 w-full md:w-1/3">
+          <span className="text-black-200 text-s mr-4">Filename:</span>
+          <input type="text" className="w-full text-slate-200 bg-gray-700 px-4 text-center py-4 rounded-sm" placeholder="Filename" value={filename} onChange={(e) => setFilename(e.target.value)} />
+        </div>
+
+       
         {/* Download Button */}
         <button
           className="md:w-1/3 w-full text-slate-200 bg-rose-700 px-8 py-4 rounded-sm text-xl"

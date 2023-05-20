@@ -14,7 +14,13 @@
             "runtimeExecutable": "/Users/e102141/.nvm/versions/node/v14.21.3/bin/npm",
             "runtimeArgs": [
                 "run",
-                "dev"]
-        }
+                "dev"
+            ]
+        },{
+            "name": "Next.js: debug client-side",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost:3000"
+          },
     ]
 }
