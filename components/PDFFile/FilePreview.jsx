@@ -42,7 +42,7 @@ export default function FilePreview({ file, FilePreviewExtra }) {
         deleted ? "hidden" : ""
       }`}
     >
-      <span className="z-40 overflow-hidden whitespace-nowrap text-ellipsis relative top-[-10px] left-[-18px] bg-rose-200 text-gray-600 text-sm">
+      <span className="z-40 overflow-hidden whitespace-nowrap text-ellipsis relative top-[-10px] left-[-18px] bg-rose-200 text-gray-600 text-xs">
         {file.name}
       </span>
       <PDFThumbnail src={file} deg={file.degrees || 0} ref={fileThumbnailRef} />

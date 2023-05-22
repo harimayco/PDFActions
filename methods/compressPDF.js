@@ -16,7 +16,7 @@ const loadPDFData = (response, filename) => {
 
 }
 
-const doCompress = (pdfUrl, filename = 'compressed.pdf') => {
+const doCompress = (pdfUrl, onStatusUpdate) => {
     return new Promise((resolve, reject) => {
         return _GSPS2PDF({psDataURL: pdfUrl}, (pdf) => {
             // download  to browser pdf.pdfDataURL
@@ -24,9 +24,10 @@ const doCompress = (pdfUrl, filename = 'compressed.pdf') => {
                 resolve(pdf);
             
         }, (progress) => {
-            console.log(progress);
+            console.log("Progress:" + progress);
         }, (status) => {
-            console.log(status);
+            console.log("Status : "  +  status);
+            onStatusUpdate(status);
         });
     });
 }

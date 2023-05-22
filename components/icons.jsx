@@ -96,4 +96,23 @@ const DeleteIcon = () => (
   </svg>
 );
 
-export { RotateLeft, RotateRight, PDFIcon, DeleteIcon };
+const SuccessIcon = () => (
+  // { green SuccessIcon large}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="18"
+    height="18"
+    fill="currentColor"
+    className="check_svg__bi check_svg__bi-check-circle-fill"
+    viewBox="0 0 16 16"
+    focusable="false"
+  >
+    <path
+      fillRule="evenodd"
+      d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.354 5.646a.5.5 0 01.146.353v.5a.5.5 0 01-.5.5H7.5a.5.5 0 010-1h1.147L5.854 4.146a.5.5 0 11.707-.708L9 5.293l2.646-2.647a.5.5 0 01.708.708L9.707 5.646z"
+    ></path>
+  </svg>
+  
+
+);
+export { RotateLeft, RotateRight, PDFIcon, DeleteIcon, SuccessIcon };

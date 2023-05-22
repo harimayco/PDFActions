@@ -12,7 +12,7 @@ export default function LeftSideResizePDF() {
         Size
         <select
           id="resizeSize"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-yellow-100 w-1/2 py-2 pl-2 rounded-md"
         >
           {resizeSizes.map((resizeSize, i) => (
             <option key={i} value={resizeSize}>
@@ -25,7 +25,7 @@ export default function LeftSideResizePDF() {
         Orientation
         <select
           id="orientation"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-yellow-100 w-1/2 py-2 pl-2 rounded-md"
         >
           {orientations.map((orientation, i) => (
             <option key={i} value={orientation}>
@@ -38,7 +38,7 @@ export default function LeftSideResizePDF() {
         Position
         <select
           id="position"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
+          className="bg-yellow-100 w-1/2 py-2 pl-2 rounded-md"
         >
           {positions.map((position, i) => (
             <option key={i} value={position}>
