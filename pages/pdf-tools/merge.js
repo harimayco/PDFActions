@@ -13,6 +13,8 @@ export default function merge() {
   const [files, setFiles] = useState([]);
   const  [compress, setCompress] = useState(true);
   const [filename, setFilename] = useState("merged.pdf");
+  const  [sameSize, setSameSize] = useState(true);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleCompressCheckboxChange = (event) => {
     setCompress(event.target.checked);
@@ -36,10 +38,10 @@ export default function merge() {
     return (
     <>
 
-      <p>Same Size ? <input type="checkbox" id="sameSize" name="sameSize" defaultChecked={true} /></p>
+      <p>Resize PDF with Same Size ? <input type="checkbox" id="sameSize" name="sameSize" checked={sameSize} onChange={() => setSameSize(!sameSize)} /></p>
       <LeftSideResizePDF />
-      <LeftSideBoxRotation files={files} />
       <p>Compress PDF Size ? <input type="checkbox" id="compressPDF" name="compress" checked={compress} onChange={handleCompressCheckboxChange} /></p>
+      <LeftSideBoxRotation files={files} />
     </>
     );
   };
@@ -55,7 +57,7 @@ export default function merge() {
         <div className="text-4xl font-medium leading-normal tracking-wide">
           Merge PDF
         </div>
-        <div>Merge Multiple PDF Files Together</div>
+          <div>Merge Multiple PDF Files Together</div>
       </div>
 
       {files.length === 0 && (

@@ -3,7 +3,7 @@ import React from "react";
 export default function LeftSideResizePDF() {
   const resizeSizes = ["A4", "A3", "A5", "Legal", "Letter", "Tabloid"];
   const orientations = ["Portrait", "Landscape"];
-  const positions = ["Start", "Center", "End"];
+  const positions = ["Center","Start", "End"];
 
   return (
     <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-rose-200">
