@@ -19,6 +19,10 @@ export default function merge() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
   const [done, setIsDone] = useState(false);
+
+  const [size, setSize] = useState("A4");
+  const [orientation, setOrientation] = useState("Portrait");
+  const [position, setPosition] = useState("Center");
   //const [pdfTotalPage, setPdfTotalPage] = useState(0);
 
   const handleCompressCheckboxChange = (event) => {
@@ -44,7 +48,7 @@ export default function merge() {
       <>
 
         <p>Resize PDF with Same Size ? <input type="checkbox" id="sameSize" name="sameSize" checked={sameSize} onChange={() => setSameSize(!sameSize)} /></p>
-        <LeftSideResizePDF />
+        <LeftSideResizePDF  size={size} setSize={setSize} orientation={orientation} setOrientation={setOrientation} position={position} setPosition={setPosition} />
         <p>Compress PDF Size ? <input type="checkbox" id="compressPDF" name="compress" checked={compress} onChange={handleCompressCheckboxChange} /></p>
         <LeftSideBoxRotation files={files} />
       </>
@@ -88,7 +92,7 @@ export default function merge() {
               filename={filename}
               setFilename={setFilename}
               downloadHandler={async () => {
-                setIsProcessing(true);
+                //setIsProcessing(true);
                 const toastId = toast.loading('Processing PDF Files...');
                 await mergePDFHandler(files, filename, (currentStatus, progress = null) => {
                   setStatus(currentStatus);
