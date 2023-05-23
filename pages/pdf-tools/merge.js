@@ -10,6 +10,7 @@ import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftS
 import { toast } from 'react-toastify';
 import { SuccessIcon } from "../../components/icons.jsx";
 
+
 export default function merge() {
   const [files, setFiles] = useState([]);
   const [compress, setCompress] = useState(true);
@@ -18,6 +19,7 @@ export default function merge() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
   const [done, setIsDone] = useState(false);
+  //const [pdfTotalPage, setPdfTotalPage] = useState(0);
 
   const handleCompressCheckboxChange = (event) => {
     setCompress(event.target.checked);
@@ -60,40 +62,21 @@ export default function merge() {
         <div className="text-slate-200 text-4xl font-medium leading-normal tracking-wide">
           Merge PDF
         </div>
+        
         <div className="text-slate-200">Merge Multiple PDF Files Together</div>
       </div>
 
-      {isProcessing ? (
-        <div className="flex flex-col mt-10 items-center text-center h-[30vh] w-screen">
-          <div className="tracking-wide">
-            {!done ? (<>Processing... <br /></>) : (
-              <>
-                {/* {successfully download message with icon} */}
-                
-                    <p className="text-emerald-600">{filename} Successfully Downloaded </p><br /><br />
-                    {/* { reload button } */}
-                    <button className="bg-rose-800 text-slate-200 hover:bg-rose-700 hover:text-slate-100 px-4 py-2 rounded-md" onClick={() => window.location.reload()}>Merge Another PDF</button>
-                  
-              </>
-
-            )}
-          </div>
-          {/* { small text} */}
-          <div className="text-1xl font-medium leading-normal tracking-wide">
-            {status}
-          </div>
-        </div>
-      ) : (
-        files.length === 0 ? (
+      
+        {files.length === 0 && (
 
           <FileUploader
             onFileChange={onFileChange}
             fileType=".pdf"
             multiple={true}
           />
-
-        ) : (
-          files.length !== 0 && (
+        )}
+         
+        { files.length !== 0 && (
             <PDFFilesProcess
               files={files}
               sortableFilePreviewGrid={true}
@@ -104,30 +87,27 @@ export default function merge() {
               }}
               filename={filename}
               setFilename={setFilename}
-              downloadHandler={() => {
+              downloadHandler={async () => {
                 setIsProcessing(true);
-                toast.promise(mergePDFHandler(files, filename, (currentStatus) => {
+                const toastId = toast.loading('Processing PDF Files...');
+                await mergePDFHandler(files, filename, (currentStatus, progress = null) => {
                   setStatus(currentStatus);
+                  if(progress !=  null){
+                    toast.update(toastId, {  render: 'Processing PDF Files...\n'+ currentStatus, isLoading:true, progress: progress, hideProgressBar: false});
+                  }
                 }, () => {
-                  setIsDone(true);
-                }), {
-                  pending: 'Task in progress...',
-                  success: {
-                    render() {
-                      return "Task Success"
-                    },
-                    closeButton: true,
-                    hideProgressBar: false,
-                    autoClose: 3000
-                  }, error: 'Task failed.'
-                })
+                  //setIsDone(true);
+                  toast.update(toastId, { render: "PDF Files Merged Successfully", isLoading:false, type: toast.TYPE.SUCCESS, hideProgressBar: false, closeButton:true, autoClose:false });
+                });
+                
+                
               }
               }
               LeftSideBoxExtra={LeftSideBoxExtra}
               FilePreviewExtra={FilePreviewExtra}
             />
           )
-        ))}
+        }
     </div>
   );
 }

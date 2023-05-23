@@ -1,4 +1,8 @@
-import {_GSPS2PDF} from "../lib/background.js";
+// import {GSPS2PDF} from "../lib/gs.worker.js";
+// import { wrap, proxy } from "comlink";
+// const GSWORKER = wrap(GSPS2PDF());
+
+
 
 const loadPDFData = (response, filename) => {
     return new Promise((resolve, reject) => {
@@ -16,19 +20,31 @@ const loadPDFData = (response, filename) => {
 
 }
 
-const doCompress = (pdfUrl, onStatusUpdate) => {
+const doCompress = async (pdfUrl, onStatusUpdate = () => {} ) => {
+    const worker = (typeof window !== "undefined" && window.Worker) ? new Worker(new URL('../lib/gsw.js', import.meta.url)) : null;
     return new Promise((resolve, reject) => {
-        return _GSPS2PDF({psDataURL: pdfUrl}, (pdf) => {
-            // download  to browser pdf.pdfDataURL
+        // return GSWORKER.run(proxy({psDataURL: pdfUrl}, (pdf) => {
+        //     // download  to browser pdf.pdfDataURL
             
-                resolve(pdf);
+        //         resolve(pdf);
             
-        }, (progress) => {
-            console.log("Progress:" + progress);
-        }, (status) => {
-            console.log("Status : "  +  status);
-            onStatusUpdate(status);
-        });
+        // }, (progress) => {
+        //     console.log("Progress:" + progress);
+        // }, (status) => {
+        //     console.log("Status : "  +  status);
+        //     onStatusUpdate(status);
+        // }));
+        worker.postMessage({
+            pdfUrl
+          });
+
+        worker.onmessage = ({ data: { status, message, pdfUrl } }) => {
+            if(status  == 'done'){
+                return resolve(pdfUrl);
+            }
+
+            onStatusUpdate(message);
+        };
     });
 }
 

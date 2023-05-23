@@ -1,6 +1,7 @@
 import { createPDF, rotatePDF, pdfArrayToBlob, mergePDF, resizePDF } from "pdf-actions";
 import { saveAs } from "file-saver";
 import doCompress from  "./compressPDF";
+import getPDFPageCount from "../methods/getPDFPageCount";
 
 const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
 
@@ -11,6 +12,8 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
   const compress =  document.getElementById("compressPDF").checked;
 
   const pdfDocs = [];
+  let totalPdfPages = 0; 
+  
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     if (file.deleted) {
@@ -41,6 +44,7 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
       onStatusUpdate("Rotating PDFs... Done");
     }
     
+    totalPdfPages += await getPDFPageCount(file);
     
     pdfDocs.push(pdfToBeAdded);
   }
@@ -54,7 +58,15 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
     onStatusUpdate("Compressing PDFs...");
     //blob to url
     const pdfURL = window.URL.createObjectURL(pdfBlob);
-    const pdfResult = await doCompress(pdfURL, onStatusUpdate);
+    const pdfResult = await doCompress(pdfURL, (message) => {
+      //check if message contains Page ${i} and get the number
+      const page = message.match(/Page\s\d+/g);
+      if (page) {
+        const currentPage = page[0].split(" ")[1];
+        onStatusUpdate(`Compressing PDF Pages  ${currentPage}/${totalPdfPages}`, getProgress(currentPage, totalPdfPages));
+      }
+
+    });
 
     // download immediately pdfUrlResult
     pdfBlob = pdfResult.pdfBlob;
@@ -70,5 +82,11 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
   onStatusUpdate("PDF successfully downloaded");
   isSuccess();
 };
+
+function getProgress(currentPage, totalPage) {
+  // progress  0 to 1
+  const progress = currentPage / totalPage;
+  return progress;
+}
 
 export default mergePDFHandler;
