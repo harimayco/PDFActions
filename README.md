@@ -1,5 +1,6 @@
 # PDF Actions
 
+<img width="1680" alt="Screen Shot 2023-05-24 at 14 48 54" src="https://github.com/harimayco/PDFActions/assets/5478980/455d8c51-f7d8-4b38-8553-7c1a4b527520">
 PDF Actions is a web application built with React and Next.js that allows users to perform various actions on PDF files, such as **compressing**,  merging, splitting, jpgtopdf, resizing etc.
 
 using Ghostscript Webassembly (WASM) processed by webworker.
