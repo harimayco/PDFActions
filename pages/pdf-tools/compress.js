@@ -6,6 +6,7 @@ import { compressPDFHandler } from "../../methods/compressPDF";
 import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
 import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
 import { toast } from 'react-toastify';
+import('../../lib/init.js');
 
 export default function compress() {
   const [files, setFiles] = useState([]);

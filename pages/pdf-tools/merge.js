@@ -8,8 +8,7 @@ import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDe
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
 import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF";
 import { toast } from 'react-toastify';
-import { SuccessIcon } from "../../components/icons.jsx";
-
+import('../../lib/init.js');
 
 export default function merge() {
   const [files, setFiles] = useState([]);
