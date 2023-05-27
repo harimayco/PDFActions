@@ -103,6 +103,7 @@ export default function merge() {
                   
                 }, () => {
                   //setIsDone(true);
+                  toast.dismiss(toastId);
                   toast.success(`${filename} Downloaded Successfully`,{ delay: 500 });
                   toastId  = null;
                 });
