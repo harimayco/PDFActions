@@ -52,7 +52,7 @@ This project is licensed under the MIT License. See the `LICENSE` file for more 
 This project was built using the following open-source libraries:
 
 - [PDF.js](https://mozilla.github.io/pdf.js/)
-- [PDF Actions](https://github.com/ffalt/pdf-actions)
+- [PDF Actions](https://github.com/ManasMadan/pdf-actions)
 - [JSZip](https://stuk.github.io/jszip/)
 - [FileSaver.js](https://github.com/eligrey/FileSaver.js/)
 - [React Easy Sort](https://github.com/andrewbranch/react-easy-sort)
@@ -63,4 +63,4 @@ This project was built using the following open-source libraries:
 
 ## Credits
 
-This project was created by @ManasMadan [PDF Actions](https://github.com/ffalt/pdf-actions) and modified by Rendy Harimayco for learning purposes
+This project was created by @ManasMadan [PDF Actions](https://github.com/ManasMadan/pdf-actions) and modified by Rendy Harimayco for learning purposes
