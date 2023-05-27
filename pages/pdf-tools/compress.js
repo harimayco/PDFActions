@@ -29,7 +29,7 @@ export default function compress() {
         <button
           className="px-4 py-2 w-full bg-cyan-700 text-slate-200 rounded-sm text-md mt-2"
           onClick={async () => {
-            let toastId = toast.loading('Processing PDF Files...');
+            //let toastId = toast.loading('Processing PDF Files...');
             await compressPDFHandler(files, false);
           }}
         >
