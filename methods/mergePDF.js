@@ -1,6 +1,6 @@
 import { createPDF, rotatePDF, pdfArrayToBlob, mergePDF, resizePDF } from "pdf-actions";
 import { saveAs } from "file-saver";
-import doCompress from  "./compressPDF";
+import {doCompress} from  "./compressPDF";
 import getPDFPageCount from "../methods/getPDFPageCount";
 
 const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
@@ -53,19 +53,22 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
   onStatusUpdate("Merging PDFs... Done");
 
   let pdfBlob = pdfArrayToBlob(mergedPdfFile);
-  
+  // check if name not endswith pdf then add .pdf
+  if (!filename.endsWith(".pdf")) {
+    filename = filename + ".pdf";
+  }
+
   if(compress){
-    onStatusUpdate("Compressing PDFs...");
+    //onStatusUpdate("Compressing PDFs...");
     //blob to url
     const pdfURL = window.URL.createObjectURL(pdfBlob);
-    const pdfResult = await doCompress(pdfURL, (message) => {
+    const pdfResult = await doCompress({pdfUrl:pdfURL, pdfFileName: filename}, (message,  progress) => {
       //check if message contains Page ${i} and get the number
-      const page = message.match(/Page\s\d+/g);
-      if (page) {
-        const currentPage = page[0].split(" ")[1];
-        onStatusUpdate(`Compressing PDF Pages  ${currentPage}/${totalPdfPages}`, getProgress(currentPage, totalPdfPages));
-      }
+      
+      onStatusUpdate(message, progress);
+      
 
+      // console.log(message)
     });
 
     // download immediately pdfUrlResult
@@ -73,10 +76,7 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
     onStatusUpdate("Compressing PDFs... Done");
   }
 
-  // check if name not endswith pdf then add .pdf
-  if (!filename.endsWith(".pdf")) {
-    filename = filename + ".pdf";
-  }
+  
   onStatusUpdate("Downloading PDFs...");
   saveAs(pdfBlob, filename);
   onStatusUpdate("PDF successfully downloaded");

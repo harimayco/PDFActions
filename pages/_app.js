@@ -101,7 +101,7 @@ function MyApp({ Component, pageProps }) {
       <Navbar />
       <LoadingBar ref={loadingRef} />
       <Component {...pageProps} />
-      <ToastContainer />
+      <ToastContainer toastClassName="text-xs" />
     </>
   );
 }

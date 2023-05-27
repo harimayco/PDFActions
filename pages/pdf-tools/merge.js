@@ -93,15 +93,19 @@ export default function merge() {
               setFilename={setFilename}
               downloadHandler={async () => {
                 //setIsProcessing(true);
-                const toastId = toast.loading('Processing PDF Files...');
+                let toastId = toast.loading('Processing PDF Files...');
                 await mergePDFHandler(files, filename, (currentStatus, progress = null) => {
                   setStatus(currentStatus);
-                  if(progress !=  null){
-                    toast.update(toastId, {  render: 'Processing PDF Files...\n'+ currentStatus, isLoading:true, progress: progress, hideProgressBar: false});
+                  console.log(toastId, currentStatus, progress)
+                  
+                  if(toastId  !== null) {
+                    toast.update(toastId, {  render: `${currentStatus}`, progress: progress, hideProgressBar: false});
                   }
+                  
                 }, () => {
                   //setIsDone(true);
-                  toast.update(toastId, { render: "PDF Files Merged Successfully", isLoading:false, type: toast.TYPE.SUCCESS, hideProgressBar: false, closeButton:true, autoClose:false });
+                  toast.success(`${filename} Downloaded Successfully`,{ delay: 500 });
+                  toastId  = null;
                 });
                 
                 
