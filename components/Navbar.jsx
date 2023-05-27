@@ -8,6 +8,7 @@ export default function Navbar() {
 
   const navOptions = [
     ["Merge PDF", "/pdf-tools/merge"],
+    ["Compres PDF", "/pdf-tools/compress"],
     ["Split PDF", "/pdf-tools/split"],
     ["Rotate PDF", "/pdf-tools/rotate"],
     ["All PDF Tools", "/pdf-tools"],
