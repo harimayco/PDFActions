@@ -9,6 +9,7 @@ import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/Lef
 import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF";
 import { toast } from 'react-toastify';
 import('../../lib/init.js');
+import PdfQuaityOptions from "../../components/PDFFile/LeftSideBoxButtons/LeftSideCompressOptions.jsx";
 
 export default function merge() {
   const [files, setFiles] = useState([]);
@@ -18,7 +19,9 @@ export default function merge() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
   const [done, setIsDone] = useState(false);
+  const [quality, setQuality] = useState('2');
 
+ 
   const [size, setSize] = useState("A4");
   const [orientation, setOrientation] = useState("Portrait");
   const [position, setPosition] = useState("Center");
@@ -45,10 +48,18 @@ export default function merge() {
   const LeftSideBoxExtra = () => {
     return (
       <>
+        
 
         <p>Resize PDF with Same Size ? <input type="checkbox" id="sameSize" name="sameSize" checked={sameSize} onChange={() => setSameSize(!sameSize)} /></p>
-        <LeftSideResizePDF  size={size} setSize={setSize} orientation={orientation} setOrientation={setOrientation} position={position} setPosition={setPosition} />
+        {sameSize && (
+          <LeftSideResizePDF  size={size} setSize={setSize} orientation={orientation} setOrientation={setOrientation} position={position} setPosition={setPosition} />
+        )}
         <p>Compress PDF Size ? <input type="checkbox" id="compressPDF" name="compress" checked={compress} onChange={handleCompressCheckboxChange} /></p>
+        {compress && (
+          <>
+              <PdfQuaityOptions quality={quality} setQuality={setQuality} />
+          </>
+        )}
         <LeftSideBoxRotation files={files} />
       </>
     );
@@ -93,7 +104,7 @@ export default function merge() {
               downloadHandler={async () => {
                 //setIsProcessing(true);
                 let toastId = toast.loading('Processing PDF Files...');
-                await mergePDFHandler(files, filename, (currentStatus, progress = null) => {
+                await mergePDFHandler(files, filename, quality, (currentStatus, progress = null) => {
                   setStatus(currentStatus);
                   console.log(toastId, currentStatus, progress)
                   

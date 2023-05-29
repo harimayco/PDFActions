@@ -22,7 +22,7 @@ const loadPDFData = (response, filename) => {
 
 }
 
-const doCompress = async ({ pdfUrl, pdfFileName }, onStatusUpdate = () => { }) => {
+const doCompress = async ({ pdfUrl, pdfFileName, quality }, onStatusUpdate = () => { }) => {
 
     const worker = (typeof window !== "undefined" && window.Worker) ? new Worker(new URL('../lib/gsw.js', import.meta.url)) : null;
     return new Promise((resolve, reject) => {
@@ -39,7 +39,8 @@ const doCompress = async ({ pdfUrl, pdfFileName }, onStatusUpdate = () => { }) =
         // }));
         worker.postMessage({
             pdfUrl,
-            pdfFileName
+            pdfFileName,
+            quality
         });
 
         worker.onmessage = ({ data: { status, message, pdfUrl, progress } }) => {
@@ -55,7 +56,7 @@ const doCompress = async ({ pdfUrl, pdfFileName }, onStatusUpdate = () => { }) =
     });
 }
 
-const compressPDFHandler = async (files, asZip = true, onSucess) => {
+const compressPDFHandler = async (files, quality, asZip = true, onSucess) => {
     let zip;
     if (asZip) {
         zip = new JSZip();
@@ -74,7 +75,7 @@ const compressPDFHandler = async (files, asZip = true, onSucess) => {
         //convert to pdf
         let toastId = toast.loading('Processing PDF Files...');
         const promise = new  Promise((resolve, reject) => {
-            doCompress({ pdfUrl, pdfFileName }, (currentStatus, progress = null) => {
+            doCompress({ pdfUrl, pdfFileName, quality }, (currentStatus, progress = null) => {
                 //console.log(toastId, currentStatus, progress)
                 if (toastId !== null) {
                     toast.update(toastId, { render: `${currentStatus}`, progress: progress, hideProgressBar: false });

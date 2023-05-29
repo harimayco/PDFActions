@@ -7,8 +7,10 @@ import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileR
 import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
 import { toast } from 'react-toastify';
 import('../../lib/init.js');
+import PdfQuaityOptions from "../../components/PDFFile/LeftSideBoxButtons/LeftSideCompressOptions.jsx";
 
 export default function compress() {
+  const [quality, setQuality] = useState('2');
   const [files, setFiles] = useState([]);
 
   const onFileChange = async (e) => {
@@ -26,11 +28,12 @@ export default function compress() {
   const LeftSideBoxExtra = () => {
     return (
       <>
+        <PdfQuaityOptions quality={quality} setQuality={setQuality} />
         <button
           className="px-4 py-2 w-full bg-cyan-700 text-slate-200 rounded-sm text-md mt-2"
           onClick={async () => {
             //let toastId = toast.loading('Processing PDF Files...');
-            await compressPDFHandler(files, false);
+            await compressPDFHandler(files, quality, false);
           }}
         >
           Save as Individual Files
@@ -70,7 +73,7 @@ export default function compress() {
             multiple: true,
           }}
           downloadHandler={async () => {
-            await compressPDFHandler(files, true);
+            await compressPDFHandler(files,quality, true);
           }}
           LeftSideBoxExtra={LeftSideBoxExtra}
           FilePreviewExtra={FilePreviewExtra}

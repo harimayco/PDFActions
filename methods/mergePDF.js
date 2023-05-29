@@ -3,13 +3,13 @@ import { saveAs } from "file-saver";
 import {doCompress} from  "./compressPDF";
 import getPDFPageCount from "../methods/getPDFPageCount";
 
-const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
+const mergePDFHandler = async (files, filename, quality, onStatusUpdate, isSuccess) => {
 
-  const resizeSize = document.getElementById("resizeSize").value;
-  const orientation = document.getElementById("orientation").value;
-  const position = document.getElementById("position").value;
-  const sameSize =  document.getElementById("sameSize").checked;
-  const compress =  document.getElementById("compressPDF").checked;
+  const resizeSize = document.getElementById("resizeSize")?.value;
+  const orientation = document.getElementById("orientation")?.value;
+  const position = document.getElementById("position")?.value;
+  const sameSize =  document.getElementById("sameSize")?.checked;
+  const compress =  document.getElementById("compressPDF")?.checked;
 
   const pdfDocs = [];
   let totalPdfPages = 0; 
@@ -62,7 +62,7 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
     //onStatusUpdate("Compressing PDFs...");
     //blob to url
     const pdfURL = window.URL.createObjectURL(pdfBlob);
-    const pdfResult = await doCompress({pdfUrl:pdfURL, pdfFileName: filename}, (message,  progress) => {
+    const pdfResult = await doCompress({pdfUrl:pdfURL, pdfFileName: filename, quality}, (message,  progress) => {
       //check if message contains Page ${i} and get the number
       
       onStatusUpdate(message, progress);
@@ -79,7 +79,7 @@ const mergePDFHandler = async (files, filename, onStatusUpdate, isSuccess) => {
   
   onStatusUpdate("Downloading PDFs...");
   saveAs(pdfBlob, filename);
-  onStatusUpdate("PDF successfully downloaded");
+  //onStatusUpdate("PDF successfully downloaded");
   isSuccess();
 };
 
