@@ -10,6 +10,7 @@ const mergePDFHandler = async (files, filename, quality, onStatusUpdate, isSucce
   const position = document.getElementById("position")?.value;
   const sameSize =  document.getElementById("sameSize")?.checked;
   const compress =  document.getElementById("compressPDF")?.checked;
+  const keepRatio =  document.getElementById("keepRatio")?.checked;
 
   const pdfDocs = [];
   let totalPdfPages = 0; 
@@ -29,7 +30,9 @@ const mergePDFHandler = async (files, filename, quality, onStatusUpdate, isSucce
         pdfFile,
         resizeSize,
         orientation,
-        position
+        position,
+        0,
+        keepRatio
       );
       pdfToBeAdded = resizedPDF;
       onStatusUpdate("Resizing PDFs... Done");

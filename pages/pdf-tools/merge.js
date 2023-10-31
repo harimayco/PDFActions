@@ -23,6 +23,7 @@ export default function merge() {
 
  
   const [size, setSize] = useState("A4");
+  const [keepRatio, setKeepRatio] = useState(true);
   const [orientation, setOrientation] = useState("Portrait");
   const [position, setPosition] = useState("Center");
   //const [pdfTotalPage, setPdfTotalPage] = useState(0);
@@ -54,6 +55,7 @@ export default function merge() {
         {sameSize && (
           <LeftSideResizePDF  size={size} setSize={setSize} orientation={orientation} setOrientation={setOrientation} position={position} setPosition={setPosition} />
         )}
+        <p>Keep Original Ratio ? <input type="checkbox" id="keepRatio" name="keepRatio" checked={keepRatio} onChange={() => setKeepRatio(!keepRatio)} /></p>
         <p>Compress PDF Size ? <input type="checkbox" id="compressPDF" name="compress" checked={compress} onChange={handleCompressCheckboxChange} /></p>
         {compress && (
           <>
