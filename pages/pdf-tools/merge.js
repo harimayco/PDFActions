@@ -19,7 +19,7 @@ export default function merge() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState("");
   const [done, setIsDone] = useState(false);
-  const [quality, setQuality] = useState('2');
+  const [quality, setQuality] = useState('3');
 
  
   const [size, setSize] = useState("A4");

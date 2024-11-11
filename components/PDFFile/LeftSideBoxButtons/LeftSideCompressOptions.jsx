@@ -10,14 +10,14 @@ export default function LeftSideResizePDF({quality, setQuality}){
         setQuality(e.target.value);
     }
 
-    function getQualityDesc(quality = '2') {
-        let q =  'Default';
+    function getQualityDesc(quality = '3') {
+        let q =  'Ebook';
         if(quality === '1'){
             q = 'Low';
         }else if(quality === '2'){
             q = 'Default';
         }else if(quality === '3'){
-            q = 'Normal';
+            q = 'Ebook';
         }
         return q;
     }
