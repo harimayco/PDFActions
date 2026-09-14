@@ -15,6 +15,9 @@ const withPWA = require("next-pwa")({
 
 module.exports = withPWA({
   basePath: "/PDFActions",
+  images: {
+    unoptimized: true,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
