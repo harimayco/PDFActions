@@ -1,69 +1,97 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
 import addPageNumbersHandler from "../../methods/addPageNumbers";
 import LeftSidePageNumbers from "../../components/PDFFile/LeftSideBoxButtons/LeftSidePageNumbers";
-import getPDFPageCount from "../../methods/getPDFPageCount.js";
+import { DeleteOnlyExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 
-export default function addpagenumbers() {
+export default function AddPageNumbers() {
   const [files, setFiles] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [options, setOptions] = useState({
+    firstPageNumber: 1,
+    startingPage: 1,
+    endingPage: 1,
+    margin: "Recommended",
+    position: "b-c",
+    fontSize: 12,
+  });
 
   const onFileChange = async (e) => {
-    const temp = [];
-    const newFiles = e.target.files;
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
 
-    for (let i = 0; i < newFiles.length; i++) {
-      const file = newFiles[i];
-      file.pageCount = await getPDFPageCount(file);
-      temp.push(file);
+    const enriched = rawFiles.slice(0, 1).map((file) => ({
+      id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+      file,
+      name: file.name,
+      size: file.size,
+      pageCount: null,
+      degrees: 0,
+    }));
+
+    setFiles(enriched);
+  };
+
+  const handleDownload = async () => {
+    setIsProcessing(true);
+    try {
+      await addPageNumbersHandler(files, options);
+    } finally {
+      setIsProcessing(false);
     }
-
-    setFiles([...files, ...temp]);
-  };
-  const FilePreviewExtra = ({ file, setDeleted, imageRef }) => {
-    return null;
   };
 
-  const LeftSideBoxExtra = () => {
-    return <LeftSidePageNumbers file={files[0]} />;
-  };
+  const renderLeftSideExtra = () => (
+    <LeftSidePageNumbers
+      options={options}
+      setOptions={setOptions}
+      file={files[0]}
+    />
+  );
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - Add Page Numbers to PDF</title>
+        <title>Add Page Numbers to PDF - PDFActions</title>
+        <meta
+          name="description"
+          content="Stamp customized page numbers onto PDF pages with control over alignment, margins, and font size."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          Add Page Numbers to PDF
-        </div>
-        <div>Add Page Numbers to PDF Files</div>
-      </div>
+      <ToolBanner
+        title="Add Page Numbers to PDF"
+        description="Insert crisp page numbering into headers or footers with customizable margins, font sizes, and start pages."
+        badge="Numbers Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-blue"
+      />
 
-      {files.length === 0 && (
+      {files.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={false}
+          title="Choose or Drop a PDF File"
+          subtitle="Select a PDF document to insert custom page numbers"
         />
-      )}
-      {files.length !== 0 && (
+      ) : (
         <PDFFilesProcess
           files={files}
-          sortableFilePreviewGrid={false}
           setFiles={setFiles}
-          addFileOptions={{
-            fileType: ".pdf",
-            multiple: false,
-          }}
-          downloadHandler={() => addPageNumbersHandler(files)}
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          FilePreviewExtra={FilePreviewExtra}
+          sortableFilePreviewGrid={false}
+          addFileOptions={{ fileType: ".pdf", multiple: false }}
+          isProcessing={isProcessing}
+          downloadButtonText="Stamp Numbers & Download"
+          downloadHandler={handleDownload}
+          LeftSideBoxExtra={renderLeftSideExtra}
+          FilePreviewExtra={DeleteOnlyExtra}
         />
       )}
-    </div>
+    </>
   );
 }

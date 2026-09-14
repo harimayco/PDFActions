@@ -1,85 +1,107 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
 import addMarginHandler from "../../methods/addMargin.js";
-import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
-import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
+import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
 import LeftSideMargin from "../../components/PDFFile/LeftSideBoxButtons/LeftSideMargin.jsx";
 
-export default function addmargin() {
+export default function AddMargin() {
   const [files, setFiles] = useState([]);
   const [marginMillimeter, setMarginMillimeter] = useState([0, 0, 0, 0]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onFileChange = async (e) => {
-    setFiles([...e.target.files]);
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
+
+    const enriched = rawFiles.map((file) => ({
+      id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+      file,
+      name: file.name,
+      size: file.size,
+      pageCount: null,
+      degrees: 0,
+    }));
+
+    setFiles((prev) => [...prev, ...enriched]);
   };
 
-  const FilePreviewExtra = ({ file, setDeleted, imageRef }) => {
-    return (
-      <div className="flex flex-col gap-2 items-center justify-center mt-2 mb-2">
-        <FileRotateButtons file={file} imageRef={imageRef} />
-        <FileDeleteButton file={file} setDeleted={setDeleted} />
-      </div>
-    );
+  const handleDownloadZip = async () => {
+    setIsProcessing(true);
+    try {
+      await addMarginHandler(files, marginMillimeter, true);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const LeftSideBoxExtra = () => {
-    return (
-      <>
-        <button
-          className="px-4 py-2 w-full bg-rose-700 rounded-sm text-md"
-          onClick={() => addMarginHandler(files, marginMillimeter, false)}
-        >
-          Save as Individual Files
-        </button>
-        <LeftSideMargin
-          margin={marginMillimeter}
-          setMargin={setMarginMillimeter}
-        />
-        <LeftSideBoxRotation files={files} />
-      </>
-    );
+  const handleDownloadIndividual = async () => {
+    setIsProcessing(true);
+    try {
+      await addMarginHandler(files, marginMillimeter, false);
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  const renderLeftSideExtra = () => (
+    <div className="flex flex-col gap-3">
+      <button
+        type="button"
+        disabled={isProcessing}
+        onClick={handleDownloadIndividual}
+        className="clay-btn clay-btn-white w-full py-2.5 text-xs font-bold"
+      >
+        Download as Individual Files
+      </button>
+      <LeftSideMargin margin={marginMillimeter} setMargin={setMarginMillimeter} />
+      <LeftSideBoxRotation files={files} setFiles={setFiles} />
+    </div>
+  );
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - Add Margin to PDF</title>
+        <title>Add Margins to PDF - PDFActions</title>
+        <meta
+          name="description"
+          content="Pad PDF pages with custom millimeter-precise margins for printing and binding."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          Add Margin to PDF
-        </div>
-        <div>Add Margin to Multiple PDF Files in one go</div>
-      </div>
+      <ToolBanner
+        title="Add Margin to PDF"
+        description="Add precise border margins around pages in millimeters, centimeters, or inches."
+        badge="Margin Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-coral"
+      />
 
-      {files.length === 0 && (
+      {files.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={true}
+          title="Choose or Drop PDF Files to Add Margins"
+          subtitle="Select PDF files to configure page margins"
         />
-      )}
-      {files.length !== 0 && (
+      ) : (
         <PDFFilesProcess
           files={files}
-          sortableFilePreviewGrid={false}
           setFiles={setFiles}
-          addFileOptions={{
-            fileType: ".pdf",
-            multiple: true,
-          }}
-          downloadHandler={() =>
-            addMarginHandler(files, marginMillimeter, true)
-          }
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          FilePreviewExtra={FilePreviewExtra}
+          sortableFilePreviewGrid={false}
+          addFileOptions={{ fileType: ".pdf", multiple: true }}
+          isProcessing={isProcessing}
+          downloadButtonText="Add Margins & Download (ZIP)"
+          downloadHandler={handleDownloadZip}
+          LeftSideBoxExtra={renderLeftSideExtra}
+          FilePreviewExtra={RotateAndDeleteExtra}
         />
       )}
-    </div>
+    </>
   );
 }

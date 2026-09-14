@@ -1,87 +1,111 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
-import breakPDFHandler from "../../methods/breakPDF.js";
-import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
-import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
-import LeftSideBreakPDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBreakPDF";
-import getPDFPageCount from "../../methods/getPDFPageCount.js";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
+import breakPDFHandler from "../../methods/breakPDF";
+import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
+import LeftSideBreakPDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBreakPDF.jsx";
+import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation.jsx";
 
-export default function breakPDF() {
+export default function Break() {
   const [files, setFiles] = useState([]);
+  const [breakOptions, setBreakOptions] = useState({ maxPages: 1, includeLastPages: true });
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onFileChange = async (e) => {
-    const temp = [];
-    const newFiles = e.target.files;
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
 
-    for (let i = 0; i < newFiles.length; i++) {
-      const file = newFiles[i];
-      file.pageCount = await getPDFPageCount(file);
-      temp.push(file);
+    const enriched = rawFiles.slice(0, 1).map((file) => ({
+      id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+      file,
+      name: file.name,
+      size: file.size,
+      pageCount: null,
+      degrees: 0,
+    }));
+
+    setFiles(enriched);
+  };
+
+  const handleDownloadZip = async () => {
+    setIsProcessing(true);
+    try {
+      await breakPDFHandler(files, true, breakOptions);
+    } finally {
+      setIsProcessing(false);
     }
-
-    setFiles([...files, ...temp]);
   };
 
-  const FilePreviewExtra = ({ file, setDeleted, imageRef }) => {
-    return (
-      <div className="flex flex-col gap-2 items-center justify-center mt-2 mb-2">
-        <FileRotateButtons file={file} imageRef={imageRef} />
-      </div>
-    );
+  const handleDownloadIndividual = async () => {
+    setIsProcessing(true);
+    try {
+      await breakPDFHandler(files, false, breakOptions);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const LeftSideBoxExtra = () => {
-    return (
-      <>
-        <button
-          className="px-4 py-2 w-full bg-rose-700 rounded-sm text-md"
-          onClick={() => breakPDFHandler(files, false)}
-        >
-          Save as Individual Files
-        </button>
-        <LeftSideBreakPDF file={files[0]} />
-        <LeftSideBoxRotation files={files} />
-      </>
-    );
-  };
+  const renderLeftSideExtra = () => (
+    <div className="flex flex-col gap-3">
+      <button
+        type="button"
+        disabled={isProcessing}
+        onClick={handleDownloadIndividual}
+        className="clay-btn clay-btn-white w-full py-2.5 text-xs font-bold"
+      >
+        Download as Individual Files
+      </button>
+      <LeftSideBreakPDF
+        file={files[0]}
+        breakOptions={breakOptions}
+        setBreakOptions={setBreakOptions}
+      />
+      <LeftSideBoxRotation files={files} setFiles={setFiles} />
+    </div>
+  );
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - Break PDF</title>
+        <title>Break PDF Files - PDFActions</title>
+        <meta
+          name="description"
+          content="Slice large multi-page PDF documents into smaller fixed page chunks."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          Break PDF
-        </div>
-        <div>Break Single PDF File into Multiple PDF's</div>
-      </div>
+      <ToolBanner
+        title="Break PDF Documents"
+        description="Slice a large PDF document into manageable chunks with custom page limits."
+        badge="Break Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-teal"
+      />
 
-      {files.length === 0 && (
+      {files.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={false}
+          title="Choose or Drop a PDF to Break"
+          subtitle="Select a PDF document to slice into smaller page sets"
         />
-      )}
-      {files.length !== 0 && (
+      ) : (
         <PDFFilesProcess
           files={files}
-          sortableFilePreviewGrid={false}
           setFiles={setFiles}
-          addFileOptions={{
-            fileType: ".pdf",
-            multiple: false,
-          }}
-          downloadHandler={() => breakPDFHandler(files, true)}
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          FilePreviewExtra={FilePreviewExtra}
+          sortableFilePreviewGrid={false}
+          addFileOptions={{ fileType: ".pdf", multiple: false }}
+          isProcessing={isProcessing}
+          downloadButtonText="Break & Download (ZIP)"
+          downloadHandler={handleDownloadZip}
+          LeftSideBoxExtra={renderLeftSideExtra}
+          FilePreviewExtra={RotateAndDeleteExtra}
         />
       )}
-    </div>
+    </>
   );
 }

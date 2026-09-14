@@ -1,176 +1,153 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-export default function LeftSidePageNumbers({ file }) {
-  useEffect(() => {
-    file.firstPageNumber = 1;
-    file.startingPage = 1;
-    file.endingPage = file.pageCount;
-    file.margin = "Recommended";
-    file.pageNumberPosition = "b-c";
-    file.pageNumberFontSize = 12;
-  }, []);
+export default function LeftSidePageNumbers({
+  options = {
+    firstPageNumber: 1,
+    startingPage: 1,
+    endingPage: 1,
+    margin: "Recommended",
+    position: "b-c",
+    fontSize: 12,
+  },
+  setOptions = () => {},
+  file,
+}) {
+  const maxPages = file?.pageCount || 1;
 
-  const onFirstPageNumberChange = (e) => {
-    let num = parseInt(e.target.value);
-    if (num < 1) {
-      num = 1;
-      e.target.value = 1;
-    }
-    file.firstPageNumber = num;
+  const update = (key, val) => {
+    setOptions((prev) => ({
+      ...prev,
+      [key]: val,
+    }));
   };
-  const onStartingPageChange = (e) => {
-    let num = parseInt(e.target.value);
-    if (num < 1) {
-      num = 1;
-      e.target.value = 1;
-    }
-    if (num > file.pageCount) {
-      num = file.pageCount;
-      e.target.value = file.pageCount;
-    }
-    file.startingPage = num;
-  };
-  const onEndingPageChange = (e) => {
-    let num = parseInt(e.target.value);
-    if (num < 1) {
-      num = 1;
-      e.target.value = 1;
-    }
-    if (num > file.pageCount) {
-      num = file.pageCount;
-      e.target.value = file.pageCount;
-    }
-    file.endingPage = num;
-  };
-  const onPageNumberPositionChange = (e) => {
-    file.pageNumberPosition = e.target.value;
-  };
-  const onMarginChange = (e) => {
-    file.margin = e.target.value;
-  };
-  const onPageNumberFontSizeChange = (e) => {
-    let num = parseInt(e.target.value);
-    if (num < 1) {
-      num = 1;
-      e.target.value = 1;
-    }
-    file.pageNumberFontSize = num;
-  };
+
+  const positions = [
+    { id: "t-l", label: "Top Left" },
+    { id: "t-c", label: "Top Center" },
+    { id: "t-r", label: "Top Right" },
+    { id: "b-l", label: "Bottom Left" },
+    { id: "b-c", label: "Bottom Center" },
+    { id: "b-r", label: "Bottom Right" },
+  ];
 
   return (
-    <div className="w-full py-2 tracking-wider border-y-2 border-rose-200">
-      Page Number Options
-      <div className="flex justify-between items-center mt-2">
-        Position
-        <div className="grid grid-cols-3 border-2">
-          <div className="w-[30px] h-[30px] flex items-center justify-center border-r-2 border-b-2 border-dotted">
-            <input
-              type="radio"
-              name="position"
-              value="t-l"
-              onChange={onPageNumberPositionChange}
-            />
-          </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border-r-2 border-b-2 border-dotted">
-            <input
-              type="radio"
-              name="position"
-              value="t-c"
-              onChange={onPageNumberPositionChange}
-            />
-          </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border-b-2 border-dotted">
-            <input
-              type="radio"
-              name="position"
-              value="t-r"
-              onChange={onPageNumberPositionChange}
-            />
-          </div>
-          <div className=" w-[30px] h-[30px] border-r-2 border-b-2 border-dotted"></div>
-          <div className=" w-[30px] h-[30px] border-r-2 border-b-2 border-dotted"></div>
-          <div className=" w-[30px] h-[30px] border-b-2 border-dotted"></div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border-r-2 border-dotted">
-            <input
-              type="radio"
-              name="position"
-              value="b-l"
-              onChange={onPageNumberPositionChange}
-            />
-          </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center border-r-2 border-dotted">
-            <input
-              type="radio"
-              name="position"
-              defaultChecked={true}
-              value="b-c"
-              onChange={onPageNumberPositionChange}
-            />
-          </div>
-          <div className="w-[30px] h-[30px] flex items-center justify-center">
-            <input
-              type="radio"
-              name="position"
-              value="b-r"
-              onChange={onPageNumberPositionChange}
-            />
-          </div>
+    <div className="flex flex-col gap-3.5 p-4 bg-clay-bg rounded-2xl border border-slate-200">
+      <span className="text-sm font-extrabold text-clay-heading">Page Number Options</span>
+
+      {/* Position Matrix */}
+      <div className="flex flex-col gap-1.5">
+        <span className="text-xs font-bold text-clay-muted">Number Position</span>
+        <div className="grid grid-cols-3 gap-1.5 p-2 bg-white rounded-xl border border-slate-200">
+          {positions.slice(0, 3).map((pos) => (
+            <button
+              key={pos.id}
+              type="button"
+              title={pos.label}
+              onClick={() => update("position", pos.id)}
+              className={`h-8 rounded-lg text-xs font-bold transition-all ${
+                options.position === pos.id
+                  ? "bg-clay-blue text-white shadow-[0_2px_0_0_#1D4ED8]"
+                  : "bg-slate-100 text-clay-heading hover:bg-slate-200"
+              }`}
+            >
+              {pos.id.toUpperCase()}
+            </button>
+          ))}
+          {positions.slice(3, 6).map((pos) => (
+            <button
+              key={pos.id}
+              type="button"
+              title={pos.label}
+              onClick={() => update("position", pos.id)}
+              className={`h-8 rounded-lg text-xs font-bold transition-all ${
+                options.position === pos.id
+                  ? "bg-clay-blue text-white shadow-[0_2px_0_0_#1D4ED8]"
+                  : "bg-slate-100 text-clay-heading hover:bg-slate-200"
+              }`}
+            >
+              {pos.id.toUpperCase()}
+            </button>
+          ))}
         </div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Margin
+
+      {/* Margin Select */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="pageNumberMargin" className="text-xs font-bold text-clay-muted">
+          Page Margin
+        </label>
         <select
-          id="position"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
-          defaultValue="Recommended"
-          onChange={onMarginChange}
+          id="pageNumberMargin"
+          value={options.margin || "Recommended"}
+          onChange={(e) => update("margin", e.target.value)}
+          className="clay-input text-xs py-2"
         >
           <option value="Small">Small</option>
           <option value="Recommended">Recommended</option>
           <option value="Big">Big</option>
         </select>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Starting Page
-        <input
-          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
-          type="number"
-          defaultValue="1"
-          min="1"
-          max={file.pageCount}
-          onChange={onStartingPageChange}
-        />
+
+      {/* Page Ranges & Sizing */}
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="startPage" className="text-[11px] font-bold text-clay-muted">
+            Starting Page
+          </label>
+          <input
+            id="startPage"
+            type="number"
+            min="1"
+            max={maxPages}
+            value={options.startingPage || 1}
+            onChange={(e) => update("startingPage", parseInt(e.target.value, 10) || 1)}
+            className="clay-input text-xs py-1.5 text-center"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="endPage" className="text-[11px] font-bold text-clay-muted">
+            Ending Page
+          </label>
+          <input
+            id="endPage"
+            type="number"
+            min="1"
+            max={maxPages}
+            value={options.endingPage || maxPages}
+            onChange={(e) => update("endingPage", parseInt(e.target.value, 10) || maxPages)}
+            className="clay-input text-xs py-1.5 text-center"
+          />
+        </div>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Ending Page
-        <input
-          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
-          type="number"
-          defaultValue={file.pageCount}
-          min="1"
-          max={file.pageCount}
-          onChange={onEndingPageChange}
-        />
-      </div>
-      <div className="flex justify-between items-center mt-2">
-        First Number
-        <input
-          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
-          type="number"
-          defaultValue="1"
-          min="1"
-          onChange={onFirstPageNumberChange}
-        />
-      </div>
-      <div className="flex justify-between items-center mt-2">
-        Font Size
-        <input
-          className="w-[50px] text-center caret-transparent bg-rose-700 rounded-md"
-          type="number"
-          defaultValue="12"
-          min="1"
-          onChange={onPageNumberFontSizeChange}
-        />
+
+      <div className="grid grid-cols-2 gap-2">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="firstNum" className="text-[11px] font-bold text-clay-muted">
+            First Number
+          </label>
+          <input
+            id="firstNum"
+            type="number"
+            min="1"
+            value={options.firstPageNumber || 1}
+            onChange={(e) => update("firstPageNumber", parseInt(e.target.value, 10) || 1)}
+            className="clay-input text-xs py-1.5 text-center"
+          />
+        </div>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="fontSize" className="text-[11px] font-bold text-clay-muted">
+            Font Size (pt)
+          </label>
+          <input
+            id="fontSize"
+            type="number"
+            min="8"
+            max="36"
+            value={options.fontSize || 12}
+            onChange={(e) => update("fontSize", parseInt(e.target.value, 10) || 12)}
+            className="clay-input text-xs py-1.5 text-center"
+          />
+        </div>
       </div>
     </div>
   );

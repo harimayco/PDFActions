@@ -1,13 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.col-sm-8::-webkit-scrollbar {
-  display: none;
+@layer base {
+  body {
+    font-family: 'Nunito', sans-serif;
+    background-color: #F5F3FF;
+    color: #1E1B4B;
+    overflow-x: hidden;
+  }
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.col-sm-8 {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+/* ==========================================================
+   CLAYMORPHISM / 3D SOFT UI DESIGN SYSTEM (DESIGN.md)
+   ========================================================== */
+
+/* 1. BUTTONS WITH 3-TIER TACTILE 3D PRESS */
+.clay-btn {
+  font-weight: 700;
+  font-size: 16px;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding: 14px 28px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+  transition: transform 100ms ease-out, box-shadow 100ms ease-out;
+}
+
+/* Primary Blue Button */
+.clay-btn-blue {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #60A5FA;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 6px 0 0 #1D4ED8, 0 12px 20px rgba(29, 78, 216, 0.24);
+}
+.clay-btn-blue:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #1D4ED8, 0 8px 16px rgba(29, 78, 216, 0.20);
+}
+.clay-btn-blue:active:not(:disabled) {
+  transform: translateY(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0px 0 0 #1D4ED8, 0 4px 8px rgba(29, 78, 216, 0.15);
+}
+
+/* Primary Green Button */
+.clay-btn-green {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #34D399;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 6px 0 0 #059669, 0 12px 20px rgba(5, 150, 105, 0.24);
+}
+.clay-btn-green:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #059669, 0 8px 16px rgba(5, 150, 105, 0.20);
+}
+.clay-btn-green:active:not(:disabled) {
+  transform: translateY(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0px 0 0 #059669, 0 4px 8px rgba(5, 150, 105, 0.15);
+}
+
+/* Coral / Rose Action Button */
+.clay-btn-coral {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #FB7185;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 6px 0 0 #BE123C, 0 12px 20px rgba(190, 18, 60, 0.24);
+}
+.clay-btn-coral:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #BE123C, 0 8px 16px rgba(190, 18, 60, 0.20);
+}
+.clay-btn-coral:active:not(:disabled) {
+  transform: translateY(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 0px 0 0 #BE123C, 0 4px 8px rgba(190, 18, 60, 0.15);
+}
+
+/* Secondary White Clay Button */
+.clay-btn-white {
+  background: #FFFFFF;
+  color: #1E1B4B;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 6px 0 0 #CBD5E1, 0 12px 20px rgba(0, 0, 0, 0.08);
+}
+.clay-btn-white:hover:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 4px 0 0 #CBD5E1, 0 8px 16px rgba(0, 0, 0, 0.07);
+}
+.clay-btn-white:active:not(:disabled) {
+  transform: translateY(6px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 0px 0 0 #CBD5E1, 0 4px 8px rgba(0, 0, 0, 0.06);
+}
+
+.clay-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* 2. CLAY CARDS */
+.clay-card-white {
+  background: #FFFFFF;
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 1), 0 8px 0 0 #CBD5E1, 0 16px 32px rgba(0, 0, 0, 0.08);
+  transition: transform 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.clay-card-blue {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 55%), #60A5FA;
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 0 0 #1D4ED8, 0 16px 32px rgba(29, 78, 216, 0.18);
+  color: #FFFFFF;
+}
+
+.clay-card-green {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 55%), #34D399;
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 0 0 #059669, 0 16px 32px rgba(5, 150, 105, 0.18);
+  color: #FFFFFF;
+}
+
+.clay-card-coral {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 55%), #FB7185;
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 0 0 #BE123C, 0 16px 32px rgba(190, 18, 60, 0.18);
+  color: #FFFFFF;
+}
+
+.clay-card-yellow {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 55%), #FCD34D;
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 8px 0 0 #B45309, 0 16px 32px rgba(180, 83, 9, 0.18);
+  color: #1E1B4B;
+}
+
+.clay-card-purple {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 55%), #A78BFA;
+  border-radius: 24px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 8px 0 0 #6D28D9, 0 16px 32px rgba(109, 40, 217, 0.18);
+  color: #FFFFFF;
+}
+
+/* 3. CLAY ICON CONTAINERS (56x56, 18px radius) */
+.clay-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 100ms ease-out;
+}
+
+.clay-icon-blue {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #60A5FA;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #1D4ED8, 0 8px 16px rgba(29, 78, 216, 0.20);
+  color: #FFFFFF;
+}
+
+.clay-icon-green {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #34D399;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #059669, 0 8px 16px rgba(5, 150, 105, 0.20);
+  color: #FFFFFF;
+}
+
+.clay-icon-coral {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #FB7185;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #BE123C, 0 8px 16px rgba(190, 18, 60, 0.20);
+  color: #FFFFFF;
+}
+
+.clay-icon-yellow {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 60%), #FCD34D;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #B45309, 0 8px 16px rgba(180, 83, 9, 0.20);
+  color: #1E1B4B;
+}
+
+.clay-icon-purple {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #A78BFA;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #6D28D9, 0 8px 16px rgba(109, 40, 217, 0.20);
+  color: #FFFFFF;
+}
+
+.clay-icon-teal {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #2DD4BF;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #0F766E, 0 8px 16px rgba(15, 118, 110, 0.20);
+  color: #FFFFFF;
+}
+
+.clay-icon-orange {
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 60%), #FB923C;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 4px 0 0 #C2410C, 0 8px 16px rgba(194, 65, 12, 0.20);
+  color: #FFFFFF;
+}
+
+/* 4. CLAY INPUTS, SELECTS, AND BADGES */
+.clay-input {
+  background: #FFFFFF;
+  border-radius: 14px;
+  border: 2px solid #E2E8F0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05), 0 2px 0 0 #CBD5E1;
+  padding: 10px 16px;
+  font-weight: 600;
+  color: #1E1B4B;
+  transition: all 120ms ease;
+  outline: none;
+}
+.clay-input:focus {
+  border-color: #60A5FA;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.04), 0 4px 0 0 #1D4ED8, 0 0 0 3px rgba(96, 165, 250, 0.2);
+}
+
+.clay-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 2px 0 0 rgba(0, 0, 0, 0.12);
+}
+
+/* 5. AMBIENT BACKGROUND BLOBS */
+.blob {
+  position: absolute;
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  filter: blur(52px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.22;
+}
+
+/* 6. PROGRESS BAR */
+.clay-track {
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+.clay-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #34D399, #60A5FA);
+  box-shadow: 0 2px 0 0 #059669;
+  transition: width 200ms ease;
 }

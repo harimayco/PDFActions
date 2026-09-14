@@ -4,104 +4,51 @@ import Navbar from "../components/Navbar";
 import Head from "next/head";
 import LoadingBar from "react-top-loading-bar";
 import { useRouter } from "next/router";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {
   const loadingRef = useRef(null);
   const router = useRouter();
+
   useEffect(() => {
-    router.events.on("routeChangeStart", () =>
-      loadingRef.current.continuousStart()
-    );
-    router.events.on("routeChangeComplete", () =>
-      loadingRef.current.complete()
-    );
-    router.events.on("routeChangeError", () => loadingRef.current.complete());
-  }, []);
+    const handleStart = () => loadingRef.current?.continuousStart?.();
+    const handleComplete = () => loadingRef.current?.complete?.();
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, [router]);
 
   return (
     <>
       <Head>
-        {/* PWA */}
+        <title>PDFActions - Claymorphism PDF Suite</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Sculpt, merge, compress, split, and edit your PDF files securely in your browser." />
         <link rel="manifest" href="/manifest.json" />
-        <link rel="apple-touch-icon" href="apple-icon-180.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2048-2732.jpg"
-          media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2732-2048.jpg"
-          media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-1668-2388.jpg"
-          media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2388-1668.jpg"
-          media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-1536-2048.jpg"
-          media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2048-1536.jpg"
-          media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-1668-2224.jpg"
-          media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2224-1668.jpg"
-          media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-1620-2160.jpg"
-          media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2160-1620.jpg"
-          media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-1284-2778.jpg"
-          media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2778-1284.jpg"
-          media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-1170-2532.jpg"
-          media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
-        />
-        <link
-          rel="apple-touch-startup-image"
-          href="apple-splash-2532-1170.jpg"
-          media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
-        />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="theme-color" content="#F5F3FF" />
       </Head>
-      <Navbar />
-      <LoadingBar ref={loadingRef} />
-      <Component {...pageProps} />
-      <ToastContainer toastClassName="text-xs" />
+      <div className="min-h-screen bg-clay-bg flex flex-col selection:bg-clay-blue selection:text-white relative overflow-x-hidden">
+        <Navbar />
+        <LoadingBar ref={loadingRef} color="#60A5FA" height={4} />
+        <main className="flex-grow flex flex-col relative z-10">
+          <Component {...pageProps} />
+        </main>
+        <ToastContainer
+          position="bottom-right"
+          toastClassName="clay-card-white font-nunito text-sm text-clay-heading font-semibold"
+          autoClose={3500}
+        />
+      </div>
     </>
   );
 }

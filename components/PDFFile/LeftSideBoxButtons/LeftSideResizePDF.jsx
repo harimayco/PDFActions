@@ -1,54 +1,73 @@
-import React, {useState} from "react";
+import React from "react";
 
-export default function LeftSideResizePDF({size, setSize = () => {}, orientation, setOrientation = () => {}, position, setPosition = () => {}}){
+export default function LeftSideResizePDF({
+  size = "A4",
+  setSize = () => {},
+  orientation = "Portrait",
+  setOrientation = () => {},
+  position = "Center",
+  setPosition = () => {},
+}) {
   const resizeSizes = ["A4", "A3", "A5", "Legal", "Letter", "Tabloid"];
   const orientations = ["Portrait", "Landscape"];
-  const positions = ["Center","Start", "End"];
+  const positions = ["Center", "Start", "End"];
 
   return (
-    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-rose-200">
-      Page Settings
-      <div className="flex justify-between items-center">
-        Size
+    <div className="flex flex-col gap-3 p-4 bg-clay-bg rounded-2xl border border-slate-200">
+      <span className="text-sm font-extrabold text-clay-heading">Page Dimensions</span>
+
+      {/* Page Size */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="resizeSize" className="text-xs font-bold text-clay-muted">
+          Page Size
+        </label>
         <select
           id="resizeSize"
-          className="bg-yellow-100 w-1/2 py-2 pl-2 rounded-md"
           value={size}
           onChange={(e) => setSize(e.target.value)}
+          className="clay-input text-sm py-2 cursor-pointer"
         >
-          {resizeSizes.map((resizeSize, i) => (
-            <option key={i} value={resizeSize}>
-              {resizeSize}
+          {resizeSizes.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
         </select>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Orientation
+
+      {/* Orientation */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="orientation" className="text-xs font-bold text-clay-muted">
+          Orientation
+        </label>
         <select
           id="orientation"
-          className="bg-yellow-100 w-1/2 py-2 pl-2 rounded-md"
           value={orientation}
           onChange={(e) => setOrientation(e.target.value)}
+          className="clay-input text-sm py-2 cursor-pointer"
         >
-          {orientations.map((orientation, i) => (
-            <option key={i} value={orientation}>
-              {orientation}
+          {orientations.map((o) => (
+            <option key={o} value={o}>
+              {o}
             </option>
           ))}
         </select>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Position
+
+      {/* Alignment Position */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="position" className="text-xs font-bold text-clay-muted">
+          Position on Page
+        </label>
         <select
           id="position"
-          className="bg-yellow-100 w-1/2 py-2 pl-2 rounded-md"
           value={position}
           onChange={(e) => setPosition(e.target.value)}
+          className="clay-input text-sm py-2 cursor-pointer"
         >
-          {positions.map((position, i) => (
-            <option key={i} value={position}>
-              {position}
+          {positions.map((p) => (
+            <option key={p} value={p}>
+              {p}
             </option>
           ))}
         </select>

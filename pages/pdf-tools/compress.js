@@ -1,91 +1,127 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
 import { compressPDFHandler } from "../../methods/compressPDF";
-import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
-import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
-import { toast } from 'react-toastify';
-import('../../lib/init.js');
-import PdfQuaityOptions from "../../components/PDFFile/LeftSideBoxButtons/LeftSideCompressOptions.jsx";
+import { DeleteOnlyExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
+import LeftSideCompressOptions from "../../components/PDFFile/LeftSideBoxButtons/LeftSideCompressOptions.jsx";
+import CompressionResultModal from "../../components/CompressionResultModal.jsx";
 
-export default function compress() {
-  const [quality, setQuality] = useState('2');
+export default function Compress() {
+  const [quality, setQuality] = useState("2");
   const [files, setFiles] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [modalData, setModalData] = useState(null);
 
   const onFileChange = async (e) => {
-    setFiles([...e.target.files]);
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
+
+    const enriched = rawFiles.map((file) => ({
+      id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+      file,
+      name: file.name,
+      size: file.size,
+      pageCount: null,
+      degrees: 0,
+    }));
+
+    setFiles((prev) => [...prev, ...enriched]);
   };
 
-  const FilePreviewExtra = ({ file, setDeleted, imageRef }) => {
-    return (
-      <div className="flex flex-col gap-2 items-center justify-center mt-2 mb-2">
-        <FileDeleteButton file={file} setDeleted={setDeleted} />
-      </div>
-    );
+  const handleDownloadZip = async () => {
+    setIsProcessing(true);
+    try {
+      await compressPDFHandler(files, quality, true, (stats) => {
+        if (stats) {
+          setModalData({
+            title: "PDF Compressed Successfully!",
+            ...stats,
+          });
+        }
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const LeftSideBoxExtra = () => {
-    return (
-      <>
-        <PdfQuaityOptions quality={quality} setQuality={setQuality} />
-        <button
-          className="px-4 py-2 w-full bg-cyan-700 text-slate-200 rounded-sm text-md mt-2"
-          onClick={async () => {
-            //let toastId = toast.loading('Processing PDF Files...');
-            await compressPDFHandler(files, quality, false);
-          }}
-        >
-          Save as Individual Files
-        </button>
-      </>
-    );
+  const handleDownloadIndividual = async () => {
+    setIsProcessing(true);
+    try {
+      await compressPDFHandler(files, quality, false, (stats) => {
+        if (stats) {
+          setModalData({
+            title: "PDF Compressed Successfully!",
+            ...stats,
+          });
+        }
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  const renderLeftSideExtra = () => (
+    <div className="flex flex-col gap-3">
+      <LeftSideCompressOptions quality={quality} setQuality={setQuality} />
+      <button
+        type="button"
+        disabled={isProcessing}
+        onClick={handleDownloadIndividual}
+        className="clay-btn clay-btn-white w-full py-2.5 text-xs font-bold"
+      >
+        Download as Individual Files
+      </button>
+    </div>
+  );
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - Compress PDF</title>
+        <title>Compress PDF Files - PDFActions</title>
+        <meta
+          name="description"
+          content="Shrink PDF file sizes with Ghostscript WebAssembly while preserving document clarity."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          Compress PDF
-        </div>
-        <div>Compress Multiple PDF Files in One Go</div>
-      </div>
+      <ToolBanner
+        title="Compress PDF Files"
+        description="Reduce PDF file sizes dramatically directly in your browser. Choose your compression level."
+        badge="Compress Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-green"
+      />
 
-      {files.length === 0 && (
+      {files.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={true}
+          title="Choose or Drop PDF Files to Compress"
+          subtitle="Batch compress one or multiple PDFs with high-efficiency Ghostscript WASM"
         />
-      )}
-      {files.length !== 0 && (
+      ) : (
         <PDFFilesProcess
           files={files}
-          sortableFilePreviewGrid={false}
           setFiles={setFiles}
-          addFileOptions={{
-            fileType: ".pdf",
-            multiple: true,
-          }}
-          downloadHandler={async () => {
-            await compressPDFHandler(files,quality, true);
-          }}
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          FilePreviewExtra={FilePreviewExtra}
+          sortableFilePreviewGrid={false}
+          addFileOptions={{ fileType: ".pdf", multiple: true }}
+          isProcessing={isProcessing}
+          downloadButtonText="Compress & Download (ZIP)"
+          downloadHandler={handleDownloadZip}
+          LeftSideBoxExtra={renderLeftSideExtra}
+          FilePreviewExtra={DeleteOnlyExtra}
         />
       )}
-    </div>
-  );
 
-  async function onStatusUpdate(toastId, currentStatus, progress = null) {
-    setStatus(currentStatus);
-    if (progress != null) {
-      toast.update(toastId, { render: 'Compressing PDF Pages: ' + currentStatus, isLoading: true, progress: progress, hideProgressBar: false });
-    }
-  }
+      <CompressionResultModal
+        isOpen={Boolean(modalData)}
+        onClose={() => setModalData(null)}
+        data={modalData}
+      />
+    </>
+  );
 }

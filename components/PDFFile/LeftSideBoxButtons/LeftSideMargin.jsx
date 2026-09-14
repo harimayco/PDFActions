@@ -1,96 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function LeftSideMargin({ margin, setMargin }) {
-  const units = ["Inches", "Centimeters", "Millimeters"];
+export default function LeftSideMargin({ margin = [0, 0, 0, 0], setMargin = () => {} }) {
+  const [unit, setUnit] = useState("Millimeters");
   const marginSides = [
-    {
-      text: "Left",
-      arrayIndex: 0,
-      unitId: "marginLeftUnit",
-      textInputId: "marginLeftValue",
-    },
-    {
-      text: "Top",
-      arrayIndex: 1,
-      unitId: "marginTopUnit",
-      textInputId: "marginTopValue",
-    },
-    {
-      text: "Right",
-      arrayIndex: 2,
-      unitId: "marginRightUnit",
-      textInputId: "marginRightValue",
-    },
-    {
-      text: "Bottom",
-      arrayIndex: 3,
-      unitId: "marginBottomUnit",
-      textInputId: "marginBottomValue",
-    },
+    { label: "Left", index: 0, textInputId: "marginLeftValue" },
+    { label: "Top", index: 1, textInputId: "marginTopValue" },
+    { label: "Right", index: 2, textInputId: "marginRightValue" },
+    { label: "Bottom", index: 3, textInputId: "marginBottomValue" },
   ];
 
-  const handleMarginValueChange = (marginIndex, unitId, textInputId) => {
-    const newMargin = margin;
-    const unit = document.getElementById(unitId).value;
+  const toMillimeter = (val, currentUnit) => {
+    const num = parseFloat(val) || 0;
+    if (currentUnit === "Inches") return Math.round(num * 25.4 * 100) / 100;
+    if (currentUnit === "Centimeters") return Math.round(num * 10 * 100) / 100;
+    return num;
+  };
 
-    const newValue = document.getElementById(textInputId).value;
-    const newValueFloat = newValue === "" ? 0 : parseFloat(newValue);
+  const fromMillimeter = (mm, currentUnit) => {
+    if (currentUnit === "Inches") return Math.round((mm / 25.4) * 100) / 100;
+    if (currentUnit === "Centimeters") return Math.round((mm / 10) * 100) / 100;
+    return mm;
+  };
 
-    let newValueMillimeter = newValueFloat;
-
-    if (unit === "Inches") {
-      newValueMillimeter =
-        Math.round((25.4 * newValueFloat + Number.EPSILON) * 100) / 100;
-    } else if (unit === "Centimeters") {
-      newValueMillimeter =
-        Math.round((10 * newValueFloat + Number.EPSILON) * 100) / 100;
-    }
-
-    newMargin[marginIndex] = newValueMillimeter;
-    setMargin(newMargin);
+  const handleValueChange = (index, rawValue) => {
+    const mmValue = toMillimeter(rawValue, unit);
+    const updated = [...margin];
+    updated[index] = mmValue;
+    setMargin(updated);
   };
 
   return (
-    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-rose-200">
-      Margin Settings
-      {marginSides.map((marginSide, i) => (
-        <div className="mt-2 flex justify-between items-center" key={i}>
-          {marginSide.text}
-          <div>
-            <input
-              type="number"
-              id={marginSide.textInputId}
-              className="bg-rose-700 text-center h-[40px] rounded-l-md"
-              step={0.1}
-              defaultValue={0}
-              onChange={() =>
-                handleMarginValueChange(
-                  marginSide.arrayIndex,
-                  marginSide.unitId,
-                  marginSide.textInputId
-                )
-              }
-            />
-            <select
-              id={marginSide.unitId}
-              className="bg-rose-700 h-[40px] rounded-r-md"
-              onChange={() =>
-                handleMarginValueChange(
-                  marginSide.arrayIndex,
-                  marginSide.unitId,
-                  marginSide.textInputId
-                )
-              }
-            >
-              {units.map((unit, i) => (
-                <option key={i} value={unit}>
-                  {unit}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      ))}
+    <div className="flex flex-col gap-3 p-4 bg-clay-bg rounded-2xl border border-slate-200">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-extrabold text-clay-heading">Margin Settings</span>
+        <select
+          id="marginUnit"
+          value={unit}
+          onChange={(e) => setUnit(e.target.value)}
+          className="text-xs font-bold text-clay-heading bg-white rounded-lg border border-slate-300 py-1 px-2 focus:ring-2 focus:ring-clay-blue outline-none"
+        >
+          <option value="Millimeters">mm</option>
+          <option value="Centimeters">cm</option>
+          <option value="Inches">in</option>
+        </select>
+      </div>
+
+      <div className="grid grid-cols-2 gap-2.5">
+        {marginSides.map(({ label, index, textInputId }) => {
+          const displayVal = fromMillimeter(margin[index] || 0, unit);
+          return (
+            <div key={label} className="flex flex-col gap-1">
+              <label htmlFor={textInputId} className="text-[11px] font-bold text-clay-muted">
+                {label} ({unit === "Inches" ? "in" : unit === "Centimeters" ? "cm" : "mm"})
+              </label>
+              <input
+                id={textInputId}
+                type="number"
+                step={unit === "Inches" ? "0.1" : "1"}
+                min="0"
+                value={displayVal}
+                onChange={(e) => handleValueChange(index, e.target.value)}
+                className="clay-input text-xs py-1.5 px-2 text-center"
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

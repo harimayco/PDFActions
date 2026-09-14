@@ -7,28 +7,37 @@ const splitPDFHandler = async (files, asZip = true) => {
   if (asZip) {
     zip = new JSZip();
   }
+
   for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    if (file.deleted) {
+    const item = files[i];
+    if (item.deleted) continue;
+
+    const rawFile = item.file || item;
+    const splitRange = item.splitRange || [1, item.pageCount || 1];
+    const degrees = item.degrees || 0;
+
+    const pdfDocument = await createPDF.PDFDocumentFromFile(rawFile);
+    const split = await splitPDF(pdfDocument, splitRange, degrees);
+
+    if (typeof split === "string") {
+      alert(`Error splitting ${rawFile.name}: ${split}`);
       continue;
     }
-    const pdfDocument = await createPDF.PDFDocumentFromFile(file);
-    const split = await splitPDF(pdfDocument, file.splitRange, file.degrees);
-    if (typeof split !== String) {
-      const pdfFile = await split.save();
-      if (asZip) {
-        zip.file(`split-${file.name}`, pdfFile);
-      } else {
-        const pdfBlob = pdfArrayToBlob(pdfFile);
-        saveAs(pdfBlob, `split-${file.name}`);
-      }
+
+    const pdfFile = await split.save();
+    const fileName = item.name || rawFile.name || `split-${i + 1}.pdf`;
+
+    if (asZip) {
+      zip.file(`split-${fileName}`, pdfFile);
     } else {
-      alert("Error In Split Ranges");
+      const pdfBlob = pdfArrayToBlob(pdfFile);
+      saveAs(pdfBlob, `split-${fileName}`);
     }
   }
+
   if (asZip) {
     const zipBlob = await zipToBlob(zip);
-    saveAs(zipBlob, "splittedPDFFiles.zip");
+    saveAs(zipBlob, "splitPDFFiles.zip");
   }
 };
 

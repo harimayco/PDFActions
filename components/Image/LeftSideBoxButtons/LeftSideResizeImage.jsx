@@ -1,6 +1,13 @@
 import React from "react";
 
-export default function LeftSideResizeImage() {
+export default function LeftSideResizeImage({
+  pageSize = "A4",
+  setPageSize = () => {},
+  pageOrientation = "Portrait",
+  setPageOrientation = () => {},
+  imagePosition = "Center",
+  setImagePosition = () => {},
+}) {
   const resizeSizes = [
     "Same as Image",
     "A4",
@@ -14,43 +21,61 @@ export default function LeftSideResizeImage() {
   const positions = ["Start", "Center", "End"];
 
   return (
-    <div className="w-full mt-2 py-2 tracking-wider border-y-2 border-rose-200">
-      Page Settings
-      <div className="flex justify-between items-center">
-        Size
+    <div className="flex flex-col gap-3 p-4 bg-clay-bg rounded-2xl border border-slate-200">
+      <span className="text-sm font-extrabold text-clay-heading">Page & Layout</span>
+
+      {/* Page Size */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="pageSize" className="text-xs font-bold text-clay-muted">
+          Page Size
+        </label>
         <select
           id="pageSize"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
+          value={pageSize}
+          onChange={(e) => setPageSize(e.target.value)}
+          className="clay-input text-sm py-2 cursor-pointer"
         >
-          {resizeSizes.map((resizeSize, i) => (
-            <option key={i} value={resizeSize}>
-              {resizeSize}
+          {resizeSizes.map((s) => (
+            <option key={s} value={s}>
+              {s}
             </option>
           ))}
         </select>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Orientation
+
+      {/* Orientation */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="pageOrientation" className="text-xs font-bold text-clay-muted">
+          Orientation
+        </label>
         <select
           id="pageOrientation"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
+          value={pageOrientation}
+          onChange={(e) => setPageOrientation(e.target.value)}
+          className="clay-input text-sm py-2 cursor-pointer"
         >
-          {orientations.map((orientation, i) => (
-            <option key={i} value={orientation}>
-              {orientation}
+          {orientations.map((o) => (
+            <option key={o} value={o}>
+              {o}
             </option>
           ))}
         </select>
       </div>
-      <div className="flex justify-between items-center mt-2">
-        Image Position
+
+      {/* Image Position */}
+      <div className="flex flex-col gap-1">
+        <label htmlFor="imagePosition" className="text-xs font-bold text-clay-muted">
+          Placement Position
+        </label>
         <select
           id="imagePosition"
-          className="bg-rose-700 w-1/2 py-2 pl-2 rounded-md"
+          value={imagePosition}
+          onChange={(e) => setImagePosition(e.target.value)}
+          className="clay-input text-sm py-2 cursor-pointer"
         >
-          {positions.map((position, i) => (
-            <option key={i} value={position}>
-              {position}
+          {positions.map((p) => (
+            <option key={p} value={p}>
+              {p}
             </option>
           ))}
         </select>

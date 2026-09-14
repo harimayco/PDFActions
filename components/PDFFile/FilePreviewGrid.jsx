@@ -5,49 +5,92 @@ import FilePreview from "./FilePreview";
 
 export default function FilePreviewGrid({
   files,
-  FilePreviewExtra,
   setFiles,
-  sortableFilePreviewGrid,
+  FilePreviewExtra,
+  sortableFilePreviewGrid = false,
+  onRotate,
+  onDelete,
+  onUpdate,
 }) {
-  const onSortEnd = (oldIndex, newIndex) =>
-    setFiles(arrayMove(files, oldIndex, newIndex));
+  const onSortEnd = (oldIndex, newIndex) => {
+    setFiles((prev) => arrayMove(prev, oldIndex, newIndex));
+  };
+
+  const handleRotate = (fileId, degrees) => {
+    if (onRotate) {
+      onRotate(fileId, degrees);
+    } else {
+      setFiles((prev) =>
+        prev.map((f) =>
+          (f.id === fileId || f === fileId) ? { ...f, degrees } : f
+        )
+      );
+    }
+  };
+
+  const handleDelete = (fileId) => {
+    if (onDelete) {
+      onDelete(fileId);
+    } else {
+      setFiles((prev) => prev.filter((f) => f.id !== fileId && f !== fileId));
+    }
+  };
+
+  const handleUpdate = (fileId, updates) => {
+    if (onUpdate) {
+      onUpdate(fileId, updates);
+    } else {
+      setFiles((prev) =>
+        prev.map((f) =>
+          (f.id === fileId || f === fileId) ? { ...f, ...updates } : f
+        )
+      );
+    }
+  };
 
   if (sortableFilePreviewGrid) {
     return (
       <SortableList
         onSortEnd={onSortEnd}
-        className="flex flex-wrap place-content-center gap-2 md:gap-4"
-        draggedItemClassName="opacity-50"
+        className="flex flex-wrap items-start justify-center gap-6"
+        draggedItemClassName="z-[9999] opacity-90 scale-105 shadow-2xl pointer-events-none transition-none"
       >
-        {files.map(
-          (file, i) =>
-            !file.deleted && (
-              <SortableItem key={i}>
-                <div className="cursor-grab select-none">
-                  <FilePreview
-                    file={file}
-                    FilePreviewExtra={FilePreviewExtra}
-                  />
-                </div>
-              </SortableItem>
-            )
-        )}
+        {files.map((file) => {
+          const key = file.id || file.name;
+          return (
+            <SortableItem key={key}>
+              <div className="select-none">
+                <FilePreview
+                  file={file}
+                  FilePreviewExtra={FilePreviewExtra}
+                  onRotate={handleRotate}
+                  onDelete={handleDelete}
+                  onUpdate={handleUpdate}
+                  isSortable={true}
+                />
+              </div>
+            </SortableItem>
+          );
+        })}
       </SortableList>
     );
-  } else {
-    return (
-      <div className="flex flex-wrap place-content-center gap-2 md:gap-4">
-        {files.map(
-          (file, i) =>
-            !file.deleted && (
-              <FilePreview
-                key={i}
-                file={file}
-                FilePreviewExtra={FilePreviewExtra}
-              />
-            )
-        )}
-      </div>
-    );
   }
+
+  return (
+    <div className="flex flex-wrap items-start justify-center gap-6">
+      {files.map((file) => {
+        const key = file.id || file.name;
+        return (
+          <FilePreview
+            key={key}
+            file={file}
+            FilePreviewExtra={FilePreviewExtra}
+            onRotate={handleRotate}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+          />
+        );
+      })}
+    </div>
+  );
 }

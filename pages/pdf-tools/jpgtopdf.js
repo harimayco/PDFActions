@@ -1,96 +1,142 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import ImageProcess from "../../components/Image/ImageProcess";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
 import imagesToPDFHandler from "../../methods/imagesToPDF.js";
 import ImageDeleteButton from "../../components/Image/ImagePreviewButtons/ImageDeleteButton";
 import ImageRotateButtons from "../../components/Image/ImagePreviewButtons/ImageRotateButtons";
 import LeftSideResizeImage from "../../components/Image/LeftSideBoxButtons/LeftSideResizeImage";
 import LeftSideMargin from "../../components/Image/LeftSideBoxButtons/LeftSideMargin";
 
-export default function jpgtopdf() {
+export default function JpgToPdf() {
   const [images, setImages] = useState([]);
   const [marginMillimeter, setMarginMillimeter] = useState([0, 0, 0, 0]);
+  const [pageSize, setPageSize] = useState("A4");
+  const [pageOrientation, setPageOrientation] = useState("Portrait");
+  const [imagePosition, setImagePosition] = useState("Center");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onFileChange = async (e) => {
-    const temp = [];
-    const images = e.target.files;
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
 
-    for (var i = 0; i < images.length; i++) {
-      const image = images[i];
-      const imageURL = URL.createObjectURL(image);
-      const imageBytes = await fetch(imageURL).then((res) => res.arrayBuffer());
-      const imageData = {
-        src: imageBytes,
-        name: image.name,
-        degrees: 0,
-        deleted: false,
-      };
-      temp.push(imageData);
+    const enriched = await Promise.all(
+      rawFiles.map(async (file) => {
+        const previewUrl = URL.createObjectURL(file);
+        const arrayBuffer = await file.arrayBuffer();
+        return {
+          id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+          file,
+          src: arrayBuffer,
+          previewUrl,
+          name: file.name,
+          size: file.size,
+          degrees: 0,
+        };
+      })
+    );
+
+    setImages((prev) => [...prev, ...enriched]);
+  };
+
+  const handleDownloadMerged = async () => {
+    setIsProcessing(true);
+    try {
+      await imagesToPDFHandler(images, marginMillimeter, true, {
+        pageSize,
+        pageOrientation,
+        imagePosition,
+      });
+    } finally {
+      setIsProcessing(false);
     }
-
-    setImages(temp);
   };
 
-  const LeftSideBoxExtra = () => {
-    return (
-      <>
-        <button
-          className="px-4 py-2 w-full bg-rose-700 rounded-sm text-md mt-2"
-          onClick={() => imagesToPDFHandler(images, marginMillimeter, true)}
-        >
-          Save as Merged File
-        </button>
-        <LeftSideResizeImage />
-        <LeftSideMargin
-          margin={marginMillimeter}
-          setMargin={setMarginMillimeter}
-        />
-      </>
-    );
+  const handleDownloadIndividual = async () => {
+    setIsProcessing(true);
+    try {
+      await imagesToPDFHandler(images, marginMillimeter, false, {
+        pageSize,
+        pageOrientation,
+        imagePosition,
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
-  const ImagePreviewExtra = ({ image, setDeleted, imageRef }) => {
-    return (
-      <div className="flex flex-col gap-2 items-center justify-center mt-2 mb-2">
-        <ImageRotateButtons image={image} imageRef={imageRef} />
-        <ImageDeleteButton image={image} setDeleted={setDeleted} />
-      </div>
-    );
-  };
+  const renderLeftSideExtra = () => (
+    <div className="flex flex-col gap-3">
+      <button
+        type="button"
+        disabled={isProcessing}
+        onClick={handleDownloadIndividual}
+        className="clay-btn clay-btn-white w-full py-2.5 text-xs font-bold"
+      >
+        Download Individual PDFs
+      </button>
+      <LeftSideResizeImage
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        pageOrientation={pageOrientation}
+        setPageOrientation={setPageOrientation}
+        imagePosition={imagePosition}
+        setImagePosition={setImagePosition}
+      />
+      <LeftSideMargin
+        margin={marginMillimeter}
+        setMargin={setMarginMillimeter}
+      />
+    </div>
+  );
+
+  const renderImagePreviewExtra = ({ image, onRotate, onDelete }) => (
+    <div className="flex flex-col gap-2 w-full mt-2">
+      <ImageRotateButtons image={image} onRotate={onRotate} />
+      <ImageDeleteButton image={image} onDelete={onDelete} />
+    </div>
+  );
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - JPG to PDF</title>
+        <title>JPG to PDF Converter - PDFActions</title>
+        <meta
+          name="description"
+          content="Convert images, photos, and JPG files into PDF documents with custom margins and sizing."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          JPG to PDF
-        </div>
-        <div>Convert JPG to PDF in one go</div>
-      </div>
+      <ToolBanner
+        title="JPG to PDF Converter"
+        description="Convert your images and photos into high-resolution PDF pages with custom borders and alignment."
+        badge="Converter Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-yellow"
+      />
 
-      {images.length === 0 && (
+      {images.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType="image/*"
           multiple={true}
+          title="Choose or Drop Image Files"
+          subtitle="Select JPG, PNG, or WEBP images to convert into PDF"
         />
-      )}
-      {images.length !== 0 && (
+      ) : (
         <ImageProcess
           images={images}
           setImages={setImages}
           sortableImagePreviewGrid={true}
           addFileOptions={{ fileType: "image/*", multiple: true }}
-          downloadHandler={() => imagesToPDFHandler(images, marginMillimeter)}
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          ImagePreviewExtra={ImagePreviewExtra}
+          isProcessing={isProcessing}
+          downloadHandler={handleDownloadMerged}
+          LeftSideBoxExtra={renderLeftSideExtra}
+          ImagePreviewExtra={renderImagePreviewExtra}
         />
       )}
-    </div>
+    </>
   );
 }

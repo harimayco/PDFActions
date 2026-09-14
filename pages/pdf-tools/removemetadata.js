@@ -1,59 +1,79 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
 import removeMetaDataHandler from "../../methods/removeMetaData";
+import { DeleteOnlyExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 
-export default function removemetadata() {
+export default function RemoveMetadata() {
   const [files, setFiles] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onFileChange = async (e) => {
-    setFiles([...e.target.files]);
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
+
+    const enriched = rawFiles.slice(0, 1).map((file) => ({
+      id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+      file,
+      name: file.name,
+      size: file.size,
+      pageCount: null,
+      degrees: 0,
+    }));
+
+    setFiles(enriched);
   };
 
-  const FilePreviewExtra = ({ file, setDeleted, imageRef }) => {
-    return null;
-  };
-
-  const LeftSideBoxExtra = () => {
-    return null;
+  const handleDownload = async () => {
+    setIsProcessing(true);
+    try {
+      await removeMetaDataHandler(files);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - Remove PDF Meta Data</title>
+        <title>Remove PDF Metadata - PDFActions</title>
+        <meta
+          name="description"
+          content="Scrub all author, creator, application, and date tags from your PDF document for privacy."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          Remove PDF Meta Data
-        </div>
-        <div>Remove Meta Data of PDF Files</div>
-      </div>
+      <ToolBanner
+        title="Remove PDF Metadata"
+        description="Strip away sensitive author, creator, software, and timestamp properties for complete document privacy."
+        badge="Privacy Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-teal"
+      />
 
-      {files.length === 0 && (
+      {files.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={false}
+          title="Choose or Drop a PDF to Clean"
+          subtitle="Select a PDF document to strip all hidden metadata"
         />
-      )}
-      {files.length !== 0 && (
+      ) : (
         <PDFFilesProcess
           files={files}
-          sortableFilePreviewGrid={false}
           setFiles={setFiles}
-          addFileOptions={{
-            fileType: ".pdf",
-            multiple: false,
-          }}
-          downloadHandler={() => removeMetaDataHandler(files)}
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          FilePreviewExtra={FilePreviewExtra}
+          sortableFilePreviewGrid={false}
+          addFileOptions={{ fileType: ".pdf", multiple: false }}
+          isProcessing={isProcessing}
+          downloadButtonText="Scrub Metadata & Download"
+          downloadHandler={handleDownload}
+          FilePreviewExtra={DeleteOnlyExtra}
         />
       )}
-    </div>
+    </>
   );
 }

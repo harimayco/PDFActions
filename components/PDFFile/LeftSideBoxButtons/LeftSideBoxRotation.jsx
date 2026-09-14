@@ -1,75 +1,65 @@
 import React from "react";
 import { RotateLeft, RotateRight } from "../../icons.jsx";
-import leftSideBoxExtraStyles from "../../../styles/leftSideBoxRotateText.module.css";
 
-export default function LeftSideBoxRotation({ files }) {
-  const handleResetClick = () => {
-    const fileThumbnails = document.querySelectorAll(".filePreviewThumbnails");
-    fileThumbnails.forEach((fileThumbnail) => {
-      fileThumbnail.style.transform = "rotate(0deg)";
-    });
-
-    for (var i = 0; i < files.length; i++) {
-      const file = files[i];
-      file.degrees = 0;
-    }
-  };
-  const handleRotateLeftClick = () => {
-    const fileThumbnails = document.querySelectorAll(".filePreviewThumbnails");
-    fileThumbnails.forEach((fileThumbnail) => {
-      const currRotation = parseInt(
-        fileThumbnail.style.transform.replace("rotate(", "").replace("deg)", "")
+export default function LeftSideBoxRotation({ files, setFiles, onRotateAll }) {
+  const rotateAll = (delta) => {
+    if (onRotateAll) {
+      onRotateAll(delta);
+    } else if (setFiles) {
+      setFiles((prev) =>
+        prev.map((file) => {
+          const current = file.degrees || 0;
+          return {
+            ...file,
+            degrees: (current + delta) % 360,
+          };
+        })
       );
-
-      fileThumbnail.style.transform = `rotate(${currRotation - 90}deg)`;
-    });
-
-    for (var i = 0; i < files.length; i++) {
-      const file = files[i];
-      file.degrees = file.degrees - 90 || -90;
     }
   };
-  const handleRotateRightClick = () => {
-    const fileThumbnails = document.querySelectorAll(".filePreviewThumbnails");
-    fileThumbnails.forEach((fileThumbnail) => {
-      const currRotation = parseInt(
-        fileThumbnail.style.transform.replace("rotate(", "").replace("deg)", "")
+
+  const resetAll = () => {
+    if (setFiles) {
+      setFiles((prev) =>
+        prev.map((file) => ({
+          ...file,
+          degrees: 0,
+        }))
       );
-
-      fileThumbnail.style.transform = `rotate(${currRotation + 90}deg)`;
-    });
-
-    for (var i = 0; i < files.length; i++) {
-      const file = files[i];
-      file.degrees = file.degrees + 90 || +90;
     }
   };
+
   return (
-    <>
-      <div className="flex justify-between text-sm mt-2">
+    <div className="flex flex-col gap-2 p-3 bg-clay-bg rounded-2xl border border-slate-200">
+      <span className="text-xs font-bold text-clay-muted">Batch Rotation</span>
+      <div className="flex gap-2">
         <button
-          className="hover:bg-rose-700 hover:text-slate-200 px-4 py-2 border-2 w-1/2 flex items-center justify-evenly"
-          onClick={handleRotateLeftClick}
+          type="button"
+          title="Rotate All Left 90°"
+          className="clay-btn clay-btn-white w-1/2 py-2 text-xs flex items-center justify-center gap-1"
+          onClick={() => rotateAll(-90)}
         >
           <RotateLeft />
-          <span className={leftSideBoxExtraStyles.rotateText}>Rotate Left</span>
+          <span className="text-[11px] font-bold">Rotate All L</span>
         </button>
         <button
-          className="hover:bg-rose-700 hover:text-slate-200 px-4 py-2 border-2 w-1/2 flex items-center justify-evenly"
-          onClick={handleRotateRightClick}
+          type="button"
+          title="Rotate All Right 90°"
+          className="clay-btn clay-btn-white w-1/2 py-2 text-xs flex items-center justify-center gap-1"
+          onClick={() => rotateAll(90)}
         >
           <RotateRight />
-          <span className={leftSideBoxExtraStyles.rotateText}>
-            Rotate Right
-          </span>
+          <span className="text-[11px] font-bold">Rotate All R</span>
         </button>
       </div>
+
       <button
-        className="px-4 py-2 text-slate-200 bg-rose-700 mt-2 rounded-sm tracking-wider"
-        onClick={handleResetClick}
+        type="button"
+        className="clay-btn clay-btn-white py-1.5 text-xs text-clay-muted hover:text-clay-heading"
+        onClick={resetAll}
       >
-        Reset Rotation
+        Reset All Rotations
       </button>
-    </>
+    </div>
   );
 }

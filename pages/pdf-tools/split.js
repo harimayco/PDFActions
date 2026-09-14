@@ -1,92 +1,105 @@
 import React, { useState } from "react";
-import FileUploader from "../../components/FileUploader.jsx";
 import Head from "next/head";
+import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
+import ToolBanner from "../../components/ToolBanner.jsx";
+import { PDFIcon } from "../../components/icons.jsx";
 import splitPDFHandler from "../../methods/splitPDF";
-import FileRotateButtons from "../../components/PDFFile/FilePreviewButtons/FileRotateButtons";
-import FileDeleteButton from "../../components/PDFFile/FilePreviewButtons/FileDeleteButton";
-import FileRangeInput from "../../components/PDFFile/FilePreviewButtons/FileRangeInput";
-import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
-import getPDFPageCount from "../../methods/getPDFPageCount.js";
+import { SplitFilePreviewExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
+import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation.jsx";
 
-export default function split() {
+export default function Split() {
   const [files, setFiles] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const onFileChange = async (e) => {
-    const temp = [];
-    const newFiles = e.target.files;
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
 
-    for (let i = 0; i < newFiles.length; i++) {
-      const file = newFiles[i];
-      file.pageCount = await getPDFPageCount(file);
-      temp.push(file);
+    const enriched = rawFiles.map((file) => ({
+      id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+      file,
+      name: file.name,
+      size: file.size,
+      pageCount: null,
+      splitRange: [1, 1],
+      degrees: 0,
+    }));
+
+    setFiles((prev) => [...prev, ...enriched]);
+  };
+
+  const handleDownloadZip = async () => {
+    setIsProcessing(true);
+    try {
+      await splitPDFHandler(files, true);
+    } finally {
+      setIsProcessing(false);
     }
-
-    setFiles([...files, ...temp]);
-  };
-  const FilePreviewExtra = ({ file, setDeleted, imageRef }) => {
-    return (
-      <div className="flex flex-col gap-2 items-center justify-center mt-2 mb-2">
-        <FileRotateButtons file={file} imageRef={imageRef} />
-        <FileRangeInput file={file} />
-        <FileDeleteButton file={file} setDeleted={setDeleted} />
-      </div>
-    );
   };
 
-  const LeftSideBoxExtra = () => {
-    return (
-      <>
-        <button
-          className="px-4 py-2 w-full bg-rose-700 rounded-sm text-md mt-2"
-          onClick={() => splitPDFHandler(files, false)}
-        >
-          Save as Individual Files
-        </button>
-        <LeftSideBoxRotation files={files} />
-      </>
-    );
+  const handleDownloadIndividual = async () => {
+    setIsProcessing(true);
+    try {
+      await splitPDFHandler(files, false);
+    } finally {
+      setIsProcessing(false);
+    }
   };
+
+  const renderLeftSideExtra = () => (
+    <div className="flex flex-col gap-3">
+      <button
+        type="button"
+        disabled={isProcessing}
+        onClick={handleDownloadIndividual}
+        className="clay-btn clay-btn-white w-full py-2.5 text-xs font-bold"
+      >
+        Download as Individual Files
+      </button>
+      <LeftSideBoxRotation files={files} setFiles={setFiles} />
+    </div>
+  );
 
   return (
-    <div className="overflow-x-hidden">
+    <>
       <Head>
-        <title>PDFActions - Split PDF</title>
+        <title>Split PDF Files - PDFActions</title>
+        <meta
+          name="description"
+          content="Split and extract page ranges from PDF files with exact page control."
+        />
       </Head>
 
-      {/* Banner */}
-      <div className="bg-rose-800 border-slate-400 border-t-2 border-dotted text-slate-200 flex flex-col items-center justify-center h-[30vh] w-screen">
-        <div className="text-4xl font-medium leading-normal tracking-wide">
-          Split PDF
-        </div>
-        <div>Split Multiple PDF Files In on Go</div>
-      </div>
+      <ToolBanner
+        title="Split PDF Documents"
+        description="Extract specific page ranges or break multi-page documents into individual files."
+        badge="Split Tool"
+        icon={<PDFIcon width="28" />}
+        iconColor="clay-icon-coral"
+      />
 
-      {files.length === 0 && (
+      {files.length === 0 ? (
         <FileUploader
           onFileChange={onFileChange}
           fileType=".pdf"
           multiple={true}
+          title="Choose or Drop PDF Files to Split"
+          subtitle="Select PDF files to specify page ranges and extract pages"
         />
-      )}
-      {files.length !== 0 && (
+      ) : (
         <PDFFilesProcess
           files={files}
-          sortableFilePreviewGrid={false}
           setFiles={setFiles}
-          addFileOptions={{
-            fileType: ".pdf",
-            multiple: true,
-          }}
-          banner={{
-            text: "Split PDF",
-            description: "Split PDF Files In One Go",
-          }}
-          downloadHandler={() => splitPDFHandler(files)}
-          LeftSideBoxExtra={LeftSideBoxExtra}
-          FilePreviewExtra={FilePreviewExtra}
+          sortableFilePreviewGrid={false}
+          addFileOptions={{ fileType: ".pdf", multiple: true }}
+          isProcessing={isProcessing}
+          downloadButtonText="Split & Download (ZIP)"
+          downloadHandler={handleDownloadZip}
+          LeftSideBoxExtra={renderLeftSideExtra}
+          FilePreviewExtra={SplitFilePreviewExtra}
         />
       )}
-    </div>
+    </>
   );
 }

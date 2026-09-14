@@ -1,58 +1,51 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
-export default function FileRangeInput({ file }) {
-  const splitRangeStartRef = useRef(null);
-  const splitRangeEndRef = useRef(null);
+export default function FileRangeInput({ file, onUpdate }) {
+  const maxPages = file.pageCount || 1;
+  const currentRange = file.splitRange || [1, maxPages];
+  const [start, end] = currentRange;
 
-  const min = (a, b) => (a < b ? a : b);
+  const handleStartChange = (e) => {
+    let val = parseInt(e.target.value, 10);
+    if (isNaN(val) || val < 1) val = 1;
+    if (val > maxPages) val = maxPages;
+    if (val > end) val = end;
+    if (onUpdate) {
+      onUpdate(file.id || file, { splitRange: [val, end] });
+    }
+  };
 
-  useEffect(() => {
-    file.splitRange = [1, file.pageCount];
-  }, []);
-
-  const onSplitRangeChange = () => {
-    let start = parseInt(splitRangeStartRef.current.value);
-    let end = parseInt(splitRangeEndRef.current.value);
-    if (start < 1) {
-      start = 1;
-      splitRangeStartRef.current.value = 1;
+  const handleEndChange = (e) => {
+    let val = parseInt(e.target.value, 10);
+    if (isNaN(val)) val = start;
+    if (val < start) val = start;
+    if (val > maxPages) val = maxPages;
+    if (onUpdate) {
+      onUpdate(file.id || file, { splitRange: [start, val] });
     }
-    if (end < 1) {
-      end = 1;
-      splitRangeEndRef.current.value = 1;
-    }
-    if (end > file.pageCount) {
-      end = file.pageCount;
-      splitRangeEndRef.current.value = file.pageCount;
-    }
-    if (start > file.pageCount) {
-      start = file.pageCount;
-      splitRangeStartRef.current.value = file.pageCount;
-    }
-    file.splitRange = [start, end];
-    splitRangeStartRef.current.max = min(file.pageCount, end);
   };
 
   return (
-    <div className="flex items-center justify-center w-[122px] rounded-md bg-rose-700">
+    <div className="flex items-center justify-center gap-1.5 w-full bg-clay-bg p-1.5 rounded-xl border border-slate-200">
+      <span className="text-[10px] font-extrabold text-clay-muted uppercase">From</span>
       <input
-        ref={splitRangeStartRef}
-        className="w-[50px] text-center caret-transparent bg-rose-700"
         type="number"
-        defaultValue="1"
-        min="1"
-        max={file.pageCount}
-        onChange={onSplitRangeChange}
+        min={1}
+        max={maxPages}
+        value={start}
+        onChange={handleStartChange}
+        className="w-12 text-center text-xs font-bold text-clay-heading bg-white rounded-lg border border-slate-300 py-1 focus:ring-2 focus:ring-clay-blue outline-none"
+        aria-label="Split start page"
       />
-      <div className="text-sm">to</div>
+      <span className="text-[10px] font-extrabold text-clay-muted uppercase">To</span>
       <input
-        ref={splitRangeEndRef}
-        className="w-[50px] text-center caret-transparent bg-rose-700"
         type="number"
-        defaultValue={file.pageCount}
-        min="1"
-        max={file.pageCount}
-        onChange={onSplitRangeChange}
+        min={start}
+        max={maxPages}
+        value={end}
+        onChange={handleEndChange}
+        className="w-12 text-center text-xs font-bold text-clay-heading bg-white rounded-lg border border-slate-300 py-1 focus:ring-2 focus:ring-clay-blue outline-none"
+        aria-label="Split end page"
       />
     </div>
   );

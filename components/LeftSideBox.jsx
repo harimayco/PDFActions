@@ -4,27 +4,36 @@ export default function LeftSideBox({
   children,
   handleAddFileButtonClick,
   handleDeleteFilesClick,
-  multiple,
+  multiple = true,
+  title = "Tool Options",
 }) {
   return (
-    <div className="flex flex-col w-full md:w-1/3 md:mr-2">
-      {multiple && (
+    <aside className="clay-card-white p-6 w-full lg:w-[340px] shrink-0 flex flex-col gap-5">
+      <div className="flex items-center justify-between border-b-2 border-slate-100 pb-3">
+        <h4 className="text-lg font-black text-clay-heading">{title}</h4>
+      </div>
+
+      {multiple && handleAddFileButtonClick && (
         <button
-          className="px-4 text-slate-200 py-2 w-full mb-2 bg-rose-700 rounded-sm text-md"
+          type="button"
+          className="clay-btn clay-btn-blue w-full py-3 text-sm font-bold"
           onClick={handleAddFileButtonClick}
         >
-          Add File(s)
+          + Add More Files
         </button>
       )}
-      {children ? children : null}
-      {multiple && (
+
+      {children && <div className="flex flex-col gap-4">{children}</div>}
+
+      {multiple && handleDeleteFilesClick && (
         <button
-          className="px-4 text-slate-200 py-2 bg-rose-700 mt-2 rounded-sm tracking-wider"
+          type="button"
+          className="clay-btn clay-btn-coral w-full py-2.5 text-xs font-bold mt-2"
           onClick={handleDeleteFilesClick}
         >
-          Delete Files
+          Clear All Files
         </button>
       )}
-    </div>
+    </aside>
   );
 }

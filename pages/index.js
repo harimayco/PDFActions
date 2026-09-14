@@ -1,46 +1,247 @@
 import React from "react";
 import Head from "next/head";
-import { PDFIcon } from "../components/icons";
 import Link from "next/link";
+import { PDFIcon, RotateLeft, SuccessIcon } from "../components/icons";
 
 export default function Home() {
-  const allPDFTools = [
-    ["Merge PDF", "/pdf-tools/merge"],
-    ["Split PDF", "/pdf-tools/split"],
-    ["Rotate PDF", "/pdf-tools/rotate"],
-    ["Break PDF", "/pdf-tools/break"],
-    ["JPG to PDF", "/pdf-tools/jpgtopdf"],
-    ["Add Page Numbers", "/pdf-tools/addpagenumbers"],
-    ["Resize PDF", "/pdf-tools/resize"],
-    ["Add Margin", "/pdf-tools/addmargin"],
-    ["Flatten PDF Forms", "/pdf-tools/flattenform"],
-    ["Edit PDF Metadata", "/pdf-tools/editmetadata"],
-    ["Remove PDF Metadata", "/pdf-tools/removemetadata"],
+  const tools = [
+    {
+      title: "Merge PDF",
+      description: "Combine multiple PDF documents into a single sculpted file with custom ordering.",
+      href: "/pdf-tools/merge",
+      color: "clay-icon-blue",
+      badge: "Popular",
+      tilt: "-rotate-1",
+    },
+    {
+      title: "Compress PDF",
+      description: "Reduce file sizes with Ghostscript WebAssembly while preserving crisp quality.",
+      href: "/pdf-tools/compress",
+      color: "clay-icon-green",
+      badge: "Save Space",
+      tilt: "rotate-0",
+    },
+    {
+      title: "Split PDF",
+      description: "Extract specific page ranges into standalone PDFs with effortless accuracy.",
+      href: "/pdf-tools/split",
+      color: "clay-icon-coral",
+      badge: "Flexible",
+      tilt: "rotate-1",
+    },
+    {
+      title: "Rotate PDF",
+      description: "Rotate orientation of individual pages or batch rotate all pages in seconds.",
+      href: "/pdf-tools/rotate",
+      color: "clay-icon-purple",
+      badge: "Quick",
+      tilt: "-rotate-1",
+    },
+    {
+      title: "JPG to PDF",
+      description: "Convert image galleries and photos directly into beautifully aligned PDF pages.",
+      href: "/pdf-tools/jpgtopdf",
+      color: "clay-icon-yellow",
+      badge: "Converter",
+      tilt: "rotate-0",
+    },
+    {
+      title: "Break PDF",
+      description: "Slice large multi-page PDF documents into smaller fixed page chunks.",
+      href: "/pdf-tools/break",
+      color: "clay-icon-teal",
+      badge: "Chunking",
+      tilt: "rotate-1",
+    },
+    {
+      title: "Add Page Numbers",
+      description: "Stamp customized page numbers with full control over placement, font, and margins.",
+      href: "/pdf-tools/addpagenumbers",
+      color: "clay-icon-blue",
+      badge: "Organize",
+      tilt: "-rotate-1",
+    },
+    {
+      title: "Resize PDF",
+      description: "Re-standardize page dimensions to A4, Letter, Legal, or Tabloid formats.",
+      href: "/pdf-tools/resize",
+      color: "clay-icon-orange",
+      badge: "Standardize",
+      tilt: "rotate-0",
+    },
+    {
+      title: "Add Margin",
+      description: "Pad pages with millimeter-precise margins for clean binding and printing.",
+      href: "/pdf-tools/addmargin",
+      color: "clay-icon-coral",
+      badge: "Printing",
+      tilt: "rotate-1",
+    },
+    {
+      title: "Flatten PDF Forms",
+      description: "Flatten interactive form fields into permanent, read-only PDF content.",
+      href: "/pdf-tools/flattenform",
+      color: "clay-icon-green",
+      badge: "Secure",
+      tilt: "-rotate-1",
+    },
+    {
+      title: "Edit Metadata",
+      description: "Modify title, author, subject, creator, and keyword tags embedded in your files.",
+      href: "/pdf-tools/editmetadata",
+      color: "clay-icon-purple",
+      badge: "Details",
+      tilt: "rotate-0",
+    },
+    {
+      title: "Remove Metadata",
+      description: "Strip all hidden tracking tags and author metadata for clean anonymization.",
+      href: "/pdf-tools/removemetadata",
+      color: "clay-icon-teal",
+      badge: "Privacy",
+      tilt: "rotate-1",
+    },
   ];
+
   return (
     <>
       <Head>
-        <title>PDFActions</title>
+        <title>PDFActions - 3D Claymorphism PDF Tool Suite</title>
+        <meta
+          name="description"
+          content="Sculpt, merge, compress, split, and edit PDF documents in a beautiful 3D tactile interface."
+        />
       </Head>
-      <div className="flex justify-between p-4 md:p-12 md:h-[40vh] md:min-h-[200px]">
-        <div className="text-rose-500 w-full p-4 md:p-12 font-bold tracking-wider text-4xl italic">
-          All PDF Tools You Need in One Place
-        </div>
-        <div className="hidden md:flex justify-center items-center w-1/2">
-          <div className="absolute" style={{ transform: "rotate(10deg)" }}>
-            <PDFIcon width="100" />
+
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 px-4 text-center">
+        {/* Soft Decorative Ambient Blobs */}
+        <div
+          className="blob bg-clay-purple w-[480px] h-[480px] -top-32 -left-20"
+          aria-hidden="true"
+        />
+        <div
+          className="blob bg-clay-blue w-[420px] h-[420px] top-20 -right-24"
+          aria-hidden="true"
+        />
+        <div
+          className="blob bg-clay-coral w-[360px] h-[360px] -bottom-20 left-1/3"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+          {/* Top Playful Badge */}
+          <div className="clay-badge bg-white text-clay-blue-shadow mb-6 shadow-sm flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-clay-green animate-pulse" />
+            <span className="font-extrabold text-xs uppercase tracking-wider">
+              100% Client-Side • Zero Cloud Uploads
+            </span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-clay-heading tracking-tight leading-[1.08] mb-6">
+            Sculpt, Edit & Tame <br />
+            <span className="bg-gradient-to-r from-clay-blue via-clay-purple to-clay-coral bg-clip-text text-transparent">
+              Your PDFs
+            </span>{" "}
+            with Ease.
+          </h1>
+
+          <p className="text-base sm:text-xl font-medium text-clay-body max-w-2xl leading-relaxed mb-8">
+            Every button feels pressable. Every tool is sculpted for speed. Process your
+            documents locally in your browser with private, tactile precision.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link href="/pdf-tools/merge" passHref>
+              <a className="clay-btn clay-btn-blue text-base md:text-lg px-8 py-4 shadow-clay-btn-blue">
+                <PDFIcon width="22" />
+                <span>Start with Merge PDF</span>
+              </a>
+            </Link>
+            <Link href="/pdf-tools" passHref>
+              <a className="clay-btn clay-btn-white text-base md:text-lg px-7 py-4">
+                <span>Explore All 12 Tools</span>
+              </a>
+            </Link>
           </div>
         </div>
-      </div>
-      <div className="flex items-center justify-center flex-wrap gap-2 mb-12">
-        {allPDFTools.map((pdfTool, i) => (
-          <Link href={pdfTool[1]} key={i}>
-            <span className="flex items-center justify-center cursor-pointer border-2 h-28 w-56 border-rose-800 bg-rose-700 text-slate-200 text-lg hover:text-xl hover:font-semibold hover:tracking-wide transition-all">
-              <div>{pdfTool[0]}</div>
+      </section>
+
+      {/* Feature Tools Grid */}
+      <section className="relative z-10 max-w-[1140px] mx-auto px-4 pb-24">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-black text-clay-heading tracking-tight mb-2">
+            Every PDF Tool You Need
+          </h2>
+          <p className="text-base font-semibold text-clay-muted">
+            Crafted with soft silicone tactile feedback and zero latency.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          {tools.map((tool) => (
+            <Link href={tool.href} key={tool.href} passHref>
+              <a
+                className={`clay-card-white p-7 flex flex-col justify-between min-h-[240px] group transition-all duration-200 hover:-translate-y-2 hover:shadow-2xl ${tool.tilt} hover:rotate-0`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-5">
+                    <div className={`clay-icon-box ${tool.color} group-hover:scale-110 transition-transform`}>
+                      <PDFIcon width="28" />
+                    </div>
+                    <span className="clay-badge bg-clay-bg text-clay-muted text-[11px] font-extrabold uppercase tracking-wider">
+                      {tool.badge}
+                    </span>
+                  </div>
+
+                  <h3 className="text-xl font-black text-clay-heading mb-2 group-hover:text-clay-blue-shadow transition-colors">
+                    {tool.title}
+                  </h3>
+
+                  <p className="text-sm font-medium text-clay-slate leading-relaxed">
+                    {tool.description}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-1.5 text-xs font-black text-clay-blue-shadow mt-4 uppercase tracking-wider">
+                  <span>Open Tool</span>
+                  <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </div>
+              </a>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Trust & Performance Stat Ribbon */}
+      <section className="relative z-10 max-w-4xl mx-auto px-4 pb-20">
+        <div className="clay-card-white p-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+          <div className="flex flex-col items-center">
+            <span className="text-4xl md:text-5xl font-black text-clay-heading mb-1">
+              100%
             </span>
-          </Link>
-        ))}
-      </div>
+            <span className="text-sm font-bold text-clay-muted">
+              Private & In-Browser
+            </span>
+          </div>
+          <div className="flex flex-col items-center border-y sm:border-y-0 sm:border-x border-slate-100 py-4 sm:py-0">
+            <span className="text-4xl md:text-5xl font-black text-clay-heading mb-1">
+              12+
+            </span>
+            <span className="text-sm font-bold text-clay-muted">
+              Sculpted PDF Tools
+            </span>
+          </div>
+          <div className="flex flex-col items-center">
+            <span className="text-4xl md:text-5xl font-black text-clay-heading mb-1">
+              0 KB
+            </span>
+            <span className="text-sm font-bold text-clay-muted">
+              Uploaded to External Servers
+            </span>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

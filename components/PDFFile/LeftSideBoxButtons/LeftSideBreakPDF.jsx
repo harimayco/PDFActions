@@ -1,55 +1,51 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
-export default function LeftSideBreakPDF({ file }) {
-  const maxPagesInputRef = useRef(null);
-  const lastPagesInputRef = useRef(null);
+export default function LeftSideBreakPDF({
+  breakOptions = { maxPages: 1, includeLastPages: true },
+  setBreakOptions = () => {},
+  file,
+}) {
+  const maxLimit = file?.pageCount || 100;
 
-  useEffect(() => {
-    file.breakPDFIncludeLastPages = true;
-    file.breakPDFMaxPages = 1;
-  }, []);
-
-  const onMaxPagesInputChange = () => {
-    let val = parseInt(maxPagesInputRef.current.value);
-    if (val < 1) {
-      val = 1;
-      maxPagesInputRef.current.value = 1;
-    }
-    if (val > file.pageCount) {
-      val = file.pageCount;
-      maxPagesInputRef.current.value = file.pageCount;
-    }
-
-    file.breakPDFMaxPages = val;
+  const handleMaxPagesChange = (e) => {
+    let val = parseInt(e.target.value, 10);
+    if (isNaN(val) || val < 1) val = 1;
+    if (val > maxLimit) val = maxLimit;
+    setBreakOptions((prev) => ({ ...prev, maxPages: val }));
   };
 
-  const onIncludeLastPageInputChange = (e) => {
-    file.breakPDFIncludeLastPages = e.target.checked;
+  const handleIncludeChange = (e) => {
+    setBreakOptions((prev) => ({ ...prev, includeLastPages: e.target.checked }));
   };
 
   return (
-    <>
-      <div className="flex place-items-center mt-2">
-        <span className="w-1/2">Max Pages in A File</span>
+    <div className="flex flex-col gap-3 p-4 bg-clay-bg rounded-2xl border border-slate-200">
+      <span className="text-sm font-extrabold text-clay-heading">Break Configuration</span>
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor="maxPages" className="text-xs font-bold text-clay-muted">
+          Max Pages per Chunk
+        </label>
         <input
-          ref={maxPagesInputRef}
-          className="w-1/2 py-1 text-center caret-transparent bg-rose-700"
+          id="maxPages"
           type="number"
-          defaultValue="1"
-          min="1"
-          max={file.pageCount}
-          onChange={onMaxPagesInputChange}
+          min={1}
+          max={maxLimit}
+          value={breakOptions.maxPages || 1}
+          onChange={handleMaxPagesChange}
+          className="clay-input text-xs py-2 text-center"
         />
       </div>
-      <div className="flex place-items-center mt-2">
-        <span className="w-1/2">Include Last Pages</span>
+
+      <label className="flex items-center gap-2 cursor-pointer mt-1 select-none">
         <input
-          ref={lastPagesInputRef}
           type="checkbox"
-          onChange={onIncludeLastPageInputChange}
-          defaultChecked={true}
+          checked={breakOptions.includeLastPages !== false}
+          onChange={handleIncludeChange}
+          className="w-4 h-4 rounded text-clay-blue accent-clay-blue"
         />
-      </div>
-    </>
+        <span className="text-xs font-bold text-clay-heading">Include remaining trailing pages</span>
+      </label>
+    </div>
   );
 }

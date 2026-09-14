@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "export NODE_OPTIONS=--openssl-legacy-provider && next dev",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && next build",
-    "start": "export NODE_OPTIONS=--openssl-legacy-provider && next start",
-    "lint": "export NODE_OPTIONS=--openssl-legacy-provider && next lint",
-    "export": "export NODE_OPTIONS=--openssl-legacy-provider && next export"
+    "dev": "cross-env NODE_OPTIONS=--openssl-legacy-provider next dev",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider next build",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider next start",
+    "lint": "cross-env NODE_OPTIONS=--openssl-legacy-provider next lint",
+    "export": "cross-env NODE_OPTIONS=--openssl-legacy-provider next export"
   },
   "dependencies": {
     "browserify-fs": "^1.0.0",
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.8",
+    "cross-env": "^10.1.0",
     "eslint": "^7.23.0",
     "eslint-config-next": "11.1.2",
     "file-loader": "^6.2.0",

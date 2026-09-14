@@ -5,83 +5,114 @@ import ImagePreviewGrid from "./ImagePreviewGrid";
 export default function ImageProcess({
   images,
   setImages,
-  sortableImagePreviewGrid,
-  addFileOptions,
+  sortableImagePreviewGrid = false,
+  addFileOptions = { fileType: "image/*", multiple: true },
   downloadHandler,
   LeftSideBoxExtra,
   ImagePreviewExtra,
+  isProcessing = false,
 }) {
   const inputButtonRef = useRef(null);
 
-  const onFileChange = async (e) => {
-    const temp = [];
-    const newImages = e.target.files;
-
-    for (var i = 0; i < newImages.length; i++) {
-      const newImage = newImages[i];
-      const imageURL = URL.createObjectURL(newImage);
-      const imageBytes = await fetch(imageURL).then((res) => res.arrayBuffer());
-      const imageData = {
-        src: imageBytes,
-        name: newImage.name,
-        degrees: 0,
-        deleted: false,
-      };
-      temp.push(imageData);
-    }
-
-    setImages([...images, ...temp]);
+  const handleDeleteAll = () => {
+    // Revoke any created preview URLs to avoid memory leaks
+    images.forEach((img) => {
+      if (img.previewUrl) {
+        URL.revokeObjectURL(img.previewUrl);
+      }
+    });
+    setImages([]);
   };
-  const handleDeleteFilesClick = () => {
-    setImages([{ deleted: true }]);
-  };
+
   const handleAddFileButtonClick = () => {
-    inputButtonRef.current.click();
+    if (inputButtonRef.current) {
+      inputButtonRef.current.value = "";
+      inputButtonRef.current.click();
+    }
+  };
+
+  const onFileChange = async (e) => {
+    const rawFiles = Array.from(e.target.files || []);
+    if (rawFiles.length === 0) return;
+
+    const enriched = await Promise.all(
+      rawFiles.map(async (file) => {
+        const previewUrl = URL.createObjectURL(file);
+        const arrayBuffer = await file.arrayBuffer();
+        return {
+          id: `${file.name}-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`,
+          file,
+          src: arrayBuffer,
+          previewUrl,
+          name: file.name,
+          size: file.size,
+          degrees: 0,
+        };
+      })
+    );
+
+    setImages((prev) => [...prev, ...enriched]);
   };
 
   return (
-    <div className="overflow-x-hidden">
-      {/* Hidden Input Tag for AddImage Button */}
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 flex flex-col gap-6">
       <input
         type="file"
         className="hidden"
         accept={addFileOptions.fileType}
         ref={inputButtonRef}
         multiple={addFileOptions.multiple}
-        onChange={(e) => onFileChange(e)}
+        onChange={onFileChange}
       />
 
-      {/* Image Box */}
+      {/* Top Action Ribbon */}
+      <div className="clay-card-white p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col">
+          <span className="text-lg font-black text-clay-heading">Image to PDF Converter</span>
+          <span className="text-xs font-bold text-clay-muted">
+            {images.length} {images.length === 1 ? "image" : "images"} loaded
+          </span>
+        </div>
 
-      <div className="px-4 py-6 md:px-24 md:py-12 flex flex-col items-center md:items-start">
-        {/* Download Button */}
         <button
-          className="md:w-1/3 w-full text-slate-200 bg-rose-700 px-8 py-4 rounded-sm text-xl"
+          type="button"
+          disabled={isProcessing || images.length === 0}
           onClick={downloadHandler}
+          className="clay-btn clay-btn-green w-full md:w-auto px-8 py-3.5 text-base md:text-lg shadow-clay-btn-green"
         >
-          Save And Download
+          {isProcessing ? "Converting..." : "Convert & Download PDF"}
         </button>
+      </div>
 
-        {/* Box Below Download Button */}
-        <div className="flex flex-col md:flex-row w-full justify-between mt-6">
-          {/* Left Side Box */}
-          <LeftSideBox
-            handleAddFileButtonClick={handleAddFileButtonClick}
-            handleDeleteFilesClick={handleDeleteFilesClick}
-            multiple={addFileOptions.multiple}
-          >
-            {LeftSideBoxExtra && <LeftSideBoxExtra />}
-          </LeftSideBox>
+      {/* Workspace Area */}
+      <div className="flex flex-col lg:flex-row items-start gap-6 w-full">
+        <LeftSideBox
+          handleAddFileButtonClick={handleAddFileButtonClick}
+          handleDeleteFilesClick={handleDeleteAll}
+          multiple={addFileOptions.multiple}
+          title="Conversion Settings"
+        >
+          {LeftSideBoxExtra && <LeftSideBoxExtra />}
+        </LeftSideBox>
 
-          {/* Right Side Box / Image Preview */}
-          <div className="w-full md:w-2/3 p-4 border-rose-200 border-2 border-dashed">
-            <ImagePreviewGrid
-              images={images}
-              setImages={setImages}
-              ImagePreviewExtra={ImagePreviewExtra}
-              sortableImagePreviewGrid={sortableImagePreviewGrid}
-            />
+        <div className="clay-card-white p-6 w-full flex-grow min-h-[420px] flex flex-col border-2 border-dashed border-slate-200">
+          <div className="flex items-center justify-between mb-4 border-b border-slate-100 pb-2">
+            <span className="text-xs font-extrabold text-clay-muted uppercase tracking-wider">
+              Images ({images.length})
+            </span>
+            {sortableImagePreviewGrid && images.length > 1 && (
+              <span className="text-xs font-bold text-clay-blue">
+                Drag to Reorder
+              </span>
+            )}
           </div>
+
+          <ImagePreviewGrid
+            images={images}
+            setImages={setImages}
+            ImagePreviewExtra={ImagePreviewExtra}
+            sortableImagePreviewGrid={sortableImagePreviewGrid}
+          />
         </div>
       </div>
     </div>

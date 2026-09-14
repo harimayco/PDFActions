@@ -1,31 +1,46 @@
 import React from "react";
 import { RotateLeft, RotateRight } from "../../icons.jsx";
 
-export default function ImageRotateButton({ image, imageRef }) {
-  const rotateImageLeftHandler = () => {
-    const degrees = image.degrees - 90;
-    imageRef.current.style.transform = `rotate(${degrees}deg)`;
-    image.degrees = degrees;
+export default function ImageRotateButtons({ image, onRotate }) {
+  const currentDegrees = image.degrees || 0;
+
+  const handleRotateLeft = (e) => {
+    e.stopPropagation();
+    const newDeg = (currentDegrees - 90) % 360;
+    if (onRotate) {
+      onRotate(image.id || image, newDeg);
+    }
   };
-  const rotateImageRightHandler = () => {
-    const degrees = image.degrees + 90;
-    imageRef.current.style.transform = `rotate(${degrees}deg)`;
-    image.degrees = degrees;
+
+  const handleRotateRight = (e) => {
+    e.stopPropagation();
+    const newDeg = (currentDegrees + 90) % 360;
+    if (onRotate) {
+      onRotate(image.id || image, newDeg);
+    }
   };
 
   return (
-    <div className="flex items-center justify-evenly w-full">
+    <div className="flex items-center justify-between gap-2 w-full">
       <button
-        className="px-4 py-2 text-slate-200 rounded-md bg-rose-400"
-        onClick={rotateImageLeftHandler}
+        type="button"
+        title="Rotate Left 90°"
+        aria-label="Rotate left 90 degrees"
+        className="clay-btn clay-btn-white py-1.5 px-3 text-xs w-1/2 rounded-xl flex items-center justify-center gap-1"
+        onClick={handleRotateLeft}
       >
         <RotateLeft />
+        <span className="text-[11px] font-bold">Left</span>
       </button>
       <button
-        className="px-4 py-2 text-slate-200 rounded-md bg-rose-400"
-        onClick={rotateImageRightHandler}
+        type="button"
+        title="Rotate Right 90°"
+        aria-label="Rotate right 90 degrees"
+        className="clay-btn clay-btn-white py-1.5 px-3 text-xs w-1/2 rounded-xl flex items-center justify-center gap-1"
+        onClick={handleRotateRight}
       >
         <RotateRight />
+        <span className="text-[11px] font-bold">Right</span>
       </button>
     </div>
   );

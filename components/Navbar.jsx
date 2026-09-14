@@ -1,78 +1,123 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import styles from "../styles/navbar.module.css";
+import { useRouter } from "next/router";
+import { PDFIcon } from "./icons";
 
 export default function Navbar() {
-  const [hamburgerMenu, setHamburgerMenu] = useState(false);
-  const hamburgerMenuRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const navOptions = [
-    ["Merge PDF", "/pdf-tools/merge"],
-    ["Compres PDF", "/pdf-tools/compress"],
-    ["Split PDF", "/pdf-tools/split"],
-    ["Rotate PDF", "/pdf-tools/rotate"],
-    ["All PDF Tools", "/pdf-tools"],
+    { label: "Merge PDF", href: "/pdf-tools/merge" },
+    { label: "Compress PDF", href: "/pdf-tools/compress" },
+    { label: "Split PDF", href: "/pdf-tools/split" },
+    { label: "Rotate PDF", href: "/pdf-tools/rotate" },
+    { label: "All Tools", href: "/pdf-tools" },
   ];
 
-  const handleHamburgerMenuIconClick = (e) => {
-    setHamburgerMenu(e.target.checked);
-  };
-  const handleHamburgerMenuLinkClick = () => {
-    setHamburgerMenu(false);
-    hamburgerMenuRef.current.checked = false;
-  };
+  // Close mobile drawer on route change
+  useEffect(() => {
+    setIsOpen(false);
+  }, [router.asPath]);
 
   return (
-    <nav className="overflow-hidden">
-      <header className="flex items-center justify-center text-gray-600 body-font h-[70px] bg-rose-800">
-        <div className="flex items-center flex-wrap w-11/12 justify-between">
-          <div className="text-slate-200 title-font font-medium text-xl">
-            <Link href="/">PDFActions</Link>
-          </div>
-          <nav className="w-1/3 min-w-[400px] items-center text-base justify-around hidden md:flex">
-            {navOptions.map((navOption, i) => (
-              <span
-                key={i}
-                className="text-slate-200 hover:font-bold hover:border-b-2 border-neutral-300 transition-[border]"
-              >
-                <Link href={navOption[1]}>{navOption[0]}</Link>
-              </span>
-            ))}
-          </nav>
-
-          {/* Hamburger Menu */}
-          <div className="md:hidden float-right z-50">
-            <label htmlFor="check" className={styles.hamburger_icon}>
-              <input
-                type="checkbox"
-                id="check"
-                onChange={handleHamburgerMenuIconClick}
-                ref={hamburgerMenuRef}
-              />
-              <span></span>
-              <span></span>
-              <span></span>
-            </label>
-          </div>
-        </div>
-      </header>
-      {/* Mobile Menu */}
-      <div
-        className="md:hidden fixed top-[10vh] right-0 h-[90vh] w-[200px] bg-rose-800 transition-all pt-12 px-4 flex flex-col"
-        style={{
-          transform: hamburgerMenu
-            ? "translate(0px,0px)"
-            : "translate(200px,0px)",
-        }}
+    <header className="sticky top-3 z-50 px-4 w-full max-w-6xl mx-auto">
+      <nav
+        className="clay-card-white px-5 py-3 flex items-center justify-between relative z-50"
+        aria-label="Main Navigation"
       >
-        {navOptions.map((navOption, i) => (
-          <Link href={navOption[1]} key={i}>
-            <span className="flex items-center text-slate-200 hover:font-bold border-b-2 h-12 border-neutral-300 transition-[border]">
-              <div onClick={handleHamburgerMenuLinkClick}>{navOption[0]}</div>
-            </span>
-          </Link>
-        ))}
-      </div>
-    </nav>
+        {/* Brand Logo */}
+        <Link href="/" passHref>
+          <a className="flex items-center gap-3 group select-none">
+            <div className="clay-icon-box clay-icon-blue !w-10 !h-10 !rounded-xl group-hover:scale-105 transition-transform">
+              <PDFIcon width="24" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-black tracking-tight text-clay-heading group-hover:text-clay-blue-shadow transition-colors">
+                PDFActions
+              </span>
+              <span className="text-[10px] font-bold tracking-wider text-clay-muted uppercase -mt-1">
+                Soft 3D Suite
+              </span>
+            </div>
+          </a>
+        </Link>
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-2">
+          {navOptions.map((opt) => {
+            const isActive = router.pathname === opt.href;
+            return (
+              <Link href={opt.href} key={opt.href} passHref>
+                <a
+                  className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-150 ${
+                    isActive
+                      ? "bg-clay-blue text-white shadow-[0_3px_0_0_#1D4ED8]"
+                      : "text-clay-heading hover:bg-clay-bg hover:text-clay-blue-shadow"
+                  }`}
+                >
+                  {opt.label}
+                </a>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Mobile Hamburger Button */}
+        <button
+          type="button"
+          aria-label="Toggle navigation menu"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((prev) => !prev)}
+          className="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-xl bg-clay-bg text-clay-heading hover:bg-slate-200 transition-colors p-2"
+        >
+          <span
+            className={`w-5 h-0.5 bg-clay-heading rounded-full transition-transform duration-200 ${
+              isOpen ? "rotate-45 translate-y-1.5" : ""
+            }`}
+          />
+          <span
+            className={`w-5 h-0.5 bg-clay-heading rounded-full my-1 transition-opacity duration-200 ${
+              isOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className={`w-5 h-0.5 bg-clay-heading rounded-full transition-transform duration-200 ${
+              isOpen ? "-rotate-45 -translate-y-1.5" : ""
+            }`}
+          />
+        </button>
+      </nav>
+
+      {/* Mobile Drawer & Backdrop */}
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-clay-heading/20 backdrop-blur-xs z-40 md:hidden"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="absolute top-16 left-4 right-4 clay-card-white p-4 flex flex-col gap-2 z-50 md:hidden animate-in fade-in slide-in-from-top-2 duration-150">
+            {navOptions.map((opt) => {
+              const isActive = router.pathname === opt.href;
+              return (
+                <Link href={opt.href} key={opt.href} passHref>
+                  <a
+                    onClick={() => setIsOpen(false)}
+                    className={`px-4 py-3 rounded-xl text-base font-bold transition-all ${
+                      isActive
+                        ? "bg-clay-blue text-white shadow-[0_3px_0_0_#1D4ED8]"
+                        : "text-clay-heading hover:bg-clay-bg"
+                    }`}
+                  >
+                    {opt.label}
+                  </a>
+                </Link>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </header>
   );
 }
