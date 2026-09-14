@@ -3,18 +3,21 @@ import { zipToBlob } from "pdf-actions";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
-const doCompress = async ({ pdfUrl, pdfFileName, quality }, onStatusUpdate = () => {}) => {
+const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution }, onStatusUpdate = () => {}) => {
   if (typeof window === "undefined" || !window.Worker) {
     throw new Error("Web Workers are not supported in this environment");
   }
 
   const worker = new Worker(new URL("../lib/gsw.js", import.meta.url));
+  const resolvedQuality = typeof quality === "object" && quality !== null ? (quality.quality || quality.preset) : quality;
+  const resolvedResolution = typeof quality === "object" && quality !== null ? quality.resolution : resolution;
 
   return new Promise((resolve, reject) => {
     worker.postMessage({
       pdfUrl,
       pdfFileName,
-      quality,
+      quality: resolvedQuality,
+      resolution: resolvedResolution,
     });
 
     worker.onmessage = ({ data: { status, message, pdfUrl: resultUrl, progress } }) => {
