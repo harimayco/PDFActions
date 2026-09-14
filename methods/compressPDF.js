@@ -3,7 +3,7 @@ import { zipToBlob } from "pdf-actions";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 
-const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution }, onStatusUpdate = () => {}) => {
+const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution, stripMetadata = true }, onStatusUpdate = () => {}) => {
   if (typeof window === "undefined" || !window.Worker) {
     throw new Error("Web Workers are not supported in this environment");
   }
@@ -11,6 +11,9 @@ const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution }, onStatus
   const worker = new Worker(new URL("../lib/gsw.js", import.meta.url));
   const resolvedQuality = typeof quality === "object" && quality !== null ? (quality.quality || quality.preset) : quality;
   const resolvedResolution = typeof quality === "object" && quality !== null ? quality.resolution : resolution;
+  const resolvedStripMetadata = typeof quality === "object" && quality !== null && quality.stripMetadata !== undefined
+    ? quality.stripMetadata
+    : stripMetadata;
 
   return new Promise((resolve, reject) => {
     worker.postMessage({
@@ -18,6 +21,7 @@ const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution }, onStatus
       pdfFileName,
       quality: resolvedQuality,
       resolution: resolvedResolution,
+      stripMetadata: resolvedStripMetadata,
     });
 
     worker.onmessage = ({ data: { status, message, pdfUrl: resultUrl, progress } }) => {
@@ -35,7 +39,13 @@ const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution }, onStatus
   });
 };
 
-const compressPDFHandler = async (files, quality = "2", asZip = true, onSuccess = () => {}) => {
+const compressPDFHandler = async (
+  files,
+  quality = "2",
+  asZip = true,
+  onSuccess = () => {},
+  stripMetadata = true
+) => {
   let zip;
   if (asZip) {
     zip = new JSZip();
@@ -61,7 +71,7 @@ const compressPDFHandler = async (files, quality = "2", asZip = true, onSuccess 
     const pdfUrl = URL.createObjectURL(rawFile);
     let toastId = toast.loading(`Compressing ${pdfFileName}...`);
 
-    const promise = doCompress({ pdfUrl, pdfFileName, quality }, (currentStatus, progress = null) => {
+    const promise = doCompress({ pdfUrl, pdfFileName, quality, stripMetadata }, (currentStatus, progress = null) => {
       if (toastId !== null) {
         toast.update(toastId, {
           render: `${currentStatus}`,

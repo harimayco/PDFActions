@@ -11,6 +11,7 @@ import CompressionResultModal from "../../components/CompressionResultModal.jsx"
 
 export default function Compress() {
   const [quality, setQuality] = useState("2");
+  const [stripMetadata, setStripMetadata] = useState(true);
   const [files, setFiles] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -34,14 +35,20 @@ export default function Compress() {
   const handleDownloadZip = async () => {
     setIsProcessing(true);
     try {
-      await compressPDFHandler(files, quality, true, (stats) => {
-        if (stats) {
-          setModalData({
-            title: "PDF Compressed Successfully!",
-            ...stats,
-          });
-        }
-      });
+      await compressPDFHandler(
+        files,
+        quality,
+        true,
+        (stats) => {
+          if (stats) {
+            setModalData({
+              title: "PDF Compressed Successfully!",
+              ...stats,
+            });
+          }
+        },
+        stripMetadata
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -50,14 +57,20 @@ export default function Compress() {
   const handleDownloadIndividual = async () => {
     setIsProcessing(true);
     try {
-      await compressPDFHandler(files, quality, false, (stats) => {
-        if (stats) {
-          setModalData({
-            title: "PDF Compressed Successfully!",
-            ...stats,
-          });
-        }
-      });
+      await compressPDFHandler(
+        files,
+        quality,
+        false,
+        (stats) => {
+          if (stats) {
+            setModalData({
+              title: "PDF Compressed Successfully!",
+              ...stats,
+            });
+          }
+        },
+        stripMetadata
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -65,7 +78,12 @@ export default function Compress() {
 
   const renderLeftSideExtra = () => (
     <div className="flex flex-col gap-3">
-      <LeftSideCompressOptions quality={quality} setQuality={setQuality} />
+      <LeftSideCompressOptions
+        quality={quality}
+        setQuality={setQuality}
+        stripMetadata={stripMetadata}
+        setStripMetadata={setStripMetadata}
+      />
       <button
         type="button"
         disabled={isProcessing}

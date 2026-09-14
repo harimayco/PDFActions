@@ -26,7 +26,23 @@ const PRESETS = [
 
 const QUICK_DPI_CHIPS = [72, 96, 120, 150, 180, 200, 300];
 
-export default function LeftSideCompressOptions({ quality = "2", setQuality }) {
+export default function LeftSideCompressOptions({
+  quality = "2",
+  setQuality,
+  stripMetadata = true,
+  setStripMetadata,
+}) {
+  const [localStrip, setLocalStrip] = useState(true);
+  const isStripEnabled = setStripMetadata ? stripMetadata : localStrip;
+
+  const handleToggleStrip = (checked) => {
+    if (setStripMetadata) {
+      setStripMetadata(checked);
+    } else {
+      setLocalStrip(checked);
+    }
+  };
+
   // Determine if incoming quality is a preset ("1", "2", "3") or custom numeric DPI
   const isPreset = quality === "1" || quality === "2" || quality === "3";
   const [activeTab, setActiveTab] = useState(isPreset ? "preset" : "manual");
@@ -245,6 +261,23 @@ export default function LeftSideCompressOptions({ quality = "2", setQuality }) {
           </div>
         </div>
       )}
+
+      {/* Strip Metadata Anonymization Toggle */}
+      <div className="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-200 select-none">
+        <div className="flex flex-col pr-2">
+          <span className="text-xs font-bold text-clay-heading">Strip Metadata</span>
+          <span className="text-[10px] text-clay-muted">Remove author, title & tracking info</span>
+        </div>
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            checked={isStripEnabled}
+            onChange={(e) => handleToggleStrip(e.target.checked)}
+            className="sr-only peer"
+          />
+          <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-clay-blue"></div>
+        </label>
+      </div>
     </div>
   );
 }
