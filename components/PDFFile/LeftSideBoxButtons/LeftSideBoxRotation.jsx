@@ -36,20 +36,20 @@ export default function LeftSideBoxRotation({ files, setFiles, onRotateAll }) {
         <button
           type="button"
           title="Rotate All Left 90°"
-          className="clay-btn clay-btn-white w-1/2 py-2 text-xs flex items-center justify-center gap-1"
+          className="clay-btn clay-btn-white w-1/2 py-2 text-xs flex items-center justify-center gap-1.5 text-slate-700 hover:text-clay-blue"
           onClick={() => rotateAll(-90)}
         >
-          <RotateLeft />
-          <span className="text-[11px] font-bold">Rotate All L</span>
+          <RotateLeft className="w-4 h-4 shrink-0 text-clay-blue" />
+          <span className="text-[11px] font-bold text-slate-700">Rotate All L</span>
         </button>
         <button
           type="button"
           title="Rotate All Right 90°"
-          className="clay-btn clay-btn-white w-1/2 py-2 text-xs flex items-center justify-center gap-1"
+          className="clay-btn clay-btn-white w-1/2 py-2 text-xs flex items-center justify-center gap-1.5 text-slate-700 hover:text-clay-blue"
           onClick={() => rotateAll(90)}
         >
-          <RotateRight />
-          <span className="text-[11px] font-bold">Rotate All R</span>
+          <RotateRight className="w-4 h-4 shrink-0 text-clay-blue" />
+          <span className="text-[11px] font-bold text-slate-700">Rotate All R</span>
         </button>
       </div>
 

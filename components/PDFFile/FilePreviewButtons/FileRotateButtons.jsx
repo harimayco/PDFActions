@@ -21,26 +21,26 @@ export default function FileRotateButtons({ file, onRotate }) {
   };
 
   return (
-    <div className="flex items-center justify-between gap-2 w-full">
+    <div className="flex items-center justify-between gap-1.5 w-full">
       <button
         type="button"
         title="Rotate Left 90°"
         aria-label="Rotate left 90 degrees"
-        className="clay-btn clay-btn-white py-1.5 px-3 text-xs w-1/2 rounded-xl flex items-center justify-center gap-1"
+        className="clay-btn clay-btn-white py-1.5 px-2 text-xs w-1/2 rounded-xl flex items-center justify-center gap-1.5 text-slate-700 hover:text-clay-blue"
         onClick={handleRotateLeft}
       >
-        <RotateLeft />
-        <span className="text-[11px] font-bold">Left</span>
+        <RotateLeft className="w-3.5 h-3.5 shrink-0 text-clay-blue" />
+        <span className="text-[11px] font-bold text-slate-700">Left</span>
       </button>
       <button
         type="button"
         title="Rotate Right 90°"
         aria-label="Rotate right 90 degrees"
-        className="clay-btn clay-btn-white py-1.5 px-3 text-xs w-1/2 rounded-xl flex items-center justify-center gap-1"
+        className="clay-btn clay-btn-white py-1.5 px-2 text-xs w-1/2 rounded-xl flex items-center justify-center gap-1.5 text-slate-700 hover:text-clay-blue"
         onClick={handleRotateRight}
       >
-        <RotateRight />
-        <span className="text-[11px] font-bold">Right</span>
+        <RotateRight className="w-3.5 h-3.5 shrink-0 text-clay-blue" />
+        <span className="text-[11px] font-bold text-slate-700">Right</span>
       </button>
     </div>
   );
