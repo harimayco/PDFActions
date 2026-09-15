@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PDFIcon } from "./icons";
+import { PDFIcon, GithubIcon } from "./icons";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +61,18 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          <a
+            href="https://github.com/harimayco/PDFActions"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub Repository (Open Source)"
+            title="GitHub Repository (Open Source)"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-clay-heading hover:bg-slate-100 hover:text-clay-blue-shadow transition-all duration-150 ml-1 border border-slate-200"
+          >
+            <GithubIcon size={18} className="text-slate-800" />
+            <span className="hidden lg:inline text-xs font-black">GitHub</span>
+          </a>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -115,6 +127,19 @@ export default function Navbar() {
                 </Link>
               );
             })}
+
+            <div className="pt-2 mt-1 border-t border-slate-100">
+              <a
+                href="https://github.com/harimayco/PDFActions"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-black bg-slate-900 text-white hover:bg-slate-800 shadow-sm transition-all"
+              >
+                <GithubIcon size={18} />
+                <span>Open Source on GitHub</span>
+              </a>
+            </div>
           </div>
         </>
       )}

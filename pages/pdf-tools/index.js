@@ -95,17 +95,27 @@ export default function AllPDFTools() {
   return (
     <>
       <Head>
-        <title>All PDF Tools - PDFActions Suite</title>
+        <title>All PDF Tools Online - Free Open Source PDF Tools | Ghostscript WASM</title>
         <meta
           name="description"
-          content="Explore the complete suite of 12 client-side PDF actions with soft Claymorphism design."
+          content="Browse all 12 free & Open Source PDF Tools running locally in your browser. PDF Compress Online, PDF Merger Online, Split, Rotate, and edit with Ghostscript WASM."
+        />
+        <meta
+          name="keywords"
+          content="Open Source PDF Tools, pdf compress Online, PDF Merger Online, Ghostscript WASM, free pdf tools, private pdf editor"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools" />
+        <meta property="og:title" content="All PDF Tools Online - Free Open Source PDF Tools | Ghostscript WASM" />
+        <meta
+          property="og:description"
+          content="Explore the complete suite of 100% Free & Open Source PDF Tools powered by Ghostscript WASM. No cloud uploads required."
         />
       </Head>
 
       <ToolBanner
-        title="All PDF Tools"
-        description="Sculpt, split, compress, or reorganize your PDF documents with private browser-based utilities."
-        badge="Tool Directory"
+        title="Open Source PDF Tools Directory"
+        description="Sculpt, split, compress, or reorganize your PDF documents with private browser-based utilities powered by Ghostscript WASM."
+        badge="Open Source Suite"
         icon={<PDFIcon width="28" />}
         iconColor="clay-icon-blue"
       />

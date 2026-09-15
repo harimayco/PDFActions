@@ -161,17 +161,27 @@ export default function Merge() {
   return (
     <>
       <Head>
-        <title>Merge PDF Files - PDFActions</title>
+        <title>PDF Merger Online - Free Open Source PDF Merger | PDFActions</title>
         <meta
           name="description"
-          content="Combine multiple PDF documents into a single sculpted file with custom ordering and rotation."
+          content="Merge PDF files online for free. Combine multiple PDFs into one document with custom ordering, rotation, page normalization, and optional Ghostscript WASM compression."
+        />
+        <meta
+          name="keywords"
+          content="PDF Merger Online, merge pdf online, combine pdf online, Open Source PDF Tools, open source pdf merger, merge pdf files, client-side pdf merger"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/merge" />
+        <meta property="og:title" content="PDF Merger Online - Free Open Source PDF Merger | PDFActions" />
+        <meta
+          property="og:description"
+          content="Merge PDF files online for free with 100% client-side privacy. Drag to reorder, rotate, and combine PDFs."
         />
       </Head>
 
       <ToolBanner
-        title="Merge PDF Documents"
-        description="Combine multiple PDFs into a single file. Drag cards to reorder, rotate pages, or standardize sizes."
-        badge="Merge Tool"
+        title="PDF Merger Online"
+        description="Combine multiple PDF files into a single unified document with drag-and-drop ordering, rotation, and optional Ghostscript WASM compression."
+        badge="Open Source PDF Merger"
         icon={<PDFIcon width="28" />}
         iconColor="clay-icon-blue"
       />

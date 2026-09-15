@@ -75,10 +75,20 @@ export default function FlattenForm() {
   return (
     <>
       <Head>
-        <title>Flatten PDF Forms - PDFActions</title>
+        <title>Flatten PDF Forms Online - Make PDF Read-Only | PDFActions</title>
         <meta
           name="description"
-          content="Flatten interactive form inputs into permanent, immutable PDF text content."
+          content="Flatten interactive PDF form fields and annotations into permanent, read-only PDF content online for free with 100% open source browser privacy."
+        />
+        <meta
+          name="keywords"
+          content="flatten pdf forms online, flatten pdf, make pdf read only, lock pdf form, Open Source PDF Tools"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/flattenform" />
+        <meta property="og:title" content="Flatten PDF Forms Online - Make PDF Read-Only | PDFActions" />
+        <meta
+          property="og:description"
+          content="Flatten interactive form inputs into permanent, immutable PDF text content online with complete privacy."
         />
       </Head>
 

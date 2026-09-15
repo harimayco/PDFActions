@@ -63,10 +63,20 @@ export default function AddPageNumbers() {
   return (
     <>
       <Head>
-        <title>Add Page Numbers to PDF - PDFActions</title>
+        <title>Add Page Numbers to PDF Online - Number PDF Pages | PDFActions</title>
         <meta
           name="description"
-          content="Stamp customized page numbers onto PDF pages with control over alignment, margins, and font size."
+          content="Stamp customized page numbers onto PDF pages online with customizable position, font size, and margins using 100% open source browser tools."
+        />
+        <meta
+          name="keywords"
+          content="add page numbers to pdf online, number pdf pages, paginate pdf, Open Source PDF Tools, free pdf page numbering"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/addpagenumbers" />
+        <meta property="og:title" content="Add Page Numbers to PDF Online - Number PDF Pages | PDFActions" />
+        <meta
+          property="og:description"
+          content="Number your PDF pages online with full control over placement, font, and margins."
         />
       </Head>
 

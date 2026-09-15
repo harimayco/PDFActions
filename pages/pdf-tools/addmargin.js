@@ -78,10 +78,20 @@ export default function AddMargin() {
   return (
     <>
       <Head>
-        <title>Add Margins to PDF - PDFActions</title>
+        <title>Add Margin to PDF Online - Custom Page Margins | PDFActions</title>
         <meta
           name="description"
-          content="Pad PDF pages with custom millimeter-precise margins for printing and binding."
+          content="Add millimeter-precise padding and border margins to PDF pages online for printing and binding with 100% open source privacy."
+        />
+        <meta
+          name="keywords"
+          content="add margin to pdf online, pad pdf pages, print margins pdf, Open Source PDF Tools, custom pdf margins"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/addmargin" />
+        <meta property="og:title" content="Add Margin to PDF Online - Custom Page Margins | PDFActions" />
+        <meta
+          property="og:description"
+          content="Pad PDF pages with custom millimeter-precise margins online with zero server uploads."
         />
       </Head>
 

@@ -64,10 +64,20 @@ export default function EditMetadata() {
   return (
     <>
       <Head>
-        <title>Edit PDF Metadata - PDFActions</title>
+        <title>Edit PDF Metadata Online - Change Title, Author & Tags | PDFActions</title>
         <meta
           name="description"
-          content="Edit title, author, subject, creator, and keyword tags embedded in your PDF document."
+          content="Edit PDF metadata online for free. Modify title, author, subject, keywords, and dates without re-rendering using 100% open source browser tools."
+        />
+        <meta
+          name="keywords"
+          content="edit pdf metadata online, change pdf author, pdf title editor, Open Source PDF Tools, modify pdf tags"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/editmetadata" />
+        <meta property="og:title" content="Edit PDF Metadata Online - Change Title, Author & Tags | PDFActions" />
+        <meta
+          property="og:description"
+          content="Modify internal title, author, creator, and keyword properties embedded in your PDF online."
         />
       </Head>
 

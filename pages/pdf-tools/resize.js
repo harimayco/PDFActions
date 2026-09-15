@@ -87,10 +87,20 @@ export default function Resize() {
   return (
     <>
       <Head>
-        <title>Resize PDF Pages - PDFActions</title>
+        <title>Resize PDF Online - Standardize to A4, Letter & Legal | PDFActions</title>
         <meta
           name="description"
-          content="Re-standardize page dimensions to A4, Letter, Legal, or Tabloid formats."
+          content="Resize PDF page dimensions online for free. Standardize mixed page sizes to A4, US Letter, Legal, or Tabloid with 100% open source client-side privacy."
+        />
+        <meta
+          name="keywords"
+          content="resize pdf online, change pdf size, pdf to a4, Open Source PDF Tools, scale pdf pages, free pdf resize"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/resize" />
+        <meta property="og:title" content="Resize PDF Online - Standardize to A4, Letter & Legal | PDFActions" />
+        <meta
+          property="og:description"
+          content="Standardize PDF page sizes to A4, US Letter, Legal, or Tabloid online without cloud uploads."
         />
       </Head>
 

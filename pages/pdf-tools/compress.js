@@ -98,17 +98,27 @@ export default function Compress() {
   return (
     <>
       <Head>
-        <title>Compress PDF Files - PDFActions</title>
+        <title>PDF Compress Online - Free Open Source PDF Compression | Ghostscript WASM</title>
         <meta
           name="description"
-          content="Shrink PDF file sizes with Ghostscript WebAssembly while preserving document clarity."
+          content="Compress PDF online for free using Ghostscript WASM in your browser. Shrink PDF file sizes with preset or custom DPI with zero server uploads and complete privacy."
+        />
+        <meta
+          name="keywords"
+          content="pdf compress Online, compress PDF online, Ghostscript WASM, Open Source PDF Tools, reduce pdf size, open source pdf compress, client-side pdf compressor"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/compress" />
+        <meta property="og:title" content="PDF Compress Online - Free Open Source PDF Compression | Ghostscript WASM" />
+        <meta
+          property="og:description"
+          content="Compress PDF online for free using Ghostscript WASM in your browser. Shrink PDF file size with complete privacy."
         />
       </Head>
 
       <ToolBanner
-        title="Compress PDF Files"
-        description="Reduce PDF file sizes dramatically directly in your browser. Choose your compression level."
-        badge="Compress Tool"
+        title="PDF Compress Online"
+        description="Reduce PDF file sizes dramatically directly in your browser using Ghostscript WASM. Select preset or custom DPI with zero cloud uploads."
+        badge="Ghostscript WASM"
         icon={<PDFIcon width="28" />}
         iconColor="clay-icon-green"
       />

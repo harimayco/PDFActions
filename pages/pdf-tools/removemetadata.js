@@ -46,9 +46,19 @@ export default function RemoveMetadata() {
   return (
     <>
       <Head>
-        <title>Remove PDF Metadata - PDFActions</title>
+        <title>Remove PDF Metadata Online - Scrub Privacy Tags | PDFActions</title>
         <meta
           name="description"
+          content="Strip and remove all metadata, tracking tags, and author info from PDF files online for maximum document privacy using 100% open source browser tools."
+        />
+        <meta
+          name="keywords"
+          content="remove pdf metadata online, scrub pdf metadata, anonymize pdf, Open Source PDF Tools, strip pdf author"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/removemetadata" />
+        <meta property="og:title" content="Remove PDF Metadata Online - Scrub Privacy Tags | PDFActions" />
+        <meta
+          property="og:description"
           content="Scrub all author, creator, application, and date tags from your PDF document for privacy."
         />
       </Head>

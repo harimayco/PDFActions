@@ -75,10 +75,20 @@ export default function Rotate() {
   return (
     <>
       <Head>
-        <title>Rotate PDF Files - PDFActions</title>
+        <title>Rotate PDF Online - Free Open Source PDF Rotator | PDFActions</title>
         <meta
           name="description"
-          content="Permanently rotate PDF orientation by 90, 180, or 270 degrees in batch."
+          content="Rotate PDF online for free. Permanently change PDF page orientation by 90, 180, or 270 degrees in batch with 100% client-side privacy."
+        />
+        <meta
+          name="keywords"
+          content="rotate pdf online, rotate pdf pages, turn pdf, Open Source PDF Tools, free pdf rotator, batch rotate pdf"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/rotate" />
+        <meta property="og:title" content="Rotate PDF Online - Free Open Source PDF Rotator | PDFActions" />
+        <meta
+          property="og:description"
+          content="Permanently orient PDF pages by 90, 180, or 270 degrees online with zero server uploads."
         />
       </Head>
 

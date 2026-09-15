@@ -82,10 +82,20 @@ export default function Break() {
   return (
     <>
       <Head>
-        <title>Break PDF Files - PDFActions</title>
+        <title>Break PDF Online - Free Open Source PDF Chunking | PDFActions</title>
         <meta
           name="description"
-          content="Slice large multi-page PDF documents into smaller fixed page chunks."
+          content="Break large PDF documents into smaller fixed page chunks online for free with 100% open source browser privacy."
+        />
+        <meta
+          name="keywords"
+          content="break pdf online, chunk pdf, slice pdf, Open Source PDF Tools, split pdf pages, free pdf break"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/break" />
+        <meta property="og:title" content="Break PDF Online - Free Open Source PDF Chunking | PDFActions" />
+        <meta
+          property="og:description"
+          content="Slice large PDF files into fixed-size chunks online with complete privacy."
         />
       </Head>
 

@@ -76,10 +76,20 @@ export default function Split() {
   return (
     <>
       <Head>
-        <title>Split PDF Files - PDFActions</title>
+        <title>Split PDF Online - Free Open Source PDF Splitter | PDFActions</title>
         <meta
           name="description"
-          content="Split and extract page ranges from PDF files with exact page control."
+          content="Split PDF files online for free. Extract custom page ranges or separate pages into standalone PDF documents with 100% browser-based open source privacy."
+        />
+        <meta
+          name="keywords"
+          content="split pdf online, extract pdf pages, separate pdf, Open Source PDF Tools, free pdf splitter, client-side pdf split"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/split" />
+        <meta property="og:title" content="Split PDF Online - Free Open Source PDF Splitter | PDFActions" />
+        <meta
+          property="og:description"
+          content="Extract page ranges from your PDFs online with zero server uploads."
         />
       </Head>
 

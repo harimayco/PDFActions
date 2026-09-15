@@ -114,10 +114,20 @@ export default function JpgToPdf() {
   return (
     <>
       <Head>
-        <title>JPG to PDF Converter - PDFActions</title>
+        <title>JPG to PDF Online - Convert Images to PDF | PDFActions</title>
         <meta
           name="description"
-          content="Convert images, photos, and JPG files into PDF documents with custom margins and sizing."
+          content="Convert JPG, PNG, and photos to PDF online for free. Customize page margins, orientation, and paper sizes with 100% open source client-side privacy."
+        />
+        <meta
+          name="keywords"
+          content="jpg to pdf online, convert image to pdf, png to pdf online, Open Source PDF Tools, free image to pdf converter"
+        />
+        <link rel="canonical" href="https://pdfactions.com/pdf-tools/jpgtopdf" />
+        <meta property="og:title" content="JPG to PDF Online - Convert Images to PDF | PDFActions" />
+        <meta
+          property="og:description"
+          content="Convert images to PDF documents online with custom layouts and zero server uploads."
         />
       </Head>
 

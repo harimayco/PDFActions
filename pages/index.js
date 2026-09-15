@@ -106,10 +106,40 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>PDFActions - 3D Claymorphism PDF Tool Suite</title>
+        <title>PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM</title>
         <meta
           name="description"
-          content="Sculpt, merge, compress, split, and edit PDF documents in a beautiful 3D tactile interface."
+          content="PDFActions is a 100% Free & Open Source PDF Tools suite powered by Ghostscript WASM. PDF Compress Online, PDF Merger Online, Split, Rotate, and edit PDFs with zero server uploads."
+        />
+        <meta
+          name="keywords"
+          content="Open Source, pdf compress Online, PDF Merger Online, Open Source PDF Tools, Ghostscript WASM, free pdf editor, client-side pdf, pdfactions"
+        />
+        <link rel="canonical" href="https://pdfactions.com/" />
+        <meta property="og:title" content="PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM" />
+        <meta
+          property="og:description"
+          content="100% Free & Open Source PDF Tools running directly in your browser. PDF Compress Online, PDF Merger Online, and more with Ghostscript WASM."
+        />
+        <meta property="og:url" content="https://pdfactions.com/" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "PDFActions",
+              "url": "https://pdfactions.com",
+              "description": "Free & Open Source PDF Tools suite running locally with Ghostscript WASM. PDF Compress Online, PDF Merger Online, Split, and more.",
+              "applicationCategory": "UtilitiesApplication",
+              "operatingSystem": "All",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD",
+              },
+            }),
+          }}
         />
       </Head>
 
@@ -134,7 +164,7 @@ export default function Home() {
           <div className="clay-badge bg-white text-clay-blue-shadow mb-6 shadow-sm flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-clay-green animate-pulse" />
             <span className="font-extrabold text-xs uppercase tracking-wider">
-              100% Client-Side • Zero Cloud Uploads
+              100% Client-Side • Open Source • Ghostscript WASM
             </span>
           </div>
 
@@ -147,20 +177,25 @@ export default function Home() {
           </h1>
 
           <p className="text-base sm:text-xl font-medium text-clay-body max-w-2xl leading-relaxed mb-8">
-            Every button feels pressable. Every tool is sculpted for speed. Process your
-            documents locally in your browser with private, tactile precision.
+            The private <strong>Open Source PDF Tools</strong> suite. Run <strong>PDF Compress Online</strong> and <strong>PDF Merger Online</strong> directly in your browser using <strong>Ghostscript WASM</strong> — zero server uploads, total confidentiality.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link href="/pdf-tools/compress" passHref>
+              <a className="clay-btn clay-btn-green text-base md:text-lg px-8 py-4 shadow-clay-btn-green">
+                <PDFIcon width="22" />
+                <span>PDF Compress Online</span>
+              </a>
+            </Link>
             <Link href="/pdf-tools/merge" passHref>
               <a className="clay-btn clay-btn-blue text-base md:text-lg px-8 py-4 shadow-clay-btn-blue">
                 <PDFIcon width="22" />
-                <span>Start with Merge PDF</span>
+                <span>PDF Merger Online</span>
               </a>
             </Link>
             <Link href="/pdf-tools" passHref>
               <a className="clay-btn clay-btn-white text-base md:text-lg px-7 py-4">
-                <span>Explore All 12 Tools</span>
+                <span>Explore All Tools</span>
               </a>
             </Link>
           </div>
