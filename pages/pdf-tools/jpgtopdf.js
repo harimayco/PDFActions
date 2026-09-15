@@ -9,6 +9,8 @@ import ImageDeleteButton from "../../components/Image/ImagePreviewButtons/ImageD
 import ImageRotateButtons from "../../components/Image/ImagePreviewButtons/ImageRotateButtons";
 import LeftSideResizeImage from "../../components/Image/LeftSideBoxButtons/LeftSideResizeImage";
 import LeftSideMargin from "../../components/Image/LeftSideBoxButtons/LeftSideMargin";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function JpgToPdf() {
   const [images, setImages] = useState([]);
@@ -49,6 +51,11 @@ export default function JpgToPdf() {
         pageOrientation,
         imagePosition,
       });
+      triggerFireworks();
+      toast.success("Images converted to PDF downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to convert images to PDF");
     } finally {
       setIsProcessing(false);
     }
@@ -62,6 +69,11 @@ export default function JpgToPdf() {
         pageOrientation,
         imagePosition,
       });
+      triggerFireworks();
+      toast.success("Images converted to PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to convert images to PDF");
     } finally {
       setIsProcessing(false);
     }

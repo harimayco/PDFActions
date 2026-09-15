@@ -4,10 +4,12 @@ import FileUploader from "../../components/FileUploader.jsx";
 import PDFFilesProcess from "../../components/PDFFile/PDFFilesProcess.jsx";
 import ToolBanner from "../../components/ToolBanner.jsx";
 import { PDFIcon } from "../../components/icons.jsx";
-import addMarginHandler from "../../methods/addMargin.js";
+import addMarginHandler from "../../methods/addMargin";
 import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
 import LeftSideMargin from "../../components/PDFFile/LeftSideBoxButtons/LeftSideMargin.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function AddMargin() {
   const [files, setFiles] = useState([]);
@@ -34,6 +36,11 @@ export default function AddMargin() {
     setIsProcessing(true);
     try {
       await addMarginHandler(files, marginMillimeter, true);
+      triggerFireworks();
+      toast.success("PDFs with margins downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add margins to PDF");
     } finally {
       setIsProcessing(false);
     }
@@ -43,6 +50,11 @@ export default function AddMargin() {
     setIsProcessing(true);
     try {
       await addMarginHandler(files, marginMillimeter, false);
+      triggerFireworks();
+      toast.success("PDFs with margins downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add margins to PDF");
     } finally {
       setIsProcessing(false);
     }

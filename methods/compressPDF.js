@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { zipToBlob } from "pdf-actions";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { triggerFireworks } from "../utils/confetti";
 
 const doCompress = async ({ pdfUrl, pdfFileName, quality, resolution, stripMetadata = true }, onStatusUpdate = () => {}) => {
   if (typeof window === "undefined" || !window.Worker) {
@@ -125,6 +126,7 @@ const compressPDFHandler = async (
       const blob = await zipToBlob(zip);
       saveAs(blob, compressedFileName);
       toast.success(`${compressedFileName} Downloaded Successfully`);
+      triggerFireworks(2800);
       if (onSuccess) {
         onSuccess({
           originalSize,
@@ -134,6 +136,7 @@ const compressPDFHandler = async (
         });
       }
     } else {
+      triggerFireworks(2800);
       if (onSuccess) {
         onSuccess({
           originalSize,

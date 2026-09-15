@@ -7,6 +7,8 @@ import { PDFIcon } from "../../components/icons.jsx";
 import rotatePDFHandler from "../../methods/rotatePDF";
 import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function Rotate() {
   const [files, setFiles] = useState([]);
@@ -32,6 +34,11 @@ export default function Rotate() {
     setIsProcessing(true);
     try {
       await rotatePDFHandler(files, true);
+      triggerFireworks();
+      toast.success("Rotated PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to rotate PDF");
     } finally {
       setIsProcessing(false);
     }
@@ -41,6 +48,11 @@ export default function Rotate() {
     setIsProcessing(true);
     try {
       await rotatePDFHandler(files, false);
+      triggerFireworks();
+      toast.success("Rotated PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to rotate PDF");
     } finally {
       setIsProcessing(false);
     }

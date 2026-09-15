@@ -10,8 +10,8 @@ const PRESETS = [
   },
   {
     code: "2",
-    dpi: 180,
-    label: "Standard (180 DPI)",
+    dpi: 150,
+    label: "Standard (150 DPI)",
     tag: "Balanced",
     desc: "Balanced size & clarity for screens and tablets.",
   },
@@ -47,7 +47,7 @@ export default function LeftSideCompressOptions({
   const isPreset = quality === "1" || quality === "2" || quality === "3";
   const [activeTab, setActiveTab] = useState(isPreset ? "preset" : "manual");
 
-  // Track custom numeric DPI (e.g. 180)
+  // Track custom numeric DPI (e.g. 150)
   const initialCustomDpi =
     !isPreset && !isNaN(Number(quality)) && Number(quality) > 10
       ? Math.round(Number(quality))
@@ -55,7 +55,7 @@ export default function LeftSideCompressOptions({
       ? 72
       : quality === "3"
       ? 300
-      : 180;
+      : 150;
 
   const [customDpi, setCustomDpi] = useState(initialCustomDpi);
 
@@ -69,7 +69,7 @@ export default function LeftSideCompressOptions({
     }
     const found = PRESETS.find((p) => p.code === String(quality));
     return {
-      label: found ? found.label : "Standard (180 DPI)",
+      label: found ? found.label : "Standard (150 DPI)",
       sub: found ? found.tag : "Balanced",
     };
   };
@@ -85,7 +85,7 @@ export default function LeftSideCompressOptions({
   };
 
   const handleCustomDpiChange = (val) => {
-    const num = Math.max(30, Math.min(600, Math.round(Number(val) || 180)));
+    const num = Math.max(30, Math.min(600, Math.round(Number(val) || 150)));
     setCustomDpi(num);
     if (setQuality) {
       setQuality(String(num));

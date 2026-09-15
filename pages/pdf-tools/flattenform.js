@@ -7,6 +7,8 @@ import { PDFIcon } from "../../components/icons.jsx";
 import flattenPDFFormHandler from "../../methods/flattenPDFFormHandler.js";
 import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function FlattenForm() {
   const [files, setFiles] = useState([]);
@@ -32,6 +34,11 @@ export default function FlattenForm() {
     setIsProcessing(true);
     try {
       await flattenPDFFormHandler(files, true);
+      triggerFireworks();
+      toast.success("Flattened PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to flatten PDF form");
     } finally {
       setIsProcessing(false);
     }
@@ -41,6 +48,11 @@ export default function FlattenForm() {
     setIsProcessing(true);
     try {
       await flattenPDFFormHandler(files, false);
+      triggerFireworks();
+      toast.success("Flattened PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to flatten PDF form");
     } finally {
       setIsProcessing(false);
     }

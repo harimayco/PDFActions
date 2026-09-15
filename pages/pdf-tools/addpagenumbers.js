@@ -7,6 +7,8 @@ import { PDFIcon } from "../../components/icons.jsx";
 import addPageNumbersHandler from "../../methods/addPageNumbers";
 import LeftSidePageNumbers from "../../components/PDFFile/LeftSideBoxButtons/LeftSidePageNumbers";
 import { DeleteOnlyExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function AddPageNumbers() {
   const [files, setFiles] = useState([]);
@@ -40,6 +42,11 @@ export default function AddPageNumbers() {
     setIsProcessing(true);
     try {
       await addPageNumbersHandler(files, options);
+      triggerFireworks();
+      toast.success("Page numbers added and downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add page numbers");
     } finally {
       setIsProcessing(false);
     }

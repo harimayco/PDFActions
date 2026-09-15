@@ -8,6 +8,8 @@ import breakPDFHandler from "../../methods/breakPDF";
 import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 import LeftSideBreakPDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBreakPDF.jsx";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function Break() {
   const [files, setFiles] = useState([]);
@@ -34,6 +36,11 @@ export default function Break() {
     setIsProcessing(true);
     try {
       await breakPDFHandler(files, true, breakOptions);
+      triggerFireworks();
+      toast.success("PDF broken and downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to break PDF");
     } finally {
       setIsProcessing(false);
     }
@@ -43,6 +50,11 @@ export default function Break() {
     setIsProcessing(true);
     try {
       await breakPDFHandler(files, false, breakOptions);
+      triggerFireworks();
+      toast.success("PDF broken and downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to break PDF");
     } finally {
       setIsProcessing(false);
     }

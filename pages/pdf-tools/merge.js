@@ -11,6 +11,7 @@ import LeftSideCompressOptions from "../../components/PDFFile/LeftSideBoxButtons
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation.jsx";
 import CompressionResultModal from "../../components/CompressionResultModal.jsx";
 import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function Merge() {
   const [files, setFiles] = useState([]);
@@ -81,6 +82,7 @@ export default function Merge() {
             autoClose: 3000,
           });
           toastId = null;
+          triggerFireworks(2800);
           if (stats) {
             setModalData({
               title: "PDF Merged Successfully!",

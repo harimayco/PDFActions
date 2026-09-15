@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { saveAs } from "file-saver";
+import { triggerFireworks, triggerConfettiBurst } from "../utils/confetti";
 
 function formatBytes(bytes, decimals = 2) {
   if (!bytes || bytes <= 0) return "0 Bytes";
@@ -15,6 +16,12 @@ export default function CompressionResultModal({
   onClose,
   data,
 }) {
+  useEffect(() => {
+    if (isOpen) {
+      triggerFireworks(2800);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -47,6 +54,7 @@ export default function CompressionResultModal({
   const handleDownloadAgain = () => {
     if (blob) {
       saveAs(blob, filename);
+      triggerConfettiBurst();
     }
   };
 

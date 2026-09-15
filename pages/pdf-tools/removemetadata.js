@@ -6,6 +6,8 @@ import ToolBanner from "../../components/ToolBanner.jsx";
 import { PDFIcon } from "../../components/icons.jsx";
 import removeMetaDataHandler from "../../methods/removeMetaData";
 import { DeleteOnlyExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function RemoveMetadata() {
   const [files, setFiles] = useState([]);
@@ -31,6 +33,11 @@ export default function RemoveMetadata() {
     setIsProcessing(true);
     try {
       await removeMetaDataHandler(files);
+      triggerFireworks();
+      toast.success("PDF metadata removed and downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to remove PDF metadata");
     } finally {
       setIsProcessing(false);
     }

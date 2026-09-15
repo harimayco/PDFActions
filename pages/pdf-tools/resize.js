@@ -8,6 +8,8 @@ import resizePDFHandler from "../../methods/resizePDF";
 import { RotateAndDeleteExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
 import LeftSideResizePDF from "../../components/PDFFile/LeftSideBoxButtons/LeftSideResizePDF.jsx";
 import LeftSideBoxRotation from "../../components/PDFFile/LeftSideBoxButtons/LeftSideBoxRotation.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function Resize() {
   const [files, setFiles] = useState([]);
@@ -36,6 +38,11 @@ export default function Resize() {
     setIsProcessing(true);
     try {
       await resizePDFHandler(files, { size, orientation, position }, true);
+      triggerFireworks();
+      toast.success("Resized PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to resize PDF files");
     } finally {
       setIsProcessing(false);
     }
@@ -45,6 +52,11 @@ export default function Resize() {
     setIsProcessing(true);
     try {
       await resizePDFHandler(files, { size, orientation, position }, false);
+      triggerFireworks();
+      toast.success("Resized PDFs downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to resize PDF files");
     } finally {
       setIsProcessing(false);
     }

@@ -7,6 +7,8 @@ import { PDFIcon } from "../../components/icons.jsx";
 import editMetaDataHandler from "../../methods/editMetaData";
 import LeftSideEditMetaData from "../../components/PDFFile/LeftSideBoxButtons/LeftSideEditMetaData";
 import { DeleteOnlyExtra } from "../../components/PDFFile/FilePreviewExtras.jsx";
+import { toast } from "react-toastify";
+import { triggerFireworks } from "../../utils/confetti";
 
 export default function EditMetadata() {
   const [files, setFiles] = useState([]);
@@ -42,6 +44,11 @@ export default function EditMetadata() {
     setIsProcessing(true);
     try {
       await editMetaDataHandler(files, metaDataOptions);
+      triggerFireworks();
+      toast.success("PDF metadata updated and downloaded successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update PDF metadata");
     } finally {
       setIsProcessing(false);
     }
