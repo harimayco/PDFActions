@@ -26,16 +26,16 @@ export default function Footer() {
             </Link>
 
             <p className="text-sm font-medium text-slate-600 max-w-sm leading-relaxed">
-              <strong>PDFActions</strong> is a 100% free and <strong>Open Source PDF Tools</strong> suite powered by <strong>Ghostscript WASM</strong>. Compress, merge, split, and edit PDFs locally in your browser with absolute data privacy — zero files ever leave your device.
+              <strong>PDFActions</strong> is a 100% free and <strong>Open Source PDF Tools</strong> suite with <strong>no registration</strong> required, powered by <strong>Ghostscript WASM</strong>. Compress, merge, split, and edit PDFs locally in your browser with absolute data privacy — zero files ever leave your device.
             </p>
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 pt-1">
+              <span className="clay-badge bg-emerald-50 text-emerald-700 text-[11px] font-extrabold px-3 py-1 border border-emerald-200">
+                🎉 100% Free & No Registration
+              </span>
               <span className="clay-badge bg-clay-bg text-clay-heading text-[11px] font-extrabold px-3 py-1 border border-slate-200">
                 ⚡ Ghostscript WASM
-              </span>
-              <span className="clay-badge bg-emerald-50 text-emerald-700 text-[11px] font-extrabold px-3 py-1 border border-emerald-200">
-                🔒 100% Client-Side
               </span>
               <span className="clay-badge bg-blue-50 text-blue-700 text-[11px] font-extrabold px-3 py-1 border border-blue-200">
                 ⭐ MIT Open Source

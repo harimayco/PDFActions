@@ -109,20 +109,20 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM</title>
+        <title>PDFActions - 100% Free Open Source PDF Tools Online | No Registration</title>
         <meta
           name="description"
-          content="PDFActions is a 100% Free & Open Source PDF Tools suite powered by Ghostscript WASM. PDF Compress Online, PDF Merger Online, Split, Rotate, and edit PDFs with zero server uploads."
+          content="PDFActions is a 100% Free & Open Source PDF Tools suite with no registration required. Run PDF Compress Online, PDF Merger Online, Split, Rotate, and edit PDFs locally with Ghostscript WASM."
         />
         <meta
           name="keywords"
-          content="Open Source, pdf compress Online, PDF Merger Online, Open Source PDF Tools, Ghostscript WASM, free pdf editor, client-side pdf, pdfactions"
+          content="100% free, no registration, free pdf tools no registration, 100% free pdf tools, free pdf tools no sign up, Open Source, pdf compress Online, PDF Merger Online, Open Source PDF Tools, Ghostscript WASM, free pdf editor, client-side pdf, pdfactions"
         />
         <link rel="canonical" href="https://pdfactions.com/" />
-        <meta property="og:title" content="PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM" />
+        <meta property="og:title" content="PDFActions - 100% Free Open Source PDF Tools Online | No Registration" />
         <meta
           property="og:description"
-          content="100% Free & Open Source PDF Tools running directly in your browser. PDF Compress Online, PDF Merger Online, and more with Ghostscript WASM."
+          content="100% Free & Open Source PDF Tools with no registration required. PDF Compress Online, PDF Merger Online, and more directly in your browser with Ghostscript WASM."
         />
         <meta property="og:url" content="https://pdfactions.com/" />
         <script
@@ -133,13 +133,14 @@ export default function Home() {
               "@type": "WebApplication",
               "name": "PDFActions",
               "url": "https://pdfactions.com",
-              "description": "Free & Open Source PDF Tools suite running locally with Ghostscript WASM. PDF Compress Online, PDF Merger Online, Split, and more.",
+              "description": "100% Free & Open Source PDF Tools suite with no registration required, running locally with Ghostscript WASM. PDF Compress Online, PDF Merger Online, Split, and more.",
               "applicationCategory": "UtilitiesApplication",
               "operatingSystem": "All",
               "offers": {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "USD",
+                "description": "100% Free, No Registration Required",
               },
             }),
           }}
@@ -169,7 +170,7 @@ export default function Home() {
             {/* Top Pill Badge */}
             <div className="clay-badge bg-white text-slate-700 text-[10px] sm:text-[11px] font-black tracking-wider uppercase px-3.5 py-1.5 shadow-sm border border-slate-200/80 mb-6 flex items-center gap-2 w-fit">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>100% CLIENT-SIDE • OPEN SOURCE • GHOSTSCRIPT WASM</span>
+              <span>100% FREE • NO REGISTRATION • OPEN SOURCE • GHOSTSCRIPT WASM</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-clay-heading tracking-tight leading-[1.14] mb-4">
@@ -181,7 +182,7 @@ export default function Home() {
             </h1>
 
             <p className="text-sm sm:text-[15px] font-medium text-slate-600 leading-relaxed mb-8 max-w-lg">
-              The private <strong>Open Source PDF Tools</strong> suite. Run <strong>PDF Compress Online</strong> and <strong>PDF Merger Online</strong> directly in your browser using <strong>Ghostscript WASM</strong> — zero server uploads, total confidentiality.
+              100% free online PDF tools with <strong>no registration</strong> required. The private <strong>Open Source PDF Tools</strong> suite — run <strong>PDF Compress Online</strong> and <strong>PDF Merger Online</strong> directly in your browser using <strong>Ghostscript WASM</strong> with zero server uploads and total confidentiality.
             </p>
 
             {/* CTAs Row */}
@@ -272,29 +273,37 @@ export default function Home() {
       </section>
 
       {/* Trust & Performance Stat Ribbon */}
-      <section className="relative z-10 max-w-4xl mx-auto px-4 pb-20">
-        <div className="clay-card-white p-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+      <section className="relative z-10 max-w-5xl mx-auto px-4 pb-20">
+        <div className="clay-card-white p-6 sm:p-8 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
           <div className="flex flex-col items-center">
-            <span className="text-4xl md:text-5xl font-black text-clay-heading mb-1">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-black text-emerald-600 mb-1">
+              100% Free
+            </span>
+            <span className="text-xs sm:text-sm font-bold text-clay-muted">
+              No Registration Required
+            </span>
+          </div>
+          <div className="flex flex-col items-center border-l border-slate-100 pl-4">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-black text-clay-heading mb-1">
               100%
             </span>
-            <span className="text-sm font-bold text-clay-muted">
+            <span className="text-xs sm:text-sm font-bold text-clay-muted">
               Private & In-Browser
             </span>
           </div>
-          <div className="flex flex-col items-center border-y sm:border-y-0 sm:border-x border-slate-100 py-4 sm:py-0">
-            <span className="text-4xl md:text-5xl font-black text-clay-heading mb-1">
+          <div className="flex flex-col items-center border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-4">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-black text-clay-heading mb-1">
               12+
             </span>
-            <span className="text-sm font-bold text-clay-muted">
+            <span className="text-xs sm:text-sm font-bold text-clay-muted">
               Sculpted PDF Tools
             </span>
           </div>
-          <div className="flex flex-col items-center">
-            <span className="text-4xl md:text-5xl font-black text-clay-heading mb-1">
+          <div className="flex flex-col items-center border-t lg:border-t-0 lg:border-l border-slate-100 pt-4 lg:pt-0 lg:pl-4">
+            <span className="text-3xl sm:text-4xl md:text-5xl font-black text-clay-heading mb-1">
               0 KB
             </span>
-            <span className="text-sm font-bold text-clay-muted">
+            <span className="text-xs sm:text-sm font-bold text-clay-muted">
               Uploaded to External Servers
             </span>
           </div>

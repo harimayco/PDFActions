@@ -32,36 +32,36 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM</title>
+        <title>PDFActions - 100% Free Open Source PDF Tools Online | No Registration</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="description"
-          content="PDFActions is a 100% Free & Open Source PDF Tools suite powered by Ghostscript WASM. PDF Compress Online, PDF Merger Online, Split, Rotate, and Edit with zero server uploads."
+          content="PDFActions is a 100% Free & Open Source PDF Tools suite with no registration required. Powered by Ghostscript WASM for PDF Compress Online, PDF Merger Online, Split, Rotate, and Edit with zero server uploads."
         />
         <meta
           name="keywords"
-          content="Open Source, pdf compress Online, PDF Merger Online, Open Source PDF Tools, Ghostscript WASM, free pdf tools, compress pdf in browser, merge pdf online, client-side pdf"
+          content="100% free, no registration, 100% free pdf tools, free pdf tools no sign up, Open Source, pdf compress Online, PDF Merger Online, Open Source PDF Tools, Ghostscript WASM, compress pdf in browser, merge pdf online, client-side pdf"
         />
         <meta name="robots" content="index, follow" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="PDFActions" />
         <meta
           property="og:title"
-          content="PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM"
+          content="PDFActions - 100% Free Open Source PDF Tools Online | No Registration"
         />
         <meta
           property="og:description"
-          content="100% Free & Open Source PDF Tools running directly in your browser. PDF Compress Online, PDF Merger Online, and more with Ghostscript WASM."
+          content="100% Free & Open Source PDF Tools with no registration required. PDF Compress Online, PDF Merger Online, and more with Ghostscript WASM."
         />
         <meta property="og:image" content={`${basePath}/icons/icon-512x512.png`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
-          content="PDFActions - Free Open Source PDF Tools Online | Ghostscript WASM"
+          content="PDFActions - 100% Free Open Source PDF Tools Online | No Registration"
         />
         <meta
           name="twitter:description"
-          content="Free & Open Source PDF Tools powered by Ghostscript WASM. Private, secure, client-side PDF compression & merging."
+          content="100% Free & Open Source PDF Tools with no registration required. Powered by Ghostscript WASM for private, client-side PDF compression & merging."
         />
         <meta name="twitter:image" content={`${basePath}/icons/icon-512x512.png`} />
         <link rel="manifest" href={`${basePath}/manifest.json`} />
