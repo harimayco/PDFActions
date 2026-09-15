@@ -1,9 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { PDFIcon, RotateLeft, SuccessIcon } from "../components/icons";
 
 export default function Home() {
+  const router = useRouter();
+  const basePath = router?.basePath || "/PDFActions";
   const tools = [
     {
       title: "Merge PDF",
@@ -143,8 +146,8 @@ export default function Home() {
         />
       </Head>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 px-4 text-center">
+      {/* Hero Section - Tactile 3D Clay Card with Floating Ghost Mascot */}
+      <section className="relative pt-6 pb-14 md:pt-8 md:pb-16 px-4">
         {/* Soft Decorative Ambient Blobs */}
         <div
           className="blob bg-clay-purple w-[480px] h-[480px] -top-32 -left-20"
@@ -159,51 +162,71 @@ export default function Home() {
           aria-hidden="true"
         />
 
-        <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
-          {/* Top Playful Badge */}
-          <div className="clay-badge bg-white text-clay-blue-shadow mb-6 shadow-sm flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-clay-green animate-pulse" />
-            <span className="font-extrabold text-xs uppercase tracking-wider">
-              100% Client-Side • Open Source • Ghostscript WASM
-            </span>
+        {/* Big Rounded Hero Card matching mockup */}
+        <div className="relative z-10 max-w-5xl mx-auto flex flex-col md:flex-row items-stretch">
+          {/* Left Column: Heading, Badges, Copy, CTAs */}
+          <div className="w-full bg-white mx-auto rounded-[32px] md:rounded-[40px] shadow-[0_16px_48px_rgba(30,27,75,0.06),0_6px_0_0_#CBD5E1] border-2 border-white md:w-[58%] lg:w-[70%] p-6 sm:p-10 lg:p-12 flex flex-col justify-center text-left z-10">
+            {/* Top Pill Badge */}
+            <div className="clay-badge bg-white text-slate-700 text-[10px] sm:text-[11px] font-black tracking-wider uppercase px-3.5 py-1.5 shadow-sm border border-slate-200/80 mb-6 flex items-center gap-2 w-fit">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>100% CLIENT-SIDE • OPEN SOURCE • GHOSTSCRIPT WASM</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black text-clay-heading tracking-tight leading-[1.14] mb-4">
+              Sculpt, Edit & Tame <br />
+              <span className="bg-gradient-to-r from-blue-600 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Your PDFs
+              </span>{" "}
+              with Ease.
+            </h1>
+
+            <p className="text-sm sm:text-[15px] font-medium text-slate-600 leading-relaxed mb-8 max-w-lg">
+              The private <strong>Open Source PDF Tools</strong> suite. Run <strong>PDF Compress Online</strong> and <strong>PDF Merger Online</strong> directly in your browser using <strong>Ghostscript WASM</strong> — zero server uploads, total confidentiality.
+            </p>
+
+            {/* CTAs Row */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <Link href="/pdf-tools/compress" passHref>
+                <a className="clay-btn clay-btn-green text-xs sm:text-sm px-5 sm:px-6 py-3.5 shadow-clay-btn-green flex items-center gap-2">
+                  <PDFIcon width="18" />
+                  <span>PDF Compress</span>
+                </a>
+              </Link>
+              <Link href="/pdf-tools/merge" passHref>
+                <a className="clay-btn clay-btn-blue text-xs sm:text-sm px-5 sm:px-6 py-3.5 shadow-clay-btn-blue flex items-center gap-2">
+                  <PDFIcon width="18" />
+                  <span>PDF Merge</span>
+                </a>
+              </Link>
+              <Link href="/pdf-tools" passHref>
+                <a className="clay-btn clay-btn-white text-xs sm:text-sm px-5 sm:px-6 py-3.5 border border-slate-200 shadow-sm text-slate-700 font-black hover:bg-slate-50">
+                  <span>Explore All Tools</span>
+                </a>
+              </Link>
+            </div>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black text-clay-heading tracking-tight leading-[1.08] mb-6">
-            Sculpt, Edit & Tame <br />
-            <span className="bg-gradient-to-r from-clay-blue via-clay-purple to-clay-coral bg-clip-text text-transparent">
-              Your PDFs
-            </span>{" "}
-            with Ease.
-          </h1>
+          {/* Right Column: Pastel Gradient Backdrop + Floating Ghost Mascot */}
+          <div className="w-full md:w-[42%] lg:w-[32%] flex flex-col items-center justify-center relative p-6 sm:p-8 min-h-[360px] md:min-h-[480px]">
+            {/* Subtle soft circular ambient backlight */}
+            <div className="absolute w-64 h-64 rounded-full bg-white/50 blur-3xl pointer-events-none" />
 
-          <p className="text-base sm:text-xl font-medium text-clay-body max-w-2xl leading-relaxed mb-8">
-            The private <strong>Open Source PDF Tools</strong> suite. Run <strong>PDF Compress Online</strong> and <strong>PDF Merger Online</strong> directly in your browser using <strong>Ghostscript WASM</strong> — zero server uploads, total confidentiality.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/pdf-tools/compress" passHref>
-              <a className="clay-btn clay-btn-green text-base md:text-lg px-8 py-4 shadow-clay-btn-green">
-                <PDFIcon width="22" />
-                <span>PDF Compress Online</span>
-              </a>
-            </Link>
-            <Link href="/pdf-tools/merge" passHref>
-              <a className="clay-btn clay-btn-blue text-base md:text-lg px-8 py-4 shadow-clay-btn-blue">
-                <PDFIcon width="22" />
-                <span>PDF Merger Online</span>
-              </a>
-            </Link>
-            <Link href="/pdf-tools" passHref>
-              <a className="clay-btn clay-btn-white text-base md:text-lg px-7 py-4">
-                <span>Explore All Tools</span>
-              </a>
-            </Link>
+            {/* Floating Ghost Character */}
+            <div className="relative z-10 flex flex-col items-center justify-center w-full">
+              <img
+                src={`${basePath}/assets/images/char.webp`}
+                alt="PDFActions Ghost Mascot holding PDF documents"
+                className="w-[500px] sm:ml-[0px] md:ml-[-100px] md:w-[500px] max-w-[320px] sm:max-w-[380px] md:max-w-[420px] lg:max-w-[700px] h-auto object-contain select-none pointer-events-none drop-shadow-2xl animate-float-ghost"
+              />
+              {/* Floating shadow illusion */}
+              <div className="w-44 sm:w-56 h-4 sm:h-5 bg-purple-950/25 rounded-full blur-md animate-float-shadow -mt-4 sm:-mt-5" />
+            </div>
           </div>
         </div>
       </section>
 
       {/* Feature Tools Grid */}
-      <section className="relative z-10 max-w-[1140px] mx-auto px-4 pb-24">
+      <section className="relative z-10 max-w-5xl mx-auto px-4 pb-24">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-black text-clay-heading tracking-tight mb-2">
             Every PDF Tool You Need

@@ -21,7 +21,7 @@ export default function Navbar() {
   }, [router.asPath]);
 
   return (
-    <header className="sticky top-3 z-50 px-4 w-full max-w-6xl mx-auto">
+    <header className="sticky top-3 z-50 px-4 w-full max-w-5xl mx-auto">
       <nav
         className="clay-card-white px-5 py-3 flex items-center justify-between relative z-50"
         aria-label="Main Navigation"
@@ -37,7 +37,7 @@ export default function Navbar() {
                 PDFActions
               </span>
               <span className="text-[10px] font-bold tracking-wider text-clay-muted uppercase -mt-1">
-                Soft 3D Suite
+                AllInOne PDF Tools
               </span>
             </div>
           </a>

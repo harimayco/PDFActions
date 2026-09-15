@@ -247,3 +247,35 @@
   box-shadow: 0 2px 0 0 #059669;
   transition: width 200ms ease;
 }
+
+/* 7. FLOATING GHOST ANIMATION */
+@keyframes floatGhost {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(1.5deg);
+  }
+}
+
+.animate-float-ghost {
+  animation: floatGhost 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes floatShadow {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.28;
+  }
+  50% {
+    transform: scale(0.82);
+    opacity: 0.14;
+  }
+}
+
+.animate-float-shadow {
+  animation: floatShadow 4.5s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+

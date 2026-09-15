@@ -27,6 +27,8 @@ function MyApp({ Component, pageProps }) {
     };
   }, [router]);
 
+  const basePath = router?.basePath || "/PDFActions";
+
   return (
     <>
       <Head>
@@ -51,7 +53,7 @@ function MyApp({ Component, pageProps }) {
           property="og:description"
           content="100% Free & Open Source PDF Tools running directly in your browser. PDF Compress Online, PDF Merger Online, and more with Ghostscript WASM."
         />
-        <meta property="og:image" content="/icons/icon-512x512.png" />
+        <meta property="og:image" content={`${basePath}/icons/icon-512x512.png`} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"
@@ -61,10 +63,10 @@ function MyApp({ Component, pageProps }) {
           name="twitter:description"
           content="Free & Open Source PDF Tools powered by Ghostscript WASM. Private, secure, client-side PDF compression & merging."
         />
-        <meta name="twitter:image" content="/icons/icon-512x512.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="twitter:image" content={`${basePath}/icons/icon-512x512.png`} />
+        <link rel="manifest" href={`${basePath}/manifest.json`} />
+        <link rel="icon" href={`${basePath}/favicon.ico`} />
+        <link rel="apple-touch-icon" href={`${basePath}/icons/icon-192x192.png`} />
         <meta name="theme-color" content="#F5F3FF" />
       </Head>
       <div className="min-h-screen bg-clay-bg flex flex-col selection:bg-clay-blue selection:text-white relative overflow-x-hidden">
